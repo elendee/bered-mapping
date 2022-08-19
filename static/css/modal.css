@@ -1,0 +1,103 @@
+.bered-modal{
+	position: fixed;
+	z-index: 9999;
+	top: 0px;
+	left: 0px;
+	font-size: 1rem;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	background: rgba(0, 0, 0, .5);
+}
+.bered-modal-close{
+	position: absolute;
+	z-index: 9;
+	top: 80px;
+	right: calc( 50% - 300px);
+	background: black;
+	color: white;
+	cursor: pointer;
+	height: 30px;
+	width: 30px;
+    font-size: 1.5rem;
+    user-select: none;
+}
+.bered-modal-close:hover{
+	background: white;
+	color: black;
+}
+.bered-modal-content{
+	position: absolute;
+	background: white;
+	padding: 10px;
+	margin-top: 80px;
+	width: 100%;
+	max-width: 600px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.bered-modal h1,
+.bered-modal h2,
+.bered-modal h3{
+    color: white;
+}
+.bered-modal  .bered-modal-header{
+	color: #c1cafb;
+	margin-bottom: 10px;
+}
+.bered-modal .column h3.column-header{
+	margin-top: 0;
+}
+.bered-modal .column{
+	padding: 10px 10px 30px 10px;
+	height: 90%;
+}
+.bered-modal .left-panel{
+}
+.bered-modal .right-panel{
+}
+.right-panel .button{
+	margin: 5px 0;
+	border: 1px solid grey;
+}
+
+.bered-modal img{
+	max-width: 125px;
+}
+.bered-modal textarea,
+.bered-modal input{
+	width: 100%;
+	max-width: 100%;
+}
+.bered-modal label,
+.bered-modal input[type=checkbox]{
+	display: inline-block;
+}
+.bered-modal input[type=checkbox]{
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+	margin: 0 10px;
+}
+
+.bered-modal.has-columns .bered-modal-content{
+	overflow-y: hidden;
+}
+.bered-modal.has-columns .column{
+	overflow-y: auto;
+}
+
+.modal-type-gallery-preview .bered-modal-content{
+	background: transparent;
+	border: 1px solid;
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, .5);
+}
+
+@media screen and (max-width: 800px){
+	.bered-modal-close{
+		right: 0px;
+	}
+}
+
