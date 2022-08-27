@@ -186,6 +186,12 @@ if ( !class_exists( 'BeredMapper' ) ) {
 
     		return '
     		<div id="bered-widget" class="bered"></div>
+    		
+    		<script src="https://unpkg.com/elm-pep@1.0.6/dist/elm-pep.js"></script>
+
+    		<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.js"></script>
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.css">
+
     		<script type="module" defer="defer" src="' . plugins_url() . '/bered-mapping/static/js/bered_widget.js?v=' . $bered_version . '"></script>';
 
 	    }

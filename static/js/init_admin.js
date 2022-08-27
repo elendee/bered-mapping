@@ -1,4 +1,4 @@
-// import hal from '../hal.js?v=140'
+// import hal from '../hal.js?v=100'
 
 
 import {
@@ -8,14 +8,14 @@ import {
 	hal,
 	// format_date,
 	// get_domain,
-} from './lib.js?v=140'
+} from './lib.js?v=100'
 
-// import build_form from './build_form.js?v=140'
+// import build_form from './build_form.js?v=100'
 
 
 // tstack('init_admin')
 
-console.log('bered admin')
+console.log('bered-admin js')
 
 
 

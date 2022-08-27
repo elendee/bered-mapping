@@ -1,1 +1,1 @@
-console.log('base / fallback bered js')
+console.log('bered-base js')

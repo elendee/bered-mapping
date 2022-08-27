@@ -1,4 +1,6 @@
-console.log('widget')
+import map from './map.js?v=100'
+
+console.log('bered-widget js')
 
 const content = document.querySelector('.entry-content')
 

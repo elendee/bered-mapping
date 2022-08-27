@@ -1,0 +1,1 @@
+console.log('bered-global js')

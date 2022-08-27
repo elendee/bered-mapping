@@ -1,3 +1,5 @@
 .*
 !.gitignore
 _storage/*
+node_modules/*
+
