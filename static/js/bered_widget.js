@@ -1,4 +1,5 @@
 import map from './map.js?v=100'
+// import map from './map-module.js?v=100'
 
 console.log('bered-widget js')
 
