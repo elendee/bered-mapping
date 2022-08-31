@@ -2,7 +2,7 @@
 /**
  * Plugin Name: BeredMapper 
  * Plugin URI: https://bered.no
- * Version: 1.0.0
+ * Version: 1.0.1
  * Description: custom mapping plugin for bered.no
  * Text Domain: bered
  * License:           GPL v2 or later
@@ -37,7 +37,7 @@ require_once( ABSPATH . 'wp-includes/pluggable.php' );
 
 $bered_dir = plugins_url( '', __FILE__ );
 
-$bered_version = '1.0.0';
+$bered_version = '1.0.1';
 
 $bered_settings = [];
 
