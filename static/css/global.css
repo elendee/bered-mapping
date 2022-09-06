@@ -2,10 +2,18 @@
 
 #bered-widget{
     border: 3px solid;
-/*     min-height: 100px; */
+    position: relative;
+    z-index: 99;
+
+    /*     min-height: 100px; */
 }
 
-
+body.bered .woocommerce-product-gallery{
+    width: 58% !important;
+}
+body.bered .entry-summary{
+    width: 38% !important;
+}
 
 #bered-widget *{
 /*     border: 3px solid pink; */
@@ -15,16 +23,25 @@
 
 .map {
     position: relative;
-    width: 100%;
-    height: 70vh;
+/*     width: 100%; */
+    height: 100%;
 }
 
 #bered-map-gui{
     position: absolute;
     top: 0;
-    right: -100px;
-    width: 100px;
+    right: -150px;
+    width: 150px;
     height: 100%;
     border: 2px solid;
-    background: rgba(255, 255, 255, .8);
+    background: rgba(0, 255, 255, .3);
 }
+
+#bered-map-gui .section,
+#bered-map-gui .button{
+    margin-bottom: 5px
+}
+#bered-map-gui .section{
+    padding: 5px;
+}
+

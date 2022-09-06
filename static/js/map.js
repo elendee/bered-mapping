@@ -5,13 +5,8 @@ console.log('bered-map js')
 
 
 
-// const download = document.getElementById('download');
 
 
-// import {
-//   DragRotateAndZoom,
-//   defaults as defaultInteractions,
-// } from 'ol/interaction';
 
 // const map = new Map({
 //   interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
@@ -22,32 +17,10 @@ const map = BERED.MAP = new ol.Map({
 
     target: 'bered-map',
 
-    layers: [,
+    layers: [
     	/*
     		much better control by adding these layers dynamically; see below
     	*/
-
-        // show borders:
-     // 	new ol.layer.Vector({
-	    //   source: new ol.source.Vector({
-	    //     format: new ol.format.GeoJSON(),
-	    //     url: '/oko.nyc/wp-content/plugins/bered-mapping/_storage/olw/data/countries.json',
-	    //   }),
-	    // }),
-
-	    // basic:
-        // new ol.layer.Tile({
-        //     source: new ol.source.OSM()
-        // }),
-
-        // nordic data from kartverket:
-        // // Norge topo3 layer
-        // new ol.layer.Tile({
-        //     source: new ol.source.XYZ({
-        //         url: 'https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}',
-        //         attributions: '<a href="http://www.kartverket.no/">Kartverket</a>'
-        //     })
-        // })
     ],
 
     // controls: [new ol.Control.PanZoomBar()],
@@ -68,62 +41,12 @@ const map = BERED.MAP = new ol.Map({
     
 });
 
-
-
-
-// const source = new ol.source.Vector({
-// 	format: new ol.format.GeoJSON(),
-// 	url: '/oko.nyc/wp-content/plugins/bered-mapping/_storage/olw/data/countries.json',
-// })
-// const layer = new ol.layer.Vector({
-// 	source: source,
-// })
-// map.addLayer( layer )
-
-
-
-// const add_layer = event => {
-// 	const { type } = event
-
-// 	// const source = new ol.source.Vector()
-
-// 	// add layer dynamically instead of at instantiation:
-// 	let layer, source
-// 	// = new ol.layer.Vector({
-// 	// 	source: source,
-// 	// });
-
-// 	switch( type ){
-
-// 		case 'borders':
-// 			source = new ol.source.Vector({
-// 	        	format: new ol.format.GeoJSON(),
-// 	        	url: '/oko.nyc/wp-content/plugins/bered-mapping/_storage/olw/data/countries.json',
-// 	    	})
-// 			layer = new ol.layer.Vector({
-// 		    	source: source,
-// 		    })
-// 		 //    source.on('change', function () {
-// 			// 	const features = source.getFeatures();
-// 			// 	const json = format.writeFeatures(features);
-// 			// 	console.log('sweet', json )
-// 			// })
-// 			break;
-
-// 		default:
-// 			return console.log('unknown vector layer', type )
-// 	}
-
-// 	map.addLayer(layer);
-
-// }
-
-
-
-
-
+/*
+	could probably add these in instantiation but whatevs:
+*/
 // automagical localStorage persistence of view
-// map.addInteraction(new ol.interaction.Link());
+map.addInteraction(new ol.interaction.Link());
+
 
 
 
@@ -138,10 +61,79 @@ const map = BERED.MAP = new ol.Map({
 
 
 
+const LAYERS = BERED.LAYERS = {}
+const SOURCES = BERED.SOURCES = {}
+
+
+
+
+
+
+
+
+
 // subscribers
+
+const add_layer = event => {
+
+	const { type } = event
+
+	// add layer dynamically instead of at instantiation:
+	let layer, source
+
+	switch( type ){
+
+		case 'borders':
+			source = new ol.source.Vector({
+	        	format: new ol.format.GeoJSON(),
+	        	url: '/oko/wp-content/plugins/bered-mapping/_storage/olw/data/countries.json',
+	    	})
+			layer = new ol.layer.Vector({
+		    	source: source,
+		    })
+		    /*
+		    	downloading / saving:
+		    */
+		 	// source.on('change', function () {
+			// 	const features = source.getFeatures();
+			// 	const json = format.writeFeatures(features);
+			// 	console.log('sweet', json )
+			// })
+			break;
+
+		case 'data':
+            source = new ol.source.XYZ({
+                url: 'https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}',
+                attributions: '<a href="http://www.kartverket.no/">Kartverket</a>'
+            })
+			layer = new ol.layer.Tile({
+		    	source: source,
+		    })
+			break;
+
+		case 'osm':
+			source = new ol.source.OSM()
+	        layer = new ol.layer.Tile({
+	            source: source,
+	        })
+	        break;
+
+		default:
+			return console.log('unknown vector layer', type )
+	}
+
+    LAYERS[ type ]= layer
+    SOURCES[ type ] = source
+
+	map.addLayer(layer);
+
+} // add layer
 
 const clear = event => {
 	console.log("map clear: " , event )
+	const { type } = event
+
+	SOURCES[ type ].clear() // ??
 	// source.clear()
 }
 
@@ -151,6 +143,10 @@ const clear = event => {
 
 BROKER.subscribe('MAP_CLEAR', clear )
 BROKER.subscribe('MAP_ADD_LAYER', add_layer )
+
+
+
+
 
 
 export default {}
