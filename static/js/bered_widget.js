@@ -15,3 +15,8 @@ if( !widget ){
 }
 
 
+widget.style.width = widget.getBoundingClientRect().height + 'px'
+
+setTimeout(() => {
+	// BERED.MAP
+}, 500)
