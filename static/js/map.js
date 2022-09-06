@@ -1,15 +1,24 @@
-import gui from './bered-map-gui.js?v=101'
-import BROKER from './EventBroker.js?v=101'
+import gui from './bered-map-gui.js?v=102'
+import BROKER from './EventBroker.js?v=102'
 
 console.log('bered-map js')
 
 
 
+;(async() => {
 
+
+await new Promise(( resolve ) => {
+	setTimeout(() => {
+		resolve()
+	}, 1000 )
+})
 
 
 // const map = new Map({
 //   interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
+
+const source = new ol.source.OSM()
 
 const map = BERED.MAP = new ol.Map({
 
@@ -21,6 +30,10 @@ const map = BERED.MAP = new ol.Map({
     	/*
     		much better control by adding these layers dynamically; see below
     	*/
+
+        new ol.layer.Tile({
+            source: source,
+        })
     ],
 
     // controls: [new ol.Control.PanZoomBar()],
@@ -127,6 +140,10 @@ const add_layer = event => {
 
 	map.addLayer(layer);
 
+	// setTimeout(() => {
+	// 	BROKER.publish('MAP_RESIZE')
+	// }, 500)
+
 } // add layer
 
 const clear = event => {
@@ -147,6 +164,7 @@ BROKER.subscribe('MAP_ADD_LAYER', add_layer )
 
 
 
+})();
 
 
 export default {}

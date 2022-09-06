@@ -2,17 +2,34 @@
 	entry point module for clientside bered widget
 */
 
-import map from './map.js?v=101'
-// import map from './map-module.js?v=101'
+import BROKER from './EventBroker.js?v=102'
+import map from './map.js?v=102'
+// import map from './map-module.js?v=102'
 
 console.log('bered-widget js')
+
+
+let widget
+
+
+
+
+
+const size_map = event => {
+	widget.style.height = widget.getBoundingClientRect().width + 'px'
+}
+
+
+
+
+
 
 
 ;(async() => {
 
 const content = document.querySelector('.entry-content')
 
-const widget = document.getElementById('bered-widget')
+widget = document.getElementById('bered-widget')
 const gallery = document.querySelector('.woocommerce-product-gallery')
 if( !gallery || !widget ){
 	if( widget ) widget.remove()
@@ -27,21 +44,17 @@ console.log('hiding woocomerce product gallery')
 gallery.append( widget )
 
 
-
-
-const size_map = () => {
-	// widget.style.width = widget.getBoundingClientRect().height + 'px'
-	widget.style.height = widget.getBoundingClientRect().width + 'px'
-}
 size_map()
-window.addEventListener('resize', size_map )
 
 
-// setTimeout(() => {
 
-// 	// BERED.MAP
-// }, 500)
 
 
 })();
 
+
+
+
+
+window.addEventListener('resize', size_map )
+BROKER.subscribe('MAP_RESIZE', size_map )

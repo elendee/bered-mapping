@@ -1,4 +1,10 @@
 /*asdf*/
+body.bered .map {
+    position: relative;
+/*     width: 100%; */
+    height: 100%;
+}
+
 
 #bered-widget{
     border: 3px solid;
@@ -21,27 +27,32 @@ body.bered .entry-summary{
 /*     min-height: 500px; */
 }
 
-.map {
-    position: relative;
-/*     width: 100%; */
-    height: 100%;
-}
 
 #bered-map-gui{
     position: absolute;
-    top: 0;
-    right: -150px;
-    width: 150px;
-    height: 100%;
+    top: -50px;
+    left: -0px;
+    width: 800px;
+    height: 50px;
     border: 2px solid;
     background: rgba(0, 255, 255, .3);
 }
 
 #bered-map-gui .section,
 #bered-map-gui .button{
-    margin-bottom: 5px
+    margin: 0 5px
 }
 #bered-map-gui .section{
-    padding: 5px;
+    padding: 0 15px;
+    display: inline-block;
 }
 
+
+.woocommerce-product-details__short-description .section{
+    padding: 10px;
+/*     font-weight: bold; */
+}
+
+.woocommerce-product-details__short-description .section:hover{
+    background: rgba(0, 0, 0, .1);
+}
