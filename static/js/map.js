@@ -1,5 +1,5 @@
-import gui from './bered-map-gui.js?v=102'
-import BROKER from './EventBroker.js?v=102'
+import gui from './bered-map-gui.js?v=103'
+import BROKER from './EventBroker.js?v=103'
 
 console.log('bered-map js')
 
@@ -155,12 +155,49 @@ const clear = event => {
 }
 
 
+let rotating
+
+const clear_rotation = e => {
+	BROKER.publish('MAP_ROTATE', {
+		state: false,
+	})
+	window.removeEventListener('mouseup', clear_rotation )
+}
+
+const rotate_map = event => {
+	const { dir, state } = event
+
+	// console.log( dir, map.getView().getRotation()  )
+
+	const view = map.getView()
+
+	if( !state ){
+		clearInterval( rotating )
+		return rotating = false
+	}
+
+	if( !rotating ){
+
+		window.addEventListener('mouseup', clear_rotation )
+
+		rotating = setInterval(() => {
+
+			view.setRotation( ( view.getRotation() + ( .1 * dir ) ) )
+
+		}, 150)
+	}
+
+}
+
+
+
+
 
 
 
 BROKER.subscribe('MAP_CLEAR', clear )
 BROKER.subscribe('MAP_ADD_LAYER', add_layer )
-
+BROKER.subscribe('MAP_ROTATE', rotate_map )
 
 
 

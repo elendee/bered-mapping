@@ -2,9 +2,9 @@
 	entry point module for clientside bered widget
 */
 
-import BROKER from './EventBroker.js?v=102'
-import map from './map.js?v=102'
-// import map from './map-module.js?v=102'
+import BROKER from './EventBroker.js?v=103'
+import map from './map.js?v=103'
+// import map from './map-module.js?v=103'
 
 console.log('bered-widget js')
 

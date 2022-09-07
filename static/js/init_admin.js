@@ -1,4 +1,4 @@
-// import hal from '../hal.js?v=102'
+// import hal from '../hal.js?v=103'
 
 
 import {
@@ -8,9 +8,9 @@ import {
 	hal,
 	// format_date,
 	// get_domain,
-} from './lib.js?v=102'
+} from './lib.js?v=103'
 
-// import build_form from './build_form.js?v=102'
+// import build_form from './build_form.js?v=103'
 
 
 // tstack('init_admin')

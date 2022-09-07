@@ -1,21 +1,24 @@
-import BROKER from './EventBroker.js?v=102'
+import BROKER from './EventBroker.js?v=103'
+import {
+	build_button,
+	build_section,
+} from './build.js?v=103'
 
 
 
 
 
-const build_section = () => {
-	const wrapper = document.createElement('div')
-	wrapper.classList.add('section')
-	return wrapper
-}
 
-const build_button = text => {
-	const wrapper = document.createElement('div')
-	wrapper.innerText = text
-	wrapper.classList.add('button')
-	return wrapper
-}
+
+
+
+
+
+
+
+
+
+
 
 const build_instruction_panel = () => {
 
@@ -33,6 +36,22 @@ const build_instruction_panel = () => {
 	<h3>step 1</h3>
 	<p>position the map to fit...</p>`
 	step.append( expl )
+	const r1 = build_button('rotate +')
+	r1.addEventListener('mousedown', () => {
+		BROKER.publish('MAP_ROTATE', {
+			state: true,
+			dir: 1,
+		})
+	})
+	const r2 = build_button('rotate -')
+	r2.addEventListener('mousedown', () => {
+		BROKER.publish('MAP_ROTATE', {
+			state: true,
+			dir: -1,
+		})
+	})
+	step.append( r1 )
+	step.append( r2 )
 	panel.append( step )
 
 	step = build_section()

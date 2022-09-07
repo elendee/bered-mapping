@@ -38,13 +38,14 @@ body.bered .entry-summary{
     background: rgba(0, 255, 255, .3);
 }
 
-#bered-map-gui .button{
+.bered .button{
     font-size: 1rem;
     display: inline-block;
     background: white;
     border: 1px solid grey;
     padding: 5px;
     color: black;
+    user-select: none;
 }
 #bered-map-gui .button:hover{
     background: lightgrey;
