@@ -167,14 +167,16 @@ const clear_rotation = e => {
 const rotate_map = event => {
 	const { dir, state } = event
 
-	// console.log( dir, map.getView().getRotation()  )
-
-	const view = map.getView()
+	// console.log( dir, map.getView().getRotation())
 
 	if( !state ){
 		clearInterval( rotating )
 		return rotating = false
 	}
+
+	const view = map.getView()
+
+	view.setRotation( ( view.getRotation() + ( .1 * dir ) ) )
 
 	if( !rotating ){
 
