@@ -13,17 +13,7 @@ import {
 
 
 
-
-
-
-
-
-
-
-const build_instruction_panel = () => {
-
-	const details = document.querySelector('.woocommerce-product-details__short-description')
-	if( !details ) return console.error('no panel found for bered instructions')
+const build_instruction_panel = wrapper => {
 
 	const panel = document.createElement('div')
 	panel.classList.add('bered-instructions')
@@ -70,19 +60,16 @@ const build_instruction_panel = () => {
 	step.append( expl )
 	panel.append( step )
 
-	details.append( panel )
+	wrapper.append( panel )
 
 }
 
 
-const build_dev_panel = () => {
-
-	const ele = document.getElementById('bered-map')
-	if( !ele ) return console.log('no bered map element found')
+const build_dev_panel = wrapper => {
 
 	const panel = document.createElement('div')
 	panel.id = 'bered-map-gui'
-	ele.append( panel )
+	wrapper.append( panel )
 
 	let section
 
@@ -148,25 +135,7 @@ const build_dev_panel = () => {
 
 
 
-
-;(async() => {
-
-build_dev_panel()
-
-build_instruction_panel()
-
-
-})();
-
-
-
-
-
-
-
-
-
-
-
-
-export default {}
+export {
+	build_dev_panel,
+	build_instruction_panel,
+}

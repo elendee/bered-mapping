@@ -198,7 +198,7 @@ if ( !class_exists( 'BeredMapper' ) ) {
 
     		<script type="module" defer="defer" src="' . plugins_url() . '/bered-mapping/static/js/bered_widget.js?v=' . $bered_version . '"></script>
 
-    		<div id="bered-widget" class="bered">
+    		<div id="bered-widget">
     			<div id="bered-map" class="map"></div>
     		</div>';
 

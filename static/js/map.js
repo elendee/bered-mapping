@@ -1,4 +1,6 @@
-import gui from './bered-map-gui.js?v=103'
+/*
+
+*/
 import BROKER from './EventBroker.js?v=103'
 
 console.log('bered-map js')
@@ -31,9 +33,9 @@ const map = BERED.MAP = new ol.Map({
     		much better control by adding these layers dynamically; see below
     	*/
 
-        new ol.layer.Tile({
-            source: source,
-        })
+        // new ol.layer.Tile({
+        //     source: source,
+        // })
     ],
 
     // controls: [new ol.Control.PanZoomBar()],
@@ -60,7 +62,11 @@ const map = BERED.MAP = new ol.Map({
 // automagical localStorage persistence of view
 map.addInteraction(new ol.interaction.Link());
 
-
+// setTimeout(() => {
+// 	BROKER.publish('MAP_ADD_LAYER', {
+// 		type: 'data',
+// 	})
+// }, 500)
 
 
 
