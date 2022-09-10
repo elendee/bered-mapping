@@ -1,8 +1,8 @@
-import BROKER from './EventBroker.js?v=103'
+import BROKER from './EventBroker.js?v=105'
 import {
 	build_button,
 	build_section,
-} from './build.js?v=103'
+} from './build.js?v=105'
 
 
 
