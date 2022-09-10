@@ -37,7 +37,7 @@ require_once( ABSPATH . 'wp-includes/pluggable.php' );
 
 $bered_dir = plugins_url( '', __FILE__ );
 
-$bered_version = '1.0.5';
+$bered_version = '1.0.6';
 
 $bered_settings = [];
 

@@ -1,7 +1,7 @@
 /*
 
 */
-import BROKER from './EventBroker.js?v=105'
+import BROKER from './EventBroker.js?v=106'
 
 console.log('bered-map js')
 
