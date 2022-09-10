@@ -13,10 +13,11 @@ const css =`
 	background: rgba(0, 0, 0, .5);
 }
 .modal-close{
+	user-select: none;
 	position: absolute;
 	z-index: 9;
 	top: 50px;
-	right: 5vw;
+	right: 1vw;
 	background: black;
 	color: white;
 	cursor: pointer;
@@ -30,15 +31,15 @@ const css =`
 	color: black;
 }
 .modal-content{
-	background: black;
+	background: white;
 	position: absolute;
-	padding: 30px;
+	padding: 10px;
 	margin-top: 50px;
 	width: 100%;
-	max-width: 90vw;
+	max-width: 96vw;
 	overflow-y: auto;
 	overflow-x: hidden;
-	padding-top: 40px;
+	padding-top: 10px;
 	max-height: 80vh;
 	border: 1px solid grey;
 }
@@ -144,7 +145,7 @@ class Modal {
 		modal.close.classList.add('modal-close', 'flex-wrapper')
 		modal.close.innerHTML = '&times;'
 		modal.close.addEventListener('click', () => {
-			modal.close.click()
+			modal.ele.remove()
 		})
 		modal.ele.appendChild( modal.content )
 		modal.ele.appendChild( modal.close )

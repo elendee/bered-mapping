@@ -3,7 +3,7 @@
 */
 import BROKER from './EventBroker.js?v=103'
 import { Modal } from './Modal.js?v=103'
-import map from './map.js?v=103'
+import * as map from './map.js?v=103'
 import * as gui from './bered-map-gui.js?v=103'
 
 
@@ -12,12 +12,6 @@ console.log('bered-widget js')
 
 const details = document.querySelector('.woocommerce-product-details__short-description')
 
-let widget
-
-
-const size_map = event => {
-	widget.style.height = widget.getBoundingClientRect().width + 'px'
-}
 
 
 
@@ -33,30 +27,34 @@ const init_popup = () => {
 
 	gui.build_instruction_panel( m.right_panel ) // ( container )
 
+	const widget = document.getElementById('bered-widget')
 	m.left_panel.append( widget )
 	// if( !widget ) return console.log('bered not detected on this page')
 
 	// dev panel
 	const ele = document.getElementById('bered-map')
 	gui.build_dev_panel( ele )
-	if( location.href.match('/oko/')){
-		 // allow instruct panel
-	}else{
-		document.getElementById('bered-map-gui').style.display = 'none'
-	}
+	// if( location.href.match('/oko/')){
+	// }else{
+	// 	 console.log('hiding bereddev panel')
+	// }
+	console.log('hiding bered dev panel')
+	document.getElementById('bered-map-gui').style.display = 'none'
 
-	BROKER.publish('MAP_ADD_LAYER', {
-		type: 'data',
-	})
+	map.init()
 
-	size_map()
+	// BROKER.publish('MAP_ADD_LAYER', {
+	// 	type: 'data',
+	// })
 
-	setTimeout(() => {
-		BROKER.publish('MAP_ADD_LAYER', {
-			type: 'data',
-		})
-		size_map()
-	}, 500 )
+	// size_map()
+
+	// setTimeout(() => {
+	// 	BROKER.publish('MAP_ADD_LAYER', {
+	// 		type: 'data',
+	// 	})
+	// 	size_map()
+	// }, 500 )
 
 }
 
@@ -65,18 +63,18 @@ const init_popup = () => {
 
 ;(async() => {
 
-// const content = document.querySelector('.entry-content')
+	document.body.classList.add('bered')
 
-widget = document.getElementById('bered-widget')
-if( !widget ) console.log('missing bered widget')
+	const begin = document.createElement('div')
+	begin.classList.add('button')
+	begin.innerText= 'Make your map'
+	begin.addEventListener('click', init_popup )
+	details.append( begin )
 
-document.body.classList.add('bered')
+	const checkout = document.querySelector('form.cart button[name="add-to-cart"]')
+	if( !checkout ) console.log('could not find woocommerce checkout button for bered')
 
-const begin = document.createElement('div')
-begin.classList.add('button')
-begin.innerText= 'Make your map'
-begin.addEventListener('click', init_popup )
-details.append( begin )
+	checkout.classList.add('disabled')
 
 })();
 
@@ -84,5 +82,3 @@ details.append( begin )
 
 
 
-window.addEventListener('resize', size_map )
-BROKER.subscribe('MAP_RESIZE', size_map )

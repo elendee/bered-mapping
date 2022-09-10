@@ -6,77 +6,7 @@ import BROKER from './EventBroker.js?v=103'
 console.log('bered-map js')
 
 
-
-;(async() => {
-
-
-await new Promise(( resolve ) => {
-	setTimeout(() => {
-		resolve()
-	}, 1000 )
-})
-
-
-// const map = new Map({
-//   interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
-
-const source = new ol.source.OSM()
-
-const map = BERED.MAP = new ol.Map({
-
-	interactions: ol.interaction.defaults.defaults().extend( [ new ol.interaction.DragRotateAndZoom() ] ),
-
-    target: 'bered-map',
-
-    layers: [
-    	/*
-    		much better control by adding these layers dynamically; see below
-    	*/
-
-        // new ol.layer.Tile({
-        //     source: source,
-        // })
-    ],
-
-    // controls: [new ol.Control.PanZoomBar()],
-    // projection: new OpenLayers.Projection('EPSG:32633'),
-    // maxExtent: new OpenLayers.Bounds(-2500000.0, 3500000.0, 3045984.0, 9045984.0),
-    // units: "m",
-    // maxResolution: 2708.0, // tilsvarer zoom level 3 (hele er 21664.0)
-    // //numZoomLevels: 15 				
-    // // egentlig 18, men maxResolution tilsvarer zoom level 3 (følgelig er 0-3 skrudd av)
-
-    view: new ol.View({
-        center: ol.proj.fromLonLat([
-        	13.41, 
-        	65.42
-        ]),
-        zoom: 5
-    })
-    
-});
-
-/*
-	could probably add these in instantiation but whatevs:
-*/
-// automagical localStorage persistence of view
-map.addInteraction(new ol.interaction.Link());
-
-// setTimeout(() => {
-// 	BROKER.publish('MAP_ADD_LAYER', {
-// 		type: 'data',
-// 	})
-// }, 500)
-
-
-
-
-
-// const format = new ol.format.GeoJSON({
-// 	featureProjection: 'EPSG:3857'
-// });
-
-
+const widget = document.getElementById('bered-widget')
 
 
 
@@ -84,14 +14,84 @@ const LAYERS = BERED.LAYERS = {}
 const SOURCES = BERED.SOURCES = {}
 
 
+// await new Promise(( resolve ) => {
+// 	setTimeout(() => {
+// 		resolve()
+// 	}, 1000 )
+// })
+let map
+
+const init = () => {
 
 
+	// const map = new Map({
+	//   interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
 
+	size_map()
+	
+	const source = new ol.source.OSM()
+
+	map = BERED.MAP = new ol.Map({
+
+		interactions: ol.interaction.defaults.defaults().extend( [ new ol.interaction.DragRotateAndZoom() ] ),
+
+	    target: 'bered-map',
+
+	    layers: [
+	    	/*
+	    		much better control by adding these layers dynamically; see below
+	    	*/
+
+	        // new ol.layer.Tile({
+	        //     source: source,
+	        // })
+	    ],
+
+	    // controls: [new ol.Control.PanZoomBar()],
+	    // projection: new OpenLayers.Projection('EPSG:32633'),
+	    // maxExtent: new OpenLayers.Bounds(-2500000.0, 3500000.0, 3045984.0, 9045984.0),
+	    // units: "m",
+	    // maxResolution: 2708.0, // tilsvarer zoom level 3 (hele er 21664.0)
+	    // //numZoomLevels: 15 				
+	    // // egentlig 18, men maxResolution tilsvarer zoom level 3 (følgelig er 0-3 skrudd av)
+
+	    view: new ol.View({
+	        center: ol.proj.fromLonLat([
+	        	13.41, 
+	        	65.42
+	        ]),
+	        zoom: 5
+	    })
+	    
+	});
+
+	/*
+		could probably add these in instantiation but whatevs:
+	*/
+	// automagical localStorage persistence of view
+	map.addInteraction(new ol.interaction.Link());
+
+
+	setTimeout(() => {
+		BROKER.publish('MAP_ADD_LAYER', {
+			type: 'data',
+		})
+	}, 500)
+	// const format = new ol.format.GeoJSON({
+	// 	featureProjection: 'EPSG:3857'
+	// });
+
+
+}// init
 
 
 
 
 // subscribers
+
+const size_map = event => {
+	widget.style.height = widget.getBoundingClientRect().width + 'px'
+}
 
 const add_layer = event => {
 
@@ -201,15 +201,14 @@ const rotate_map = event => {
 
 
 
-
-
 BROKER.subscribe('MAP_CLEAR', clear )
 BROKER.subscribe('MAP_ADD_LAYER', add_layer )
 BROKER.subscribe('MAP_ROTATE', rotate_map )
+BROKER.subscribe('MAP_RESIZE', size_map )
+
+
+window.addEventListener('resize', size_map )
 
 
 
-})();
-
-
-export default {}
+export { init }
