@@ -80,9 +80,18 @@ body.bered .button{
 }
 #bered-map-gui .section{
     padding: 0 15px;
-    display: inline-block;
 }
 
+
+.bered-instructions .section{
+/* 	display: none; */
+	border: 3px solid;
+}
+.bered-instructions .section.selected{
+	display: inline-block;
+	width: 100%;
+	border: 3px solid red;
+}
 
 .woocommerce-product-details__short-description .section{
     padding: 10px;
@@ -103,3 +112,4 @@ body.bered .woocommerce-product-details__short-description .button{
 .woocommerce-product-details__short-description .section:hover{
     background: rgba(0, 0, 0, .1);
 }
+

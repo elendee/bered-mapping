@@ -61,6 +61,11 @@ const init_popup = () => {
 
 
 
+
+
+
+
+
 ;(async() => {
 
 	document.body.classList.add('bered')
@@ -79,6 +84,60 @@ const init_popup = () => {
 })();
 
 
+
+
+
+
+
+
+
+
+// subscribers
+
+const set_nav = event => {
+	// console.log( event )
+	const { dir } = event
+
+	const modal = document.querySelector('.modal.bered-map')
+	if( !modal ) return console.log('no popup')
+
+	let current, next, prev
+	const steps = modal.querySelectorAll('.bered-instructions>.section')
+	for( let i = 0; i < steps.length; i++ ){
+		if( steps[i].classList.contains('selected')){
+			console.log('sfound step at : ', i )
+			current = steps[i]
+			next = steps[i+1]
+			prev = steps[i-1]
+			if( dir === 'forward' ){
+				if( next ){
+					for( const step of steps ) step.classList.remove('selected')
+					next.classList.add('selected')
+				}else{
+					console.log('at end...')
+				}
+			}else{
+				if( prev ){
+					for( const step of steps ) step.classList.remove('selected')
+					prev.classList.add('selected')
+				}else{
+					console.log('at beginning...')
+				}
+			}
+		}
+		// const forward = step.querySelector('.nav[data-dir="forward"]')
+		// const back = step.querySelector('.nav[data-dir="back"]')
+	}
+}
+
+
+
+
+
+
+// subscriptions
+
+BROKER.subscribe('SET_NAV_STEP', set_nav )
 
 
 
