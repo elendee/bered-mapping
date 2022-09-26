@@ -40,7 +40,7 @@ const css =`
 	overflow-y: auto;
 	overflow-x: hidden;
 	padding-top: 10px;
-	max-height: 80vh;
+	max-height: 90vh;
 	border: 1px solid grey;
 }
 
