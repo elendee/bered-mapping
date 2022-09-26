@@ -1,10 +1,10 @@
 /*
 	entry point module for clientside bered widget
 */
-import BROKER from './EventBroker.js?v=106'
-import { Modal } from './Modal.js?v=106'
-import * as map from './map.js?v=106'
-import * as gui from './bered-map-gui.js?v=106'
+import BROKER from './EventBroker.js?v=107'
+import { Modal } from './Modal.js?v=107'
+import * as map from './map.js?v=107'
+import * as gui from './bered-map-gui.js?v=107'
 
 
 console.log('bered-widget js')
@@ -15,46 +15,36 @@ const details = document.querySelector('.woocommerce-product-details__short-desc
 
 
 
+let m
 
 const init_popup = () => {
 
+	if( m ){
+		console.log('ay')
+		return m.ele.style.display = 'block'
+	}
 
-	const m = new Modal({
-		type: 'bered-map'
+	m = new Modal({
+		type: 'bered-map',
+		close_type: 'hide',
 	})
 	m.make_columns()
 	document.body.append( m.ele )
 
-	gui.build_instruction_panel( m.right_panel ) // ( container )
-
+	// move the map into popup
 	const widget = document.getElementById('bered-widget')
 	m.left_panel.append( widget )
-	// if( !widget ) return console.log('bered not detected on this page')
+
+	// instruction / steps / fabric widget
+	gui.build_instruction_panel( m.right_panel, widget ) // ( container )
 
 	// dev panel
 	const ele = document.getElementById('bered-map')
 	gui.build_dev_panel( ele )
-	// if( location.href.match('/oko/')){
-	// }else{
-	// 	 console.log('hiding bereddev panel')
-	// }
-	console.log('hiding bered dev panel')
-	document.getElementById('bered-map-gui').style.display = 'none'
+	// console.log('hiding bered dev panel')
+	document.getElementById('bered-dev-gui').style.display = 'none'
 
 	map.init()
-
-	// BROKER.publish('MAP_ADD_LAYER', {
-	// 	type: 'data',
-	// })
-
-	// size_map()
-
-	// setTimeout(() => {
-	// 	BROKER.publish('MAP_ADD_LAYER', {
-	// 		type: 'data',
-	// 	})
-	// 	size_map()
-	// }, 500 )
 
 }
 
@@ -102,32 +92,54 @@ const set_nav = event => {
 	if( !modal ) return console.log('no popup')
 
 	let current, next, prev
+
 	const steps = modal.querySelectorAll('.bered-instructions>.section')
+
 	for( let i = 0; i < steps.length; i++ ){
-		if( steps[i].classList.contains('selected')){
-			console.log('sfound step at : ', i )
+
+		if( steps[i].classList.contains('selected') ){
+			console.log('found step at : ', i )
 			current = steps[i]
 			next = steps[i+1]
 			prev = steps[i-1]
 			if( dir === 'forward' ){
 				if( next ){
+					// set DOM
 					for( const step of steps ) step.classList.remove('selected')
 					next.classList.add('selected')
+					// set canvas state
+					if( i === 0 ){
+						document.querySelector('.modal .canvas-container').style['pointer-events'] = 'initial'
+					}else{
+						document.querySelector('.modal .canvas-container').style['pointer-events'] = 'none'
+					}
+					break;
 				}else{
 					console.log('at end...')
 				}
 			}else{
 				if( prev ){
+					// set DOM class
 					for( const step of steps ) step.classList.remove('selected')
 					prev.classList.add('selected')
+					// set canvas state
+					if( i === 2 ){
+						document.querySelector('.modal .canvas-container').style['pointer-events'] = 'initial'
+					}else{
+						document.querySelector('.modal .canvas-container').style['pointer-events'] = 'none'
+					}
+					break;
 				}else{
 					console.log('at beginning...')
 				}
 			}
+			
 		}
 		// const forward = step.querySelector('.nav[data-dir="forward"]')
 		// const back = step.querySelector('.nav[data-dir="back"]')
+
 	}
+
 }
 
 

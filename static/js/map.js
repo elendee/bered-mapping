@@ -1,7 +1,7 @@
 /*
 
 */
-import BROKER from './EventBroker.js?v=106'
+import BROKER from './EventBroker.js?v=107'
 
 console.log('bered-map js')
 
@@ -90,7 +90,9 @@ const init = () => {
 // subscribers
 
 const size_map = event => {
-	widget.style.height = widget.getBoundingClientRect().width + 'px'
+	if( document.querySelector('.modal')){
+		widget.style.height = widget.getBoundingClientRect().width + 'px'
+	}
 }
 
 const add_layer = event => {

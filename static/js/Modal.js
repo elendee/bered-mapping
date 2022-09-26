@@ -134,6 +134,8 @@ class Modal {
 		modal.ele.classList.add('modal')
 		modal.ele.id = init.id
 
+		modal.close_type = init.close_type
+
 		const type = modal.type = init.type
 		modal.ele.classList.add( type )
 		modal.ele.setAttribute('data-type', type )
@@ -141,19 +143,24 @@ class Modal {
 		modal.content = document.createElement('div')
 		modal.content.classList.add('modal-content')
 
-		modal.close = document.createElement('div')
-		modal.close.classList.add('modal-close', 'flex-wrapper')
-		modal.close.innerHTML = '&times;'
-		modal.close.addEventListener('click', () => {
-			modal.ele.remove()
+		modal.close_btn = document.createElement('div')
+		modal.close_btn.classList.add('modal-close', 'flex-wrapper')
+		modal.close_btn.innerHTML = '&times;'
+		modal.close_btn.addEventListener('click', () => {
+			modal.close()
 		})
 		modal.ele.appendChild( modal.content )
-		modal.ele.appendChild( modal.close )
+		modal.ele.appendChild( modal.close_btn )
 
 	}
 
 	close(){
-		modal.ele.remove()
+
+		if( this.close_type === 'hide' ){
+			this.ele.style.display = 'none'
+		}else{
+			this.ele.remove()
+		}
 		// BROKER.publish('MODAL_CLOSE', { type: init.type })
 	}
 

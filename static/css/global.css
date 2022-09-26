@@ -51,13 +51,13 @@ body.bered .disabled{
 }
 
 
-#bered-map-gui{
+#bered-dev-gui{
     position: absolute;
     top: -50px;
     left: -0px;
     width: 800px;
     height: 50px;
-    border: 2px solid;
+    border: 20px solid green;
     background: rgba(0, 255, 255, .3);
 }
 
@@ -70,27 +70,45 @@ body.bered .button{
     color: black;
     user-select: none;
 }
-#bered-map-gui .button:hover{
+.bered-instructions .button:hover{
     background: lightgrey;
 }
 
-#bered-map-gui .section,
-#bered-map-gui .button{
+#bered-dev-gui .section,
+#bered-dev-gui .button{
     margin: 0 5px
 }
-#bered-map-gui .section{
+
+#bered-dev-gui .section{
     padding: 0 15px;
 }
 
 
+.bered-instructions .nav{
+	display: inline-block;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+.bered-instructions .nav.forward{
+	right: 5px;
+}
+.bered-instructions .nav.back{
+	right: 50px;
+}
+
 .bered-instructions .section{
-/* 	display: none; */
-	border: 3px solid;
+	display: none;
+	border: 3px solid lightgrey;
+	position: relative;
+	padding: 5px;
 }
 .bered-instructions .section.selected{
 	display: inline-block;
 	width: 100%;
-	border: 3px solid red;
+}
+.bered-instructions .button.rotate{
+	margin: 5px;
 }
 
 .woocommerce-product-details__short-description .section{
@@ -113,3 +131,37 @@ body.bered .woocommerce-product-details__short-description .button{
     background: rgba(0, 0, 0, .1);
 }
 
+
+.bered-instructions .icon{
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	margin: 10px;
+	cursor: pointer;
+}
+.bered-instructions .icon:hover{
+	transform: scale(1.1)
+}
+.bered-instructions .icon:active{
+	transform: scale(.95)
+}
+.bered-instructions .icon.circle{
+	border-radius: 50px;
+}
+
+.canvas-container{
+	position: absolute !important;
+	z-index: 9999;
+	top: 0;
+	left: 0;
+	height: 100% !important;
+/* 	border: 10px solid pink; */
+	width: 100% !important;
+
+/* 	controlled by js */
+	pointer-events: none;
+}
+
+.icon-wrap>div{
+	margin-bottom: 50px;
+}
