@@ -1,14 +1,13 @@
 /*
 	entry point module for clientside bered widget
 */
+import * as lib from './lib.js?v=107'
 import BROKER from './EventBroker.js?v=107'
 import { Modal } from './Modal.js?v=107'
 import * as map from './map.js?v=107'
 import * as gui from './bered-map-gui.js?v=107'
 
-
 console.log('bered-widget js')
-
 
 const details = document.querySelector('.woocommerce-product-details__short-description')
 
@@ -67,7 +66,7 @@ const init_popup = () => {
 	details.append( begin )
 
 	const checkout = document.querySelector('form.cart button[name="add-to-cart"]')
-	if( !checkout ) console.log('could not find woocommerce checkout button for bered')
+	if( !checkout ) return console.log('could not find woocommerce checkout button for bered')
 
 	checkout.classList.add('disabled')
 

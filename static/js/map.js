@@ -1,14 +1,13 @@
-/*
-
-*/
 import BROKER from './EventBroker.js?v=107'
+// import TileLayer from 'ol/layer/Tile';
+// import TileWMS from 'ol/source/TileWMS';
 
 console.log('bered-map js')
 
 
 const widget = document.getElementById('bered-widget')
 
-
+const IS_LOCAL = !!location.href.match(/localhost/)
 
 const LAYERS = BERED.LAYERS = {}
 const SOURCES = BERED.SOURCES = {}
@@ -123,10 +122,32 @@ const add_layer = event => {
 			break;
 
 		case 'data':
-            source = new ol.source.XYZ({
-                url: 'https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}',
-                attributions: '<a href="http://www.kartverket.no/">Kartverket</a>'
-            })
+			// ping for timeout 
+			let testing = setTimeout(() => {
+				hal('error', 'it appears the map server may be having trouble returning data; try again later')
+			}, ( IS_LOCAL ? 5 : 15 ) * 1000 )
+			fetch('https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}')
+			.then( res => {
+				clearTimeout( testing )
+			})
+			// proceed
+			if( IS_LOCAL ){ // for when the URL is unresponsive
+				source = new ol.source.TileWMS({
+					url: 'https://ahocevar.com/geoserver/wms',
+				    params: {
+				    	'LAYERS': 'topp:states', 
+				    	'TILED': true
+				    },
+				    serverType: 'geoserver',
+				    // Countries have transparency, so do not fade tiles:
+				    transition: 0,
+				})
+			}else{
+	            source = new ol.source.XYZ({
+	                url: 'https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}',
+	                attributions: '<a href="http://www.kartverket.no/">Kartverket</a>',
+	            })
+			}
 			layer = new ol.layer.Tile({
 		    	source: source,
 		    })

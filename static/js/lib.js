@@ -32,7 +32,7 @@ document.body.appendChild( alert_contain )
 
 
 
-const hal = BERED.hal = ( type, msg, time ) => {
+const hal = window.hal = ( type, msg, time ) => {
 
 	let icon = ''
 

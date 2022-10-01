@@ -62,7 +62,13 @@ const type_map = {
 	'image': fabric.Image,
 }
 
-const build_fabric_picker = map_widget => {
+const build_fabric_drawer = widget_ele => {
+
+
+
+}
+
+const build_fabric_picker = widget_ele => {
 
 	// the GUI part
 	const wrapper = document.createElement('div')
@@ -74,9 +80,9 @@ const build_fabric_picker = map_widget => {
 
 	// the map overlay part
 	const canvas = document.createElement('canvas')
-	canvas.width = map_widget.getBoundingClientRect().width
-	canvas.height = map_widget.getBoundingClientRect().height
-	map_widget.append( canvas )
+	canvas.width = widget_ele.getBoundingClientRect().width
+	canvas.height = widget_ele.getBoundingClientRect().height
+	widget_ele.append( canvas )
 
 	const fCanvas = window.fCanvas = new fabric.Canvas( canvas, {
 		// width: canvas.width,
@@ -167,7 +173,7 @@ const build_fabric_picker = map_widget => {
 	wrapper.append( icon_options )
 
 	return wrapper
-	// console.log('what is widget though..', map_widget )
+	// console.log('what is widget though..', widget_ele )
 
 }
 
@@ -239,15 +245,28 @@ const build_instruction_panel = ( wrapper, widget ) => {
 
 	// step 2
 	step = build_section()
-	step.append( build_fabric_picker( widget ) )
+	expl = document.createElement('div')
+	expl.innerHTML = `
+	<h3>step 2/3</h3>
+	<p>draw your building</p>`
+	step.append( expl )
+	step.append( build_fabric_drawer( widget ) )
 	add_navs( step )
 	panel.append( step )
 
 	// step 3
 	step = build_section()
+	step.append( build_fabric_picker( widget ) )
+	add_navs( step )
+	panel.append( step )
+
+	assign the canvas upscope so it can be used for both icons and buildng
+
+	// step 4
+	step = build_section()
 	expl = document.createElement('div')
 	expl.innerHTML = `
-	<h3>step 3/3</h3>
+	<h3>step 4/4</h3>
 	<p>checkout...</p>`
 	step.append( expl )
 	add_navs( step )
