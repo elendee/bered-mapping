@@ -126,12 +126,13 @@ const add_layer = event => {
 			let testing = setTimeout(() => {
 				hal('error', 'it appears the map server may be having trouble returning data; try again later')
 			}, ( IS_LOCAL ? 5 : 15 ) * 1000 )
-			fetch('https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}')
-			.then( res => {
-				clearTimeout( testing )
-			})
+
+			// fetch('https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}')
+			// .then( res => {
+			// 	clearTimeout( testing )
+			// })
 			// proceed
-			if( IS_LOCAL ){ // for when the URL is unresponsive
+			if( 0 && IS_LOCAL ){ // for when the URL is unresponsive
 				source = new ol.source.TileWMS({
 					url: 'https://ahocevar.com/geoserver/wms',
 				    params: {

@@ -141,6 +141,16 @@ const set_nav = event => {
 
 }
 
+const set_draw_mode = event => {
+	const { state, fCanvas, button } = event
+	fCanvas.isDrawingMode = state
+	if( state ){
+		button.classList.add('selected')
+	}else{
+		button.classList.remove('selected')
+	}
+}
+
 
 
 
@@ -149,6 +159,5 @@ const set_nav = event => {
 // subscriptions
 
 BROKER.subscribe('SET_NAV_STEP', set_nav )
-
-
+BROKER.subscribe('SET_DRAW_STATE', set_draw_mode )
 

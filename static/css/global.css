@@ -167,3 +167,7 @@ body.bered .woocommerce-product-details__short-description .button{
 .icon-wrap>div{
 	margin-bottom: 50px;
 }
+
+.bered-map .button.selected{
+	background: orange;
+}

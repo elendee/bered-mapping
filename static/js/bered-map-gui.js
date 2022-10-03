@@ -64,10 +64,30 @@ const type_map = {
 
 const build_fabric_drawer = widget_ele => {
 
+	const wrapper = document.createElement('div')
+	wrapper.classList.add('draw-wrap')
 
+	const expl = document.createElement('p')
+	expl.innerText = 'Click the pencil to draw your building.  Connect the dots to complete a shape.'
+	wrapper.append( expl )
+
+	const pencil = document.createElement('div')
+	pencil.classList.add('button')
+	pencil.innerText = 'pencil'
+	pencil.addEventListener('click', () => {
+		BROKER.publish('SET_DRAW_STATE', { 
+			state: !BERED.fCanvas.isDrawingMode, 
+			fCanvas: BERED.fCanvas,
+			button: pencil,
+		})
+	})
+	wrapper.append( pencil )
+
+	return wrapper
 
 }
 
+let onetime
 const build_fabric_picker = widget_ele => {
 
 	// the GUI part
@@ -84,7 +104,11 @@ const build_fabric_picker = widget_ele => {
 	canvas.height = widget_ele.getBoundingClientRect().height
 	widget_ele.append( canvas )
 
-	const fCanvas = window.fCanvas = new fabric.Canvas( canvas, {
+
+	if( onetime ) return console.log('--- need to run this one time only... ---')
+	onetime = true
+
+	const fCanvas = BERED.fCanvas = new fabric.Canvas( canvas, {
 		// width: canvas.width,
 		// height: canvas.height,
 	})
@@ -119,6 +143,7 @@ const build_fabric_picker = widget_ele => {
 						left: 50,
 						hasRotatingPoint: false,
 					})
+					fIcon.bered_icon = true
 					fIcon.scaleToWidth( 35 )
 					fIcon.scaleToHeight( 35 )
 					fIcon.setControlsVisibility({
@@ -190,6 +215,11 @@ const add_navs = section => {
 		BROKER.publish('SET_NAV_STEP', {
 			dir: 'back',
 		})
+		BROKER.publish('SET_DRAW_STATE', { 
+			state: false, 
+			fCanvas: BERED.fCanvas,
+			button: section.parentElement.querySelector('.draw-wrap .button'),
+		})
 	})
 	const forward = document.createElement('div')
 	forward.setAttribute('data-dir', 'forward')
@@ -198,6 +228,11 @@ const add_navs = section => {
 	forward.addEventListener('click', () => {
 		BROKER.publish('SET_NAV_STEP', {
 			dir: 'forward',
+		})
+		BROKER.publish('SET_DRAW_STATE', { 
+			state: false, 
+			fCanvas: BERED.fCanvas,
+			button: section.parentElement.querySelector('.draw-wrap .button'),
 		})
 	})
 	section.append( back )
@@ -259,8 +294,6 @@ const build_instruction_panel = ( wrapper, widget ) => {
 	step.append( build_fabric_picker( widget ) )
 	add_navs( step )
 	panel.append( step )
-
-	assign the canvas upscope so it can be used for both icons and buildng
 
 	// step 4
 	step = build_section()
