@@ -1,8 +1,8 @@
-// import '../inc/seedrandom.js?v=107'
+// import '../inc/seedrandom.js?v=108'
 // import {
 // 	Box3,
 // 	Vector3,
-// } from '../inc/three.module.js?v=107'
+// } from '../inc/three.module.js?v=108'
 
 
 
@@ -95,6 +95,7 @@ class Spinner{
 		this.ele.appendChild( this.img )
 
 		document.body.appendChild( this.ele )
+		this.hide()
 	}
 
 	show( ele ){
@@ -154,36 +155,15 @@ const fetch_wrap = async( url, method, body, no_spinner ) => {
 
 		if( method.match(/post/i) ){
 
-			// fetch( url, {
-			// 	method: 'post',
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 	},
-			// 	body: JSON.stringify( body )
-			// })
 			jQuery.ajax({
 				url: url,
 				data: body,
 				method: method,
 			})
 			.then( res => {
-				// if( !res ){
-				// 	reject('no res')
-				// 	return
-				// }
-				// res.json()
-				// .then( r => {
-					if( !no_spinner )  spinner.hide()
-					resolve( res )
-				})
-			// .catch( err => {
-			// 		if( !no_spinner )  spinner.hide()
-			// 		reject( err )
-			// 	})
-			// }).catch( err => {
-			// 	if( !no_spinner )  spinner.hide()
-			// 	reject( err )
-			// })
+				if( !no_spinner )  spinner.hide()
+				resolve( res )
+			})
 			.catch( err => {
 				if( !no_spinner )  spinner.hide()
 				reject( err )
@@ -191,17 +171,10 @@ const fetch_wrap = async( url, method, body, no_spinner ) => {
 
 		}else if( method.match(/get/i) ){
 
-			// fetch( url )
 			jQuery.ajax({
 				url: url,
 				method: method,
 			})
-			// .then( res => {
-			// 	if( !res ){
-			// 		reject('no res')
-			// 		return
-			// 	}
-			// 	res.json()
 			.then( r => {
 				if( !no_spinner )  spinner.hide()
 				resolve( r )
@@ -209,14 +182,6 @@ const fetch_wrap = async( url, method, body, no_spinner ) => {
 				if( !no_spinner )  spinner.hide()
 				reject( err )
 			})
-			// .catch( err => {
-			// 	if( !no_spinner )  spinner.hide()
-			// 	reject( err )
-			// })
-			// .catch( err => {
-			// 	if( !no_spinner )  spinner.hide()
-			// 	reject( err )
-			// })
 
 		}else{
 
@@ -229,77 +194,6 @@ const fetch_wrap = async( url, method, body, no_spinner ) => {
 
 
 }
-
-
-
-// const fetch_wrap = ( url, method, body, no_spinner ) => {
-
-// 	return new Promise(( resolve, reject ) => {
-
-// 		if( !no_spinner ) spinner.show()
-
-// 		let data = {}
-
-// 		if( method.match(/post/i) ){
-
-// 		fetch( url, {
-// 			method: 'post',
-// 			headers: {
-// 				'Content-Type': 'application/json',
-// 			},
-// 			body: JSON.stringify( body )
-// 		})
-// 		.then( res => {
-// 			if( !res ){
-// 				reject('no res')
-// 				return
-// 			}
-// 			res.json()
-// 			.then( r => {
-
-// 		// if( method.match(/post/i)){
-// 		// 	data.url = url
-// 		// 	data.data = body
-// 		// 	data.method = method
-// 		// }else{
-// 		// 	data = url
-// 		// }
-
-// 		// jQuery.ajax( data )
-// 		// .then( res => {
-// 		// 	if( typeof res === 'string' ){
-// 		// 		try{
-// 		// 			const r = JSON.parse( res )
-// 		// 			resolve( r )
-// 		// 		}catch( e ){
-// 		// 			console.log( 'err parse fetch_wrap: ', res )
-// 		// 			reject( e )
-// 		// 		}				
-// 		// 	}else if( typeof res === 'object' ){
-// 		// 		resolve( res )
-// 		// 	}else{
-// 		// 		console.log( res )
-// 		// 		reject()
-// 		// 	}
-
-// 		// 	spinner.hide()
-
-// 		// })
-// 		// .catch( err => {
-// 		// 	spinner.hide()
-// 		// 	reject( err  )
-// 		// })
-
-// 	})
-
-// }
-
-
-
-
-
-
-
 
 
 
@@ -787,32 +681,32 @@ const process_split = ( string, require_length ) => {
 
 
 
-const build_option = ( type, name, value, label, placeholder, contingent, attrs, checked ) => {
-	const selection = document.createElement('div')
-	selection.classList.add('selection')
-	if( contingent ) selection.classList.add('contingent')
-	const label_ele = document.createElement('label')
-	label_ele.innerHTML = label || ( name ? name.replace(/_/g, ' ' ) : '' )
-	const input = document.createElement('input')
-	if( placeholder ) input.placeholder = placeholder
-	if( type ) input.type = type
-	if( name ) input.name = name
-	if( value ) input.value = value
-	for( const key in attrs ){
-		input[ key ] = attrs[ key ]
-	}
-	if( type === 'checkbox' || type === 'radio'){
-		if( checked ) input.checked = true
-		label_ele.addEventListener('click', () => {
-			const input = label_ele.parentElement.querySelector('input')
-			if( input.type === 'radio' || input.type === 'checkbox') input.click()
-		})
-	}
+// const build_option = ( type, name, value, label, placeholder, contingent, attrs, checked ) => {
+// 	const selection = document.createElement('div')
+// 	selection.classList.add('selection')
+// 	if( contingent ) selection.classList.add('contingent')
+// 	const label_ele = document.createElement('label')
+// 	label_ele.innerHTML = label || ( name ? name.replace(/_/g, ' ' ) : '' )
+// 	const input = document.createElement('input')
+// 	if( placeholder ) input.placeholder = placeholder
+// 	if( type ) input.type = type
+// 	if( name ) input.name = name
+// 	if( value ) input.value = value
+// 	for( const key in attrs ){
+// 		input[ key ] = attrs[ key ]
+// 	}
+// 	if( type === 'checkbox' || type === 'radio'){
+// 		if( checked ) input.checked = true
+// 		label_ele.addEventListener('click', () => {
+// 			const input = label_ele.parentElement.querySelector('input')
+// 			if( input.type === 'radio' || input.type === 'checkbox') input.click()
+// 		})
+// 	}
 
-	selection.appendChild( label_ele )
-	selection.appendChild( input )
-	return selection
-}
+// 	selection.appendChild( label_ele )
+// 	selection.appendChild( input )
+// 	return selection
+// }
 
 
 
@@ -1102,18 +996,87 @@ let jaman_perlin = {
 jaman_perlin.reset();
 
 
+const gen_input = ( type, args ) => { // placeholder, required
+
+	let wrapper
+	if( type === 'option' ){
+		wrapper = args.select
+	}else{
+		wrapper = document.createElement('div')
+		wrapper.classList.add('input-wrapper')
+	}
+
+	let input
+	if( type === 'textarea'){
+		input = document.createElement('textarea')
+	}else if( type === 'select' ){
+		input  = document.createElement('select')
+	}else if( type === 'option' ){
+		input  = document.createElement('option')
+	}else{
+		input = document.createElement('input')
+		input.type = type
+	}
+
+	if( args?.name ) input.name = args.name
+
+	if( type === 'text' || type === 'textarea' || type === 'select' || type === 'number' || type === 'checkbox' ){
+
+		if( args.value || args.checked ){
+			setTimeout(() => { // options are not appended to selects until another ms or two
+				if( type === 'checkbox'){
+					input.checked = args.checked
+				}else{
+					input.value = args.value
+				}
+			}, 500)
+		}
+
+		if( type !== 'number' && type !== 'checkbox' ){
+			input.placeholder = args.placeholder
+			if( args.max ) input.placeholder += ' (' + args.max + ' words)'
+			input.classList.add('input')
+		}
+	}
+
+	if( type === 'number'){
+		input.min = args.min
+		input.max = args.max
+	}
+
+	if( type === 'option' ){
+		input.value = args.value
+		input.innerHTML = args.content
+		input.classList.add('input') // maybe ?
+	}
+
+	if( args && ( args.label_content || args.placeholder ) ){
+		const label = document.createElement('label')
+		label.innerHTML = args.label_content || args.placeholder
+		if( args.required ){
+			label.innerHTML += '<span class="required">*</span>'
+		}
+		wrapper.appendChild( label )
+	}
+
+	wrapper.appendChild( input )
+	return wrapper
+
+}
+
+
 export {
 
 	// base ui functions
 	hal,
 	fetch_wrap,
-	spinner,
+	// spinner,
 
 	// base app classes
 	Spinner,
 
 	// builders - used by ext's
-	build_option,
+	// build_option,
 	build_positioner,
 
 	// helper functions
@@ -1167,4 +1130,5 @@ export {
 	perlin,
 	jaman_perlin,
 	PERLIN_SCALE,
+	gen_input,
 }

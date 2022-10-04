@@ -171,3 +171,30 @@ body.bered .woocommerce-product-details__short-description .button{
 .bered-map .button.selected{
 	background: orange;
 }
+
+#bered-form{
+	margin-bottom: 60px;
+}
+
+#bered-form input,
+#bered-form textarea{
+	width: 100%;
+}
+
+
+.modal-content .input-wrapper{
+	margin: 2px 0;
+}
+
+/* submit */
+.input-wrapper:last-of-type{
+/* 	text-align: center; */
+}
+
+.modal-content h3{
+	margin: 10px 0;
+}
+
+.modal.bered-map form{
+	font-size: .8rem;
+}

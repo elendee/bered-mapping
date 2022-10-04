@@ -1,8 +1,9 @@
-import BROKER from './EventBroker.js?v=107'
+import BROKER from './EventBroker.js?v=108'
 import {
 	build_button,
 	build_section,
-} from './build.js?v=107'
+} from './build.js?v=108'
+import { gen_input } from './lib.js?v=108'
 
 
 
@@ -68,7 +69,10 @@ const build_fabric_drawer = widget_ele => {
 	wrapper.classList.add('draw-wrap')
 
 	const expl = document.createElement('p')
-	expl.innerText = 'Click the pencil to draw your building.  Connect the dots to complete a shape.'
+	expl.innerText = `Click the pencil to draw your building.  
+Connect the dots to complete a shape.
+You can click and drag the shape to fit.
+`
 	wrapper.append( expl )
 
 	const pencil = document.createElement('div')
@@ -76,8 +80,8 @@ const build_fabric_drawer = widget_ele => {
 	pencil.innerText = 'pencil'
 	pencil.addEventListener('click', () => {
 		BROKER.publish('SET_DRAW_STATE', { 
-			state: !BERED.fCanvas.isDrawingMode, 
-			fCanvas: BERED.fCanvas,
+			// state: !BERED.fCanvas.isDrawingMode, 
+			state: !BERED.is_polygon_mode,
 			button: pencil,
 		})
 	})
@@ -114,6 +118,14 @@ const build_fabric_picker = widget_ele => {
 	})
 	fCanvas.setWidth( canvas.width )
 	fCanvas.setHeight( canvas.width )
+	window.addEventListener('resize', () => {
+		// console.log('w', canvas.width )
+		canvas.width = widget_ele.getBoundingClientRect().width
+		canvas.height = widget_ele.getBoundingClientRect().height
+		
+		fCanvas.setWidth( canvas.width )
+		fCanvas.setHeight( canvas.width )
+	})
 
 	const icon_options = document.createElement('div')
 	for( const entry of icons ){
@@ -207,6 +219,7 @@ const build_fabric_picker = widget_ele => {
 
 
 const add_navs = section => {
+
 	const back = document.createElement('div')
 	back.setAttribute('data-dir', 'back')
 	back.classList.add('nav', 'button', 'back')
@@ -217,10 +230,10 @@ const add_navs = section => {
 		})
 		BROKER.publish('SET_DRAW_STATE', { 
 			state: false, 
-			fCanvas: BERED.fCanvas,
 			button: section.parentElement.querySelector('.draw-wrap .button'),
 		})
 	})
+
 	const forward = document.createElement('div')
 	forward.setAttribute('data-dir', 'forward')
 	forward.classList.add('nav', 'button', 'forward')
@@ -231,13 +244,16 @@ const add_navs = section => {
 		})
 		BROKER.publish('SET_DRAW_STATE', { 
 			state: false, 
-			fCanvas: BERED.fCanvas,
 			button: section.parentElement.querySelector('.draw-wrap .button'),
 		})
 	})
+
 	section.append( back )
 	section.append( forward )
+
 }
+
+
 
 
 
@@ -247,14 +263,28 @@ const build_instruction_panel = ( wrapper, widget ) => {
 	const panel = document.createElement('div')
 	panel.classList.add('bered-instructions')
 
-	let step, expl
+	let step, header, expl
+
+
+	let s = 1
+	const steps = 5
 
 	// step 1
 	step = build_section()
 	step.classList.add('selected')
 	expl = document.createElement('div')
+	expl.innerHTML = `<h3>step ${s}/${steps}</h3>`
+	step.append( expl )
+	step.append( build_form() )
+	add_navs( step )
+	panel.append( step )
+	s++
+
+	// step 2
+	step = build_section()
+	expl = document.createElement('div')
 	expl.innerHTML = `
-	<h3>step 1/3</h3>
+	<h3>step ${s}/${steps}</h3>
 	<p>position the map to fit...</p>`
 	step.append( expl )
 	const r1 = build_button('rotate +')
@@ -277,29 +307,35 @@ const build_instruction_panel = ( wrapper, widget ) => {
 	step.append( r2 )
 	add_navs( step )
 	panel.append( step )
+	s++
 
-	// step 2
+	// step 3
 	step = build_section()
 	expl = document.createElement('div')
 	expl.innerHTML = `
-	<h3>step 2/3</h3>
-	<p>draw your building</p>`
+	<h3>step ${s}/${steps}</h3>
+	`
 	step.append( expl )
 	step.append( build_fabric_drawer( widget ) )
 	add_navs( step )
 	panel.append( step )
-
-	// step 3
-	step = build_section()
-	step.append( build_fabric_picker( widget ) )
-	add_navs( step )
-	panel.append( step )
+	s++
 
 	// step 4
 	step = build_section()
 	expl = document.createElement('div')
+	expl.innerHTML = `<h3>step ${s}/${steps}</h3>`
+	step.append( expl )
+	step.append( build_fabric_picker( widget ) )
+	add_navs( step )
+	panel.append( step )
+	s++
+
+	// step 5
+	step = build_section()
+	expl = document.createElement('div')
 	expl.innerHTML = `
-	<h3>step 4/4</h3>
+	<h3>step ${s}/${steps}</h3>
 	<p>checkout...</p>`
 	step.append( expl )
 	add_navs( step )
@@ -308,6 +344,60 @@ const build_instruction_panel = ( wrapper, widget ) => {
 	wrapper.append( panel )
 
 }
+
+
+
+const build_form = () => {
+	const form = document.createElement('form')
+	form.id = 'bered-form'
+	/*
+	name farm
+	address 
+	name
+	phone
+	other phones
+
+	addresse
+	kommune
+	ansvarlig
+	tif
+
+	nodslakt
+	melkentankservice
+	avloserlag
+	elektriker
+	rorlegger
+	nabokontakt
+
+	*/
+
+	const addresse = gen_input('text', { placeholder: 'addresse' })
+	const kommune = gen_input('text', { placeholder: 'kommune' })
+	const ansvarlig = gen_input('text', { placeholder: 'ansvarlig' })
+	const tif = gen_input('text', { placeholder: 'tif' })
+	const nodslakt = gen_input('text', { placeholder: 'nodslakt' })
+	const melkentankservice = gen_input('text', { placeholder: 'melkentankservice' })
+	const avloserlag = gen_input('text', { placeholder: 'avloserlag' })
+	const elektriker = gen_input('text', { placeholder: 'elektriker' })
+	const rorlegger = gen_input('text', { placeholder: 'rorlegger' })
+	const nabokontakt = gen_input('text', { placeholder: 'nabokontakt' })
+	form.append( addresse )
+	form.append( kommune )
+	form.append( ansvarlig )
+	form.append( tif )
+	form.append( nodslakt )
+	form.append( melkentankservice )
+	form.append( avloserlag )
+	form.append( elektriker )
+	form.append( rorlegger )
+	form.append( nabokontakt )
+
+	return form
+}
+
+
+
+
 
 
 const build_dev_panel = wrapper => {

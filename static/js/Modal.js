@@ -34,13 +34,13 @@ const css =`
 	background: white;
 	position: absolute;
 	padding: 10px;
-	margin-top: 50px;
+	margin-top: 20px;
 	width: 100%;
 	max-width: 96vw;
 	overflow-y: auto;
 	overflow-x: hidden;
 	padding-top: 10px;
-	max-height: 90vh;
+	max-height: calc(100vh - 40px);
 	border: 1px solid grey;
 }
 
@@ -93,16 +93,6 @@ const css =`
 	display: inline-block;
 	max-width: auto;
 	width: auto;
-}
-
-.input-wrapper{
-	text-align: left;
-	margin: 15px 0;
-}
-
-/* submit */
-.input-wrapper:last-of-type{
-	text-align: center;
 }
 
 .modal option{

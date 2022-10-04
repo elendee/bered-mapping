@@ -1,4 +1,4 @@
-import BROKER from './EventBroker.js?v=107'
+import BROKER from './EventBroker.js?v=108'
 // import TileLayer from 'ol/layer/Tile';
 // import TileWMS from 'ol/source/TileWMS';
 
@@ -123,9 +123,9 @@ const add_layer = event => {
 
 		case 'data':
 			// ping for timeout 
-			let testing = setTimeout(() => {
-				hal('error', 'it appears the map server may be having trouble returning data; try again later')
-			}, ( IS_LOCAL ? 5 : 15 ) * 1000 )
+			// let testing = setTimeout(() => {
+			// 	hal('error', 'it appears the map server may be having trouble returning data; try again later')
+			// }, ( IS_LOCAL ? 5 : 15 ) * 1000 )
 
 			// fetch('https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}')
 			// .then( res => {

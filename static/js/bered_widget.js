@@ -1,11 +1,11 @@
 /*
 	entry point module for clientside bered widget
 */
-import * as lib from './lib.js?v=107'
-import BROKER from './EventBroker.js?v=107'
-import { Modal } from './Modal.js?v=107'
-import * as map from './map.js?v=107'
-import * as gui from './bered-map-gui.js?v=107'
+import * as lib from './lib.js?v=108'
+import BROKER from './EventBroker.js?v=108'
+import { Modal } from './Modal.js?v=108'
+import * as map from './map.js?v=108'
+import * as gui from './bered-panels.js?v=108'
 
 console.log('bered-widget js')
 
@@ -13,6 +13,11 @@ const details = document.querySelector('.woocommerce-product-details__short-desc
 
 
 
+
+
+// ------------------------------------------
+// library
+// ------------------------------------------
 
 let m
 
@@ -48,12 +53,226 @@ const init_popup = () => {
 }
 
 
+// lock / unlock canvas for drawing, map moving etc:
+const steps_map = [1]
+const steps_fabric = [2, 3] // - buildings and icons (but zero indexed)
+const set_canvas_state = step_iter => {
+
+	// blank slate
+	const map_ele = document.querySelector('#bered-map .ol-viewport')
+	map_ele.style['pointer-events'] = 'none'
+	BERED.fCanvas.wrapperEl.style['pointer-events'] = 'none'
+	BERED.fCanvas.wrapperEl.style.opacity = 0.5
+
+	// reactivate as appropriate
+	if( steps_fabric.includes( step_iter ) ){
+		BERED.fCanvas.wrapperEl.style['pointer-events'] = 'initial'
+		BERED.fCanvas.wrapperEl.style.opacity = 1
+	}else if( steps_map.includes( step_iter ) ){
+		map_ele.style['pointer-events'] = 'initial'
+	}else{
+		//
+	}
+	BERED.current_step = step_iter
+}
+
+
+// render poly on closing click
+const render_live_poly = () => {
+
+	const poly = new fabric.Polygon( BERED.live_polygon, {
+		fill: 'khaki',
+		stroke: 'black',
+		strokeWidth: 3,
+		hasControls: false,
+	})
+	BERED.fCanvas.add( poly )
+	BERED.fCanvas.requestRenderAll()
+	BROKER.publish('SET_DRAW_STATE', {
+		state: false,
+		button: document.querySelector('.bered-instructions .draw-wrap .button')
+	})
+	const objs = BERED.fCanvas._objects
+	for( let i = objs.length-1; i >= 0; i-- ){
+		if( objs[i].bered_is_marker ) BERED.fCanvas.remove( objs[i] )
+	}
+	delete BERED.live_polygon 
+	BERED.fCanvas.requestRenderAll()
+}
+
+
+// canvas clicks
+const set_polygon = e => {
+	/* 
+		update live-polygon points
+	*/
+
+	const { isClick, pointer } = e // absolutePointer
+	const { x, y } = pointer
+
+	if( BERED.live_polygon ){ // 
+		console.log('set polygon', 1)
+		for( const point of BERED.live_polygon ){
+			if( Math.abs( point.x - x ) < 10 && Math.abs( point.y - y ) < 10 ){
+				console.log('closing click')
+				return render_live_poly()
+			}
+		}
+		// BERED.live_polygon.push({ x: x, y: y }) // ( NOT a Polygon instance, just array )
+
+	}else{ // just started drawing
+		// BERED.live_polygon = [{x: x,y: y}]
+		console.log('set polygon', 2)
+	}
+	update_polygon( x, y, true )
+}
+
+
+const update_polygon = ( x, y, called_by_set ) => {
+	if( !called_by_set ) return console.log('only call from set_polygon')
+
+	BERED.live_polygon = BERED.live_polygon || []
+	BERED.live_polygon.push({x: x, y: y})
+
+	// line marker
+	if( BERED.live_polygon.length > 1 ){
+		const len = BERED.live_polygon.length
+		const penultimate_point = BERED.live_polygon[ len - 2 ]
+		const ultimate_point = BERED.live_polygon[ len - 1 ]
+		const points = [
+			penultimate_point.x, 
+			penultimate_point.y,
+			ultimate_point.x, 
+			ultimate_point.y,
+		]
+		console.log( 'points', points )
+		const new_line = new fabric.Line(points, {
+			stroke: 'black',
+			// left: 50,
+			// top: 50,
+			strokeWidth: 3,
+			selectable: false,
+		})
+		new_line.bered_is_marker = true
+		console.log( new_line )
+		BERED.fCanvas.add( new_line )
+	}
+
+	// circle marker
+	const new_marker = new fabric.Circle({
+		radius: 7,
+		fill: 'orange',
+		originX: 'center',
+		originY: 'center',
+		left: x,
+		top: y,
+		selectable: false,
+	})
+	new_marker.bered_is_marker = true
+	BERED.fCanvas.add( new_marker )
+}
 
 
 
 
 
 
+
+
+
+// ------------------------------------------
+// subscribers
+// ------------------------------------------
+
+const set_nav = event => {
+	// console.log( event )
+	const { dir } = event
+
+	const modal = document.querySelector('.modal.bered-map')
+	if( !modal ) return console.log('no popup')
+
+	let next, prev, current
+
+	const steps = modal.querySelectorAll('.bered-instructions>.section')
+
+	let step_iter = 0
+
+	for( let i = 0; i < steps.length; i++ ){
+
+		if( steps[i].classList.contains('selected') ){
+
+			// console.log('found step at : ', i )
+			current = steps[i]
+
+			if( dir === 'forward' ){
+
+				step_iter = i+1
+				next = steps[ step_iter ]
+
+				if( next ){
+					// set DOM
+					for( const step of steps ) step.classList.remove('selected')
+					next.classList.add('selected')
+					// set canvas state
+					set_canvas_state( step_iter )
+					break;
+
+				}else{
+					console.log('at end...')
+				}
+
+			}else{
+
+				step_iter = i-1
+				prev = steps[ step_iter ]
+
+				if( prev ){
+					// set DOM class
+					for( const step of steps ) step.classList.remove('selected')
+					prev.classList.add('selected')
+					// set canvas state
+					set_canvas_state( step_iter )
+					break;
+
+				}else{
+					console.log('at beginning...')
+				}
+
+			}
+			
+		}
+
+	}
+
+}
+
+const set_draw_mode = event => {
+	const { state, button } = event
+	// fCanvas.isDrawingMode = state
+
+	// object state
+	BERED.is_polygon_mode = state
+	// canvas state
+	if( state ){
+		BERED.fCanvas.on('mouse:up', set_polygon )
+	}else{
+		BERED.fCanvas.off('mouse:up', set_polygon )
+	}
+	// DOM state
+	if( state ){
+		button.classList.add('selected')
+	}else{
+		button.classList.remove('selected')
+	}
+}
+
+
+
+
+
+// ------------------------------------------
+// init
+// ------------------------------------------
 
 ;(async() => {
 
@@ -68,7 +287,7 @@ const init_popup = () => {
 	const checkout = document.querySelector('form.cart button[name="add-to-cart"]')
 	if( !checkout ) return console.log('could not find woocommerce checkout button for bered')
 
-	checkout.classList.add('disabled')
+	// checkout.classList.add('disabled')
 
 })();
 
@@ -79,84 +298,9 @@ const init_popup = () => {
 
 
 
-
-
-// subscribers
-
-const set_nav = event => {
-	// console.log( event )
-	const { dir } = event
-
-	const modal = document.querySelector('.modal.bered-map')
-	if( !modal ) return console.log('no popup')
-
-	let current, next, prev
-
-	const steps = modal.querySelectorAll('.bered-instructions>.section')
-
-	for( let i = 0; i < steps.length; i++ ){
-
-		if( steps[i].classList.contains('selected') ){
-			console.log('found step at : ', i )
-			current = steps[i]
-			next = steps[i+1]
-			prev = steps[i-1]
-			if( dir === 'forward' ){
-				if( next ){
-					// set DOM
-					for( const step of steps ) step.classList.remove('selected')
-					next.classList.add('selected')
-					// set canvas state
-					if( i === 0 ){
-						document.querySelector('.modal .canvas-container').style['pointer-events'] = 'initial'
-					}else{
-						document.querySelector('.modal .canvas-container').style['pointer-events'] = 'none'
-					}
-					break;
-				}else{
-					console.log('at end...')
-				}
-			}else{
-				if( prev ){
-					// set DOM class
-					for( const step of steps ) step.classList.remove('selected')
-					prev.classList.add('selected')
-					// set canvas state
-					if( i === 2 ){
-						document.querySelector('.modal .canvas-container').style['pointer-events'] = 'initial'
-					}else{
-						document.querySelector('.modal .canvas-container').style['pointer-events'] = 'none'
-					}
-					break;
-				}else{
-					console.log('at beginning...')
-				}
-			}
-			
-		}
-		// const forward = step.querySelector('.nav[data-dir="forward"]')
-		// const back = step.querySelector('.nav[data-dir="back"]')
-
-	}
-
-}
-
-const set_draw_mode = event => {
-	const { state, fCanvas, button } = event
-	fCanvas.isDrawingMode = state
-	if( state ){
-		button.classList.add('selected')
-	}else{
-		button.classList.remove('selected')
-	}
-}
-
-
-
-
-
-
+// ------------------------------------------
 // subscriptions
+// ------------------------------------------
 
 BROKER.subscribe('SET_NAV_STEP', set_nav )
 BROKER.subscribe('SET_DRAW_STATE', set_draw_mode )
