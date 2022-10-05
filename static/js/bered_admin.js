@@ -3,7 +3,7 @@ import { Modal } from './Modal.js?v=109'
 /*
 	client-safe admin module, to be run on orders page
 */
-
+console.log('bered-admin')
 
 
 ;(async() => {
