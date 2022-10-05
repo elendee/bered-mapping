@@ -78,6 +78,8 @@ const init = ( container, target_id ) => {
 	// 	featureProjection: 'EPSG:3857'
 	// });
 
+	return map
+
 
 }// init
 
