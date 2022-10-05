@@ -6,6 +6,7 @@ import BROKER from './EventBroker.js?v=109'
 import { Modal } from './Modal.js?v=109'
 import * as map from './map.js?v=109'
 import * as gui from './bered-panels.js?v=109'
+import admin from './bered_admin.js?v=109' // no op
 
 console.log('bered-client js')
 
