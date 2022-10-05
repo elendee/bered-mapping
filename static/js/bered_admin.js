@@ -16,7 +16,7 @@ const orders = document.querySelectorAll('#order_line_items .item')
 	iterate orders and create preview buttons
 */
 for( const order of orders ){
-	for( const wcpa of order.querySelectorAll('.wcpa') ){
+	for( const wcpa of order.querySelectorAll('.item_wcpa') ){
 		if( wcpa.innerText.match(/bered order data/i ) ){
 			const data = wcpa.querySelector('td.value .view')
 			if( !data ){

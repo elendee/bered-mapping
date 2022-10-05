@@ -52,14 +52,14 @@ if ( !class_exists( 'BeredMapper' ) ) {
 
 	    }
 
-	    public static function base_scripts() {
-	    	global $bered_version;
-    		wp_enqueue_script( 
-				'bered-base-js', 
-				plugins_url( '/static/js/init_base.js?v=' . $bered_version, __FILE__ ),
-				array() 
-			);
-	    }
+	    // public static function base_scripts() {
+	  //   	global $bered_version;
+   //  		wp_enqueue_script( 
+			// 	'bered-base-js', 
+			// 	plugins_url( '/static/js/init_base.js?v=' . $bered_version, __FILE__ ),
+			// 	array() 
+			// );
+	    // }
 
 	    public static function admin_scripts() {
 	    	global $bered_version;
@@ -260,7 +260,7 @@ if ( !class_exists( 'BeredMapper' ) ) {
 	add_action('admin_menu', 'BeredMapper::options_page');
 	add_action('bered_admin_menu', 'BeredMapper::admin_menu_items');
 
-	if ( !$has_module ) add_action('init', 'BeredMapper::base_scripts', 100); // fallback script
+	// if ( !$has_module ) add_action('init', 'BeredMapper::base_scripts', 100); // fallback script
 
 	add_filter('script_loader_tag', 'BeredMapper::filter_modules' , 10, 3);
 	add_filter('upload_mimes', 'BeredMapper::allow_glb');
