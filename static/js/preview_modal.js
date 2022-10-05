@@ -6,7 +6,7 @@ import { init } from './map.js?v=109'
 
 const render_popup = json => {
 
-	const json_data = JSON.parse( json )
+	const json_data = BERED.json_data = JSON.parse( json )
 
 	const modal = new Modal({
 		type: 'preview-order',
@@ -20,14 +20,10 @@ const render_popup = json => {
 	canvas_wrap.id = 'bered-preview-map'
 	// used for sizing everything:
 	canvas_wrap.style['max-width'] = '500px'
-	// const canvas = document.createElement('canvas')
-	// canvas_wrap.append( canvas )
+	canvas_wrap.style['position'] = 'relative'
 	modal.content.append( canvas_wrap )
 
 	const size = 500
-
-	// canvas.width = size
-	// canvas.height = size
 
 	// ----- init map data
 	const map = init( canvas_wrap, 'bered-preview-map' )
