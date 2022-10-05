@@ -23,7 +23,7 @@ for( const order of orders ){
 				console.log('could not find bered data')
 				continue
 			}
-			const json = data.innerHTML
+			const json = data.innerText
 			data.innerHTML = ''
 			const preview = document.createElement('div')
 			preview.classList.add('button')
@@ -58,6 +58,7 @@ for( const order of orders ){
 					console.log( err )
 				}
 			})
+			data.append( preview )
 		}
 	}
 }
