@@ -34,9 +34,23 @@ const render_popup = json => {
 	})
 	fCanvas.loadFromDatalessJSON( json_data )
 
-	// fill map data
+	// init map data
 	const map = init( canvas_wrap, 'bered-preview-map' )
 	const view = map.getView()
+
+	// hydrate map data
+	// good except .. not lat lon...
+
+	// const proj_lat_long = ol.proj.fromLonLat([lat, lon])
+
+	map.getView().setCenter([ json_data.map.x, json_data.map.y ])
+
+    // map.setView(
+    //     new ol.View({
+    //     center: proj_lat_long,
+    //     zoom: 17
+    // }))
+
 	view.setRotation( json_data.map.r )
 	view.setZoom( json_data.map.z )
 

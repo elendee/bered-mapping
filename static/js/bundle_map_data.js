@@ -18,8 +18,9 @@ const bundle_data = () => {
 	// --- map
 	const params = new URLSearchParams( location.search )
 	bundle.map = {}
-	bundle.map.x = params.get('x')
-	bundle.map.y = params.get('y')
+	const center = BERED.MAP.getView().getCenter()
+	bundle.map.x = center[0] //params.get('x')
+	bundle.map.y = center[1] //params.get('y')
 	bundle.map.z = params.get('z')
 	bundle.map.r = params.get('r')
 
