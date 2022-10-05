@@ -33,7 +33,7 @@ const render_popup = json => {
 	fCanvas.loadFromDatalessJSON( json_data )
 
 	// fill map data
-	init( canvas_wrap )
+	init( canvas_wrap, 'bered-preview-map' )
 
 }
 

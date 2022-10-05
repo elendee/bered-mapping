@@ -18,7 +18,7 @@ const SOURCES = BERED.SOURCES = {}
 // })
 let map
 
-const init = container => {
+const init = ( container, target_id ) => {
 	// const map = new Map({
 	// interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
 
@@ -32,7 +32,7 @@ const init = container => {
 
 		interactions: ol.interaction.defaults.defaults().extend( [ new ol.interaction.DragRotateAndZoom() ] ),
 
-	    target: 'bered-map',
+	    target: target_id,
 
 	    layers: [
 	    	/*
@@ -131,6 +131,9 @@ const add_layer = event => {
 			// 	clearTimeout( testing )
 			// })
 			// proceed
+
+			console.log('running map init data')
+
 			if( 0 && IS_LOCAL ){ // for when the URL is unresponsive
 				source = new ol.source.TileWMS({
 					url: 'https://ahocevar.com/geoserver/wms',
