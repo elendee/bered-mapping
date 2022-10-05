@@ -1,6 +1,5 @@
 import { Modal } from './Modal.js?v=109'
 import preview_modal from './preview_modal.js?v=109'
-import map from './map.js?v=109'
 
 
 /*

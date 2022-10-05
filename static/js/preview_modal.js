@@ -1,4 +1,6 @@
 import { Modal } from './Modal.js?v=109'
+import { init } from './map.js?v=109'
+
 
 
 
@@ -13,8 +15,11 @@ const render_popup = json => {
 	document.body.append( modal.ele )
 
 	// fill fabric data
+	const canvas_wrap = document.createElement('div')
+	canvas_wrap.id = 'bered-preview-map'
 	const canvas = document.createElement('canvas')
-	modal.content.append( canvas )
+	canvas_wrap.append( canvas )
+	modal.content.append( canvas_wrap )
 
 	const size = 500
 
@@ -28,7 +33,7 @@ const render_popup = json => {
 	fCanvas.loadFromDatalessJSON( json_data )
 
 	// fill map data
-	
+	init( canvas_wrap )
 
 }
 
