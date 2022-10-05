@@ -39,13 +39,17 @@ const render_popup = json => {
 	view.setZoom( json_data.map.z )
 
 	// ----- fill fabric data
+	window.admin_fcanvas = window.admin_fcanvas || []
 	const fabric_canvas = document.createElement('canvas')
 	canvas_wrap.append( fabric_canvas )
 	const fCanvas = new fabric.Canvas( fabric_canvas, {
 		width: size,
 		height: size,
 	})
+	window.admin_canvas.push( fCanvas )
+	
 	fCanvas.loadFromDatalessJSON( json_data )
+	fCanvas.requestRenderAll()
 
 	// ----- build rest of map
 
