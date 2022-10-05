@@ -1,16 +1,21 @@
 /*
 	entry point module for clientside bered widget
 */
-import * as lib from './lib.js?v=108'
-import BROKER from './EventBroker.js?v=108'
-import { Modal } from './Modal.js?v=108'
-import * as map from './map.js?v=108'
-import * as gui from './bered-panels.js?v=108'
+import * as lib from './lib.js?v=109'
+import BROKER from './EventBroker.js?v=109'
+import { Modal } from './Modal.js?v=109'
+import * as map from './map.js?v=109'
+import * as gui from './bered-panels.js?v=109'
 
-console.log('bered-widget js')
+console.log('bered-client js')
 
 const details = document.querySelector('.woocommerce-product-details__short-description')
 
+
+
+setTimeout(() => {
+	console.log( 'client hal: ', lib.hal.blorb )
+}, 1000 )
 
 
 

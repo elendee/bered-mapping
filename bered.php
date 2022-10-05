@@ -2,7 +2,7 @@
 /**
  * Plugin Name: BeredMapper 
  * Plugin URI: https://bered.no
- * Version: 1.0.8
+ * Version: 1.0.9
  * Description: custom mapping plugin for bered.no
  * Text Domain: bered
  * License:           GPL v2 or later
@@ -37,7 +37,7 @@ require_once( ABSPATH . 'wp-includes/pluggable.php' );
 
 $bered_dir = plugins_url( '', __FILE__ );
 
-$bered_version = '1.0.8';
+$bered_version = '1.0.9';
 
 $bered_settings = [];
 
@@ -111,7 +111,7 @@ if ( !class_exists( 'BeredMapper' ) ) {
 				plugins_url('/static/css/modal.css?v=' . $bered_version, __FILE__ ), 
 				array()
 			);
-    		wp_enqueue_script( 
+    		wp_enqueue_script( // this is used for localized BERED global var
 				'bered-global-js', 
 				plugins_url( '/static/js/global.js?v=' . $bered_version, __FILE__ ),
 				array()
@@ -159,7 +159,7 @@ if ( !class_exists( 'BeredMapper' ) ) {
 
 
 	    public static function filter_modules( $tag, $handle, $src ) {
-	    	$defer_modules = ['bered-base-js', 'bered-admin-js', 'bered-posts-js', 'bered-lib-js'];
+	    	$defer_modules = ['bered-base-js', 'bered-admin-js']; // 'bered-posts-js', 'bered-lib-js'
 		    if ( !in_array($handle, $defer_modules ) ){
 		        return $tag;		    	
 		    }
@@ -201,7 +201,7 @@ if ( !class_exists( 'BeredMapper' ) ) {
 
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.css">
 
-    		<script type="module" defer="defer" src="' . plugins_url() . '/bered-mapping/static/js/bered_widget.js?v=' . $bered_version . '"></script>
+    		<script type="module" defer="defer" src="' . plugins_url() . '/bered-mapping/static/js/init_bered_client.js?v=' . $bered_version . '"></script>
 
     		<div id="bered-widget">
     			<div id="bered-map" class="map"></div>

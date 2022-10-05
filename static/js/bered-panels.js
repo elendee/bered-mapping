@@ -1,11 +1,13 @@
-import BROKER from './EventBroker.js?v=108'
+import BROKER from './EventBroker.js?v=109'
 import {
 	build_button,
 	build_section,
-} from './build.js?v=108'
-import { gen_input } from './lib.js?v=108'
-import { Modal } from './Modal.js?v=108'
-import generate_sign from './generate_sign.js?v=108'
+} from './build.js?v=109'
+import { gen_input } from './lib.js?v=109'
+import { Modal } from './Modal.js?v=109'
+import generate_sign from './generate_sign.js?v=109'
+import bundle_map_data from './bundle_map_data.js?v=109'
+
 
 
 
@@ -368,21 +370,24 @@ const build_checkout_button = () => {
 		document.body.append( modal.ele )
 	})
 	wrapper.append( preview )
-	const btn = document.createElement('div')
-	btn.classList.add('button')
-	btn.innerText = 'add to cart'
-	btn.addEventListener('click', () => {
+	const checkout = document.createElement('div')
+	checkout.classList.add('button')
+	checkout.innerText = 'add to cart'
+	checkout.addEventListener('click', () => {
 		const data_area = document.querySelector('textarea.bered-order-data')
 		if( !data_area ) return hal('error', 'the site is currently unable to save the custom data at this time', 5000)
-		const data_bundle = {
-			fabric: bundle_fabric(),
-			map: bundle_map(),
-			info: bundle_info(),
-		}
+		const data_bundle = bundle_map_data()
 		data_area.value = JSON.stringify( data_bundle )
-		
+		const real_checkout = document.querySelector('form.cart button[name="add-to-cart"]')
+		real_checkout.click()
+
+		/*
+			page refreshes here
+			add localStorage redirect potentially..
+		*/
+
 	})
-	wrapper.append( btn )
+	wrapper.append( checkout )
 	return wrapper
 
 }
@@ -417,16 +422,16 @@ const build_form = () => {
 
 	*/
 
-	const addresse = gen_input('text', { placeholder: 'addresse' })
-	const kommune = gen_input('text', { placeholder: 'kommune' })
-	const ansvarlig = gen_input('text', { placeholder: 'ansvarlig' })
-	const tif = gen_input('text', { placeholder: 'tif' })
-	const nodslakt = gen_input('text', { placeholder: 'nodslakt' })
-	const melkentankservice = gen_input('text', { placeholder: 'melkentankservice' })
-	const avloserlag = gen_input('text', { placeholder: 'avloserlag' })
-	const elektriker = gen_input('text', { placeholder: 'elektriker' })
-	const rorlegger = gen_input('text', { placeholder: 'rorlegger' })
-	const nabokontakt = gen_input('text', { placeholder: 'nabokontakt' })
+	const addresse = gen_input('text', { placeholder: 'addresse', name: 'addresse' })
+	const kommune = gen_input('text', { placeholder: 'kommune', name: 'kommune' })
+	const ansvarlig = gen_input('text', { placeholder: 'ansvarlig', name: 'ansvarlig' })
+	const tif = gen_input('text', { placeholder: 'tif', name: 'tif' })
+	const nodslakt = gen_input('text', { placeholder: 'nodslakt', name: 'nodslakt' })
+	const melkentankservice = gen_input('text', { placeholder: 'melkentankservice', name: 'melkentankservice' })
+	const avloserlag = gen_input('text', { placeholder: 'avloserlag', name: 'avloserlag' })
+	const elektriker = gen_input('text', { placeholder: 'elektriker', name: 'elektriker' })
+	const rorlegger = gen_input('text', { placeholder: 'rorlegger', name: 'rorlegger' })
+	const nabokontakt = gen_input('text', { placeholder: 'nabokontakt', name: 'nabokontakt' })
 	form.append( addresse )
 	form.append( kommune )
 	form.append( ansvarlig )

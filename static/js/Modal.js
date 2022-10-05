@@ -16,7 +16,7 @@ const css =`
 	user-select: none;
 	position: absolute;
 	z-index: 9;
-	top: 50px;
+	top: 10px;
 	right: 1vw;
 	background: black;
 	color: white;

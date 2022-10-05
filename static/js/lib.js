@@ -1,13 +1,13 @@
-// import '../inc/seedrandom.js?v=108'
+// import '../inc/seedrandom.js?v=109'
 // import {
 // 	Box3,
 // 	Vector3,
-// } from '../inc/three.module.js?v=108'
+// } from '../inc/three.module.js?v=109'
 
 
 
 
-const logging = false
+const logging = true
 const tstack = file => {
 	if( logging ) console.log('bered stack: ', file )
 }
@@ -73,6 +73,8 @@ const hal = window.hal = ( type, msg, time ) => {
 	}
 	
 }
+
+hal.blorb = true
 
 
 

@@ -1,8 +1,6 @@
-import BROKER from './EventBroker.js?v=108'
+import BROKER from './EventBroker.js?v=109'
 // import TileLayer from 'ol/layer/Tile';
 // import TileWMS from 'ol/source/TileWMS';
-
-console.log('bered-map js')
 
 
 const widget = document.getElementById('bered-widget')
