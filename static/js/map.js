@@ -18,15 +18,15 @@ const SOURCES = BERED.SOURCES = {}
 // })
 let map
 
-const init = () => {
-
-
+const init = container => {
 	// const map = new Map({
-	//   interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
+	// interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
 
-	size_map()
+	size_map({
+		passed_widget: container,
+	})
 	
-	const source = new ol.source.OSM()
+	// const source = new ol.source.OSM()
 
 	map = BERED.MAP = new ol.Map({
 
@@ -87,8 +87,9 @@ const init = () => {
 // subscribers
 
 const size_map = event => {
-	if( document.querySelector('.modal')){
-		widget.style.height = widget.getBoundingClientRect().width + 'px'
+	const { passed_widget } = event
+	if( document.querySelector('.modal') ){
+		passed_widget.style.height = passed_widget.getBoundingClientRect().width + 'px'
 	}
 }
 
@@ -166,11 +167,7 @@ const add_layer = event => {
     LAYERS[ type ]= layer
     SOURCES[ type ] = source
 
-	map.addLayer(layer);
-
-	// setTimeout(() => {
-	// 	BROKER.publish('MAP_RESIZE')
-	// }, 500)
+	map.addLayer( layer );
 
 } // add layer
 
@@ -226,10 +223,12 @@ const rotate_map = event => {
 BROKER.subscribe('MAP_CLEAR', clear )
 BROKER.subscribe('MAP_ADD_LAYER', add_layer )
 BROKER.subscribe('MAP_ROTATE', rotate_map )
-BROKER.subscribe('MAP_RESIZE', size_map )
+// BROKER.subscribe('MAP_RESIZE', size_map )
 
 
-window.addEventListener('resize', size_map )
+window.addEventListener('resize', () => {
+	size_map({ passed_widget: widget })
+})
 
 
 

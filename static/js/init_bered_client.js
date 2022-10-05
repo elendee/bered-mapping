@@ -54,7 +54,7 @@ const init_popup = () => {
 	// console.log('hiding bered dev panel')
 	document.getElementById('bered-dev-gui').style.display = 'none'
 
-	map.init()
+	map.init( widget )
 
 }
 

@@ -1,4 +1,7 @@
 import { Modal } from './Modal.js?v=109'
+import preview_modal from './preview_modal.js?v=109'
+import map from './map.js?v=109'
+
 
 /*
 	client-safe admin module, to be run on orders page
@@ -41,33 +44,10 @@ let parsing = setInterval(() => {
 
 					try{
 
-						const json_data = JSON.parse( json )
-
-						const modal = new Modal({
-							type: 'preview-order',
-						})
-						// append modal
-						document.body.append( modal.ele )
-
-						// fill fabric data
-						const canvas = document.createElement('canvas')
-						modal.content.append( canvas )
-
-						const size = 500
-
-						canvas.width = size
-						canvas.height = size
-
-						const fCanvas = new fabric.Canvas( canvas, {
-							width: size,
-							height: size,
-						})
-						fCanvas.loadFromDatalessJSON( json_data )
-
-						// fill map data
+						preview_modal( json )
 						
 					}catch( err ){
-						lib.hal('error', 'there was an error interpreting the map data', 15000)
+						lib.hal('error', 'there was an error interpreting the map data', 15 * 1000)
 						console.log( err )
 					}
 				})
