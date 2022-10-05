@@ -375,7 +375,7 @@ const build_checkout_button = () => {
 	checkout.innerText = 'add to cart'
 	checkout.addEventListener('click', () => {
 		const data_area = document.querySelector('textarea.bered-order-data')
-		if( !data_area ) return hal('error', 'the site is currently unable to save the custom data at this time', 5000)
+		if( !data_area ) return console.error('Unable to find "order data" field to append map data')
 		const data_bundle = bundle_map_data()
 		data_area.value = JSON.stringify( data_bundle )
 		const real_checkout = document.querySelector('form.cart button[name="add-to-cart"]')

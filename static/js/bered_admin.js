@@ -15,14 +15,10 @@ let parsing = setInterval(() => {
 
 	const orders = document.querySelectorAll('#order_line_items .item')
 
-	console.log('parsing: ', orders )
-
 	/*
 		iterate orders and create preview buttons
 	*/
 	for( const order of orders ){
-
-		console.log('found order')
 
 		if( order.getAttribute('data-bered-parsed')) continue
 		for( const wcpa of order.querySelectorAll('.item_wcpa') ){

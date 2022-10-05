@@ -121,12 +121,26 @@ if ( !class_exists( 'BeredMapper' ) ) {
 				plugins_url( '/resource/fabric.min.js?v=' . $bered_version, __FILE__ ),
 				array()
 			);
-
     		wp_enqueue_script( 
 				'bered-main-js', 
 				plugins_url( '/static/js/init_bered_client.js?v=' . $bered_version, __FILE__ ),
 				array()
 			);
+
+			wp_enqueue_style( 
+				'bered-ol-css', 
+				'https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.css', 
+				array()
+			);
+    		wp_enqueue_script( // this is used for localized BERED global var
+				'bered-ol-js', 
+				'https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.js',
+				array()
+			);
+
+			// <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.js"></script>
+			// <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.css">
+
     		// <script type="module" defer="defer" src="' . plugins_url() . '/bered-mapping/static/js/init_bered_client.js?v=' . $bered_version . '"></script>
 
 			wp_localize_script( 'bered-global-js', 'BERED', array(
@@ -198,16 +212,6 @@ if ( !class_exists( 'BeredMapper' ) ) {
 
     		return '
 
-			<link rel="stylesheet" href="' . plugins_url() . '/bered-mapping/static/css/ol.css">
-
-    		<!--script src="https://unpkg.com/elm-pep@1.0.6/dist/elm-pep.js"></script-->
-
-    		<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.js"></script>
-
-		    <!--script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script-->
-
-			<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.css">
-
     		<div id="bered-widget">
     			<div id="bered-map" class="map"></div>
     		</div>';
@@ -217,6 +221,9 @@ if ( !class_exists( 'BeredMapper' ) ) {
 	    }
 
 	}
+	// <link rel="stylesheet" href="' . plugins_url() . '/bered-mapping/static/css/ol.css">
+	// <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.js"></script>
+	// <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.css">
 
 	// ------------- admin init
 	$has_module = false;
