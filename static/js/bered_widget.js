@@ -287,7 +287,7 @@ const set_draw_mode = event => {
 	const checkout = document.querySelector('form.cart button[name="add-to-cart"]')
 	if( !checkout ) return console.log('could not find woocommerce checkout button for bered')
 
-	// checkout.classList.add('disabled')
+	checkout.classList.add('disabled')
 
 })();
 

@@ -4,6 +4,8 @@ import {
 	build_section,
 } from './build.js?v=108'
 import { gen_input } from './lib.js?v=108'
+import { Modal } from './Modal.js?v=108'
+import generate_sign from './generate_sign.js?v=108'
 
 
 
@@ -338,6 +340,7 @@ const build_instruction_panel = ( wrapper, widget ) => {
 	<h3>step ${s}/${steps}</h3>
 	<p>checkout...</p>`
 	step.append( expl )
+	step.append( build_checkout_button() )
 	add_navs( step )
 	panel.append( step )
 
@@ -347,7 +350,50 @@ const build_instruction_panel = ( wrapper, widget ) => {
 
 
 
+
+
+const build_checkout_button = () => {
+
+	const wrapper = document.createElement('div')
+	wrapper.id = 'bered-checkout-wrap'
+	const preview = document.createElement('div')
+	preview.classList.add('button')
+	preview.innerText = 'preview'
+	preview.addEventListener('click', () => {
+		const modal = new Modal({
+			type: 'preview-map'
+		})
+		const sign = generate_sign( BERED )
+		modal.content.append( sign )
+		document.body.append( modal.ele )
+	})
+	wrapper.append( preview )
+	const btn = document.createElement('div')
+	btn.classList.add('button')
+	btn.innerText = 'add to cart'
+	btn.addEventListener('click', () => {
+		const data_area = document.querySelector('textarea.bered-order-data')
+		if( !data_area ) return hal('error', 'the site is currently unable to save the custom data at this time', 5000)
+		const data_bundle = {
+			fabric: bundle_fabric(),
+			map: bundle_map(),
+			info: bundle_info(),
+		}
+		data_area.value = JSON.stringify( data_bundle )
+		
+	})
+	wrapper.append( btn )
+	return wrapper
+
+}
+
+
+
+
 const build_form = () => {
+	/*
+		build step 1 info form
+	*/
 	const form = document.createElement('form')
 	form.id = 'bered-form'
 	/*
