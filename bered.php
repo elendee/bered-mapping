@@ -122,6 +122,13 @@ if ( !class_exists( 'BeredMapper' ) ) {
 				array()
 			);
 
+    		wp_enqueue_script( 
+				'bered-main-js', 
+				plugins_url( '/static/js/init_bered_client.js?v=' . $bered_version, __FILE__ ),
+				array()
+			);
+    		// <script type="module" defer="defer" src="' . plugins_url() . '/bered-mapping/static/js/init_bered_client.js?v=' . $bered_version . '"></script>
+
 			wp_localize_script( 'bered-global-js', 'BERED', array(
 					'plugin_url' => plugins_url( '', __FILE__ ), //plugins_url(), // '/static/js/global.js', __FILE__
 					'home_url' => home_url(),
@@ -159,7 +166,7 @@ if ( !class_exists( 'BeredMapper' ) ) {
 
 
 	    public static function filter_modules( $tag, $handle, $src ) {
-	    	$defer_modules = ['bered-base-js', 'bered-admin-js']; // 'bered-posts-js', 'bered-lib-js'
+	    	$defer_modules = ['bered-main-js', 'bered-base-js', 'bered-admin-js']; // 'bered-posts-js', 'bered-lib-js'
 		    if ( !in_array($handle, $defer_modules ) ){
 		        return $tag;		    	
 		    }
@@ -201,11 +208,11 @@ if ( !class_exists( 'BeredMapper' ) ) {
 
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.css">
 
-    		<script type="module" defer="defer" src="' . plugins_url() . '/bered-mapping/static/js/init_bered_client.js?v=' . $bered_version . '"></script>
-
     		<div id="bered-widget">
     			<div id="bered-map" class="map"></div>
     		</div>';
+
+    		// <script type="module" defer="defer" src="' . plugins_url() . '/bered-mapping/static/js/init_bered_client.js?v=' . $bered_version . '"></script>
 
 	    }
 
