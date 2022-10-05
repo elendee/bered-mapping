@@ -19,6 +19,9 @@ let parsing = setInterval(() => {
 		iterate orders and create preview buttons
 	*/
 	for( const order of orders ){
+
+		console.log('found order')
+
 		if( order.getAttribute('data-bered-parsed')) continue
 		for( const wcpa of order.querySelectorAll('.item_wcpa') ){
 			if( wcpa.innerText.match(/bered order data/i ) ){
@@ -27,6 +30,9 @@ let parsing = setInterval(() => {
 					console.log('could not find bered data')
 					continue
 				}
+
+				console.log('found data row')
+
 				order.setAttribute('data-bered-parsed', true)
 				const json = data.innerText
 				data.innerHTML = ''
