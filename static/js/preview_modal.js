@@ -17,6 +17,8 @@ const render_popup = json => {
 	// fill fabric data
 	const canvas_wrap = document.createElement('div')
 	canvas_wrap.id = 'bered-preview-map'
+	// used for sizing everything:
+	canvas_wrap.style['max-width'] = '500px'
 	const canvas = document.createElement('canvas')
 	canvas_wrap.append( canvas )
 	modal.content.append( canvas_wrap )
