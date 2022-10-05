@@ -15,6 +15,8 @@ let parsing = setInterval(() => {
 
 	const orders = document.querySelectorAll('#order_line_items .item')
 
+	console.log('parsing: ', orders )
+
 	/*
 		iterate orders and create preview buttons
 	*/
