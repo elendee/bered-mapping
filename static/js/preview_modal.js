@@ -46,8 +46,8 @@ const render_popup = json => {
 		width: size,
 		height: size,
 	})
-	window.admin_canvas.push( fCanvas )
-	
+	window.admin_fcanvas.push( fCanvas )
+
 	fCanvas.loadFromDatalessJSON( json_data )
 	fCanvas.requestRenderAll()
 
