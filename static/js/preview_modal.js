@@ -35,7 +35,10 @@ const render_popup = json => {
 	fCanvas.loadFromDatalessJSON( json_data )
 
 	// fill map data
-	init( canvas_wrap, 'bered-preview-map' )
+	const map = init( canvas_wrap, 'bered-preview-map' )
+	const view = map.getView()
+	view.setRotation( json.map.r )
+	view.setZoom( json.map.z )
 
 }
 
