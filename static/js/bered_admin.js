@@ -89,3 +89,6 @@ let parsing = setInterval(() => {
 
 })();
 
+
+
+export default {}
