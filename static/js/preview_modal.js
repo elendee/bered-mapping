@@ -11,10 +11,11 @@ const render_popup = json => {
 	const modal = new Modal({
 		type: 'preview-order',
 	})
+	modal.content.style.top = '40px'
 	// append modal
 	document.body.append( modal.ele )
 
-	// fill fabric data
+	// ----- build canvas for map data
 	const canvas_wrap = document.createElement('div')
 	canvas_wrap.id = 'bered-preview-map'
 	// used for sizing everything:
@@ -28,31 +29,27 @@ const render_popup = json => {
 	canvas.width = size
 	canvas.height = size
 
-	const fCanvas = new fabric.Canvas( canvas, {
+	// ----- init map data
+	const map = init( canvas_wrap, 'bered-preview-map' )
+	const view = map.getView()
+
+	map.getView().setCenter([ json_data.map.x, json_data.map.y ])
+
+	view.setRotation( json_data.map.r )
+	view.setZoom( json_data.map.z )
+
+	// ----- fill fabric data
+	const fabric_canvas = document.createElement('canvas')
+	canvas_wrap.append( fabric_canvas )
+	const fCanvas = new fabric.Canvas( fabric_canvas, {
 		width: size,
 		height: size,
 	})
 	fCanvas.loadFromDatalessJSON( json_data )
 
-	// init map data
-	const map = init( canvas_wrap, 'bered-preview-map' )
-	const view = map.getView()
+	// ----- build rest of map
 
-	// hydrate map data
-	// good except .. not lat lon...
-
-	// const proj_lat_long = ol.proj.fromLonLat([lat, lon])
-
-	map.getView().setCenter([ json_data.map.x, json_data.map.y ])
-
-    // map.setView(
-    //     new ol.View({
-    //     center: proj_lat_long,
-    //     zoom: 17
-    // }))
-
-	view.setRotation( json_data.map.r )
-	view.setZoom( json_data.map.z )
+	const info = json_data.map.info
 
 }
 
