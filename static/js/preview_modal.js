@@ -20,14 +20,14 @@ const render_popup = json => {
 	canvas_wrap.id = 'bered-preview-map'
 	// used for sizing everything:
 	canvas_wrap.style['max-width'] = '500px'
-	const canvas = document.createElement('canvas')
-	canvas_wrap.append( canvas )
+	// const canvas = document.createElement('canvas')
+	// canvas_wrap.append( canvas )
 	modal.content.append( canvas_wrap )
 
 	const size = 500
 
-	canvas.width = size
-	canvas.height = size
+	// canvas.width = size
+	// canvas.height = size
 
 	// ----- init map data
 	const map = init( canvas_wrap, 'bered-preview-map' )
