@@ -37,8 +37,8 @@ const render_popup = json => {
 	// fill map data
 	const map = init( canvas_wrap, 'bered-preview-map' )
 	const view = map.getView()
-	view.setRotation( json.map.r )
-	view.setZoom( json.map.z )
+	view.setRotation( json_data.map.r )
+	view.setZoom( json_data.map.z )
 
 }
 
