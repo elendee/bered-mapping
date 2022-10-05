@@ -51,7 +51,7 @@ for( const order of orders ){
 					fCanvas.loadFromDatalessJSON( json_data )
 
 					// fill map data
-
+					
 
 				}catch( err ){
 					lib.hal('error', 'there was an error interpreting the map data', 15000)
