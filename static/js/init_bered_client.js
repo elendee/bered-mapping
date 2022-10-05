@@ -14,9 +14,9 @@ const details = document.querySelector('.woocommerce-product-details__short-desc
 
 
 
-setTimeout(() => {
-	console.log( 'client hal: ', lib.hal.blorb )
-}, 1000 )
+// setTimeout(() => {
+// 	console.log( 'client hal: ', lib.hal.blorb )
+// }, 1000 )
 
 
 
@@ -281,6 +281,8 @@ const set_draw_mode = event => {
 // ------------------------------------------
 
 ;(async() => {
+
+	if( !details ) return console.log('halting bered client init')
 
 	document.body.classList.add('bered')
 
