@@ -11,6 +11,7 @@ import admin from './bered_admin.js?v=109' // no op
 console.log('bered-client js')
 
 const details = document.querySelector('.woocommerce-product-details__short-description')
+const bered_hidden = document.querySelector('textarea.bered-order-data')
 
 
 
@@ -282,13 +283,15 @@ const set_draw_mode = event => {
 
 ;(async() => {
 
-	if( !details ) return console.log('halting bered client init')
+	if( !details ) return console.log('halting bered - invalid woo field')
+	if( !bered_hidden ) return console.log('halting bered - no hidden field')
 
 	document.body.classList.add('bered')
 
 	const begin = document.createElement('div')
 	begin.classList.add('button')
 	begin.innerText= 'Make your map'
+	begin.style['text-shadow'] = 'none'
 	begin.addEventListener('click', init_popup )
 	details.append( begin )
 
