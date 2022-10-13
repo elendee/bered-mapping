@@ -1,12 +1,13 @@
-import BROKER from './EventBroker.js?v=109'
+import BROKER from '../EventBroker.js?v=109'
 import {
 	build_button,
 	build_section,
-} from './build.js?v=109'
-import { gen_input } from './lib.js?v=109'
-import { Modal } from './Modal.js?v=109'
-import generate_sign from './generate_sign.js?v=109'
-import bundle_map_data from './bundle_map_data.js?v=109'
+} from '../shared/build.js?v=109'
+import { gen_input } from '../lib.js?v=109'
+import { Modal } from '../Modal.js?v=109'
+// import generate_sign from '../generate_sign.js?v=109'
+import preview_modal from '../shared/preview_modal.js?v=109'
+import bundle_map_data from '../shared/bundle_map_data.js?v=109'
 
 
 
@@ -224,6 +225,9 @@ const build_fabric_picker = widget_ele => {
 
 const add_navs = section => {
 
+	const wrap = document.createElement('div')
+	wrap.id = 'bered-nav'
+
 	const back = document.createElement('div')
 	back.setAttribute('data-dir', 'back')
 	back.classList.add('nav', 'button', 'back')
@@ -252,8 +256,10 @@ const add_navs = section => {
 		})
 	})
 
-	section.append( back )
-	section.append( forward )
+	wrap.append( back )
+	wrap.append( forward )
+
+	section.append( wrap )
 
 }
 
@@ -358,6 +364,8 @@ const build_checkout_button = () => {
 
 	const wrapper = document.createElement('div')
 	wrapper.id = 'bered-checkout-wrap'
+
+	// preview
 	const preview = document.createElement('div')
 	preview.classList.add('button')
 	preview.innerText = 'preview'
@@ -365,11 +373,16 @@ const build_checkout_button = () => {
 		const modal = new Modal({
 			type: 'preview-map'
 		})
-		const sign = generate_sign( BERED )
+		const data_bundle = bundle_map_data()
+
+		const sign = preview_modal( JSON.stringify( data_bundle ) )
+		// generate_sign( BERED )
 		modal.content.append( sign )
 		document.body.append( modal.ele )
 	})
 	wrapper.append( preview )
+
+	// checkout
 	const checkout = document.createElement('div')
 	checkout.classList.add('button')
 	checkout.innerText = 'add to cart'

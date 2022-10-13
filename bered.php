@@ -123,7 +123,7 @@ if ( !class_exists( 'BeredMapper' ) ) {
 			);
     		wp_enqueue_script( 
 				'bered-main-js', 
-				plugins_url( '/static/js/init_bered_client.js?v=' . $bered_version, __FILE__ ),
+				plugins_url( '/static/js/client/init_bered_client.js?v=' . $bered_version, __FILE__ ),
 				array()
 			);
 

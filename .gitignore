@@ -1,6 +1,6 @@
 .*
 !.gitignore
-_storage/*
+_storage/
 node_modules/*
 package-lock.json
 

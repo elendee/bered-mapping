@@ -1,6 +1,6 @@
-import { Modal } from './Modal.js?v=109'
-import preview_modal from './preview_modal.js?v=109'
-import * as lib from './lib.js?v=109'
+import { Modal } from '../Modal.js?v=109'
+import preview_modal from '../shared/preview_modal.js?v=109'
+import * as lib from '../lib.js?v=109'
 
 
 /*

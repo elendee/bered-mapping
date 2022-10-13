@@ -1,12 +1,15 @@
-import { Modal } from './Modal.js?v=109'
+import { Modal } from '../Modal.js?v=109'
 import { init } from './map.js?v=109'
 
 
 
+// boilerplate
 
-const render_popup = json => {
+const init_popup = json => {
 
 	const json_data = BERED.json_data = JSON.parse( json )
+
+	console.log('previewing json: ', json_data )
 
 	const modal = new Modal({
 		type: 'preview-order',
@@ -14,6 +17,15 @@ const render_popup = json => {
 	modal.content.style.top = '40px'
 	// append modal
 	document.body.append( modal.ele )
+
+	fill_popup( json_data )
+
+}
+
+
+// rendering
+
+const fill_popup = data => {
 
 	// ----- build canvas for map data
 	const canvas_wrap = document.createElement('div')
@@ -54,4 +66,4 @@ const render_popup = json => {
 }
 
 
-export default render_popup
+export default init_popup
