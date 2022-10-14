@@ -1012,9 +1012,9 @@ const gen_input = ( type, args ) => { // placeholder, required
 	if( type === 'textarea'){
 		input = document.createElement('textarea')
 	}else if( type === 'select' ){
-		input  = document.createElement('select')
+		input = document.createElement('select')
 	}else if( type === 'option' ){
-		input  = document.createElement('option')
+		input = document.createElement('option')
 	}else{
 		input = document.createElement('input')
 		input.type = type
@@ -1024,14 +1024,20 @@ const gen_input = ( type, args ) => { // placeholder, required
 
 	if( type === 'text' || type === 'textarea' || type === 'select' || type === 'number' || type === 'checkbox' ){
 
-		if( args.value || args.checked ){
+		if( args.spoof ){
+			if( type === 'checkbox'){
+				// 
+			}else{
+				input.value = args.spoof
+			}
+		}else if( args.value || args.checked ){
 			setTimeout(() => { // options are not appended to selects until another ms or two
 				if( type === 'checkbox'){
 					input.checked = args.checked
 				}else{
 					input.value = args.value
 				}
-			}, 500)
+			}, 300)
 		}
 
 		if( type !== 'number' && type !== 'checkbox' ){
@@ -1065,6 +1071,12 @@ const gen_input = ( type, args ) => { // placeholder, required
 	return wrapper
 
 }
+
+
+const b = type => {
+	return document.createElement( type )
+}
+
 
 
 export {
@@ -1133,4 +1145,5 @@ export {
 	jaman_perlin,
 	PERLIN_SCALE,
 	gen_input,
+	b,
 }

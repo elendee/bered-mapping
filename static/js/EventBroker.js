@@ -43,7 +43,7 @@ class MessageBroker {
 
 const broker = new MessageBroker()
 
-// if( env.EXPOSE ) window.BROKER = broker
+window.BROKER = broker
 
 export default broker
 

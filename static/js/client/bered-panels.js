@@ -3,7 +3,10 @@ import {
 	build_button,
 	build_section,
 } from '../shared/build.js?v=109'
-import { gen_input } from '../lib.js?v=109'
+import { 
+	gen_input,
+	b,
+} from '../lib.js?v=109'
 import { Modal } from '../Modal.js?v=109'
 // import generate_sign from '../generate_sign.js?v=109'
 import preview_modal from '../shared/preview_modal.js?v=109'
@@ -19,6 +22,40 @@ img_loader.style.width = '0px'
 img_loader.style.height = '0px'
 img_loader.style.opacity = 0
 document.body.append( img_loader )
+
+
+
+
+
+const icon_captions = [
+	'drivstofftanker',
+	'gass/propan',
+	'oljefat',
+	'stromkabler',
+	'inntaksilkringer',
+	'silkringsskap',
+	'vannledniger',
+	'stoppekran',
+	'brannslokkingsutstyr',
+	'brannalarm/panel',
+	'plantevernmidler',
+	'handelsgjodsellager',
+	'nodutgang',
+	'sagepunkt evakuering',
+	'personlig verneuststyr',
+	'forstehjelpsutstyr',
+	'moteplass ved brann',
+	'innganger',
+	'skiltets plassering',
+]
+
+
+
+
+
+
+
+
 
 
 const icons = [
@@ -121,8 +158,9 @@ const build_fabric_picker = widget_ele => {
 		// width: canvas.width,
 		// height: canvas.height,
 	})
-	fCanvas.setWidth( canvas.width )
-	fCanvas.setHeight( canvas.width )
+	const w = widget_ele.getBoundingClientRect().width
+	fCanvas.setWidth( w )
+	fCanvas.setHeight( w )
 	window.addEventListener('resize', () => {
 		// console.log('w', canvas.width )
 		canvas.width = widget_ele.getBoundingClientRect().width
@@ -133,65 +171,48 @@ const build_fabric_picker = widget_ele => {
 	})
 
 	const icon_options = document.createElement('div')
-	for( const entry of icons ){
-		let icon
-		if( entry.type == 'image'){
-			icon = new Image()
-			icon.src = BERED.plugin_url + '/resource/' + entry.src
-		}else{
-			icon = document.createElement('div')
-			icon.style.background = entry.color
-		}
-		icon.classList.add('icon', entry.type )
-		icon.addEventListener('click', () => {
-			const TYPE = type_map[ entry.type ]
-			let fIcon
-			if( entry.type === 'image' ){
-				const img = new Image()
-				img.src = BERED.plugin_url + '/resource/' + entry.src
-				img_loader.append( img )
-				img.onload = e => {
-					fIcon = new TYPE( img, {
-						// should work for different types:
-						// should be same for all types:
-						width: img.width,
-						height: img.height,
-						top: 50,
-						left: 50,
-						hasRotatingPoint: false,
-					})
-					fIcon.bered_icon = true
-					fIcon.scaleToWidth( 35 )
-					fIcon.scaleToHeight( 35 )
-					fIcon.setControlsVisibility({
-						tr: false,
-						tl: false,
-						br: false,
-						bl: false,
-						ml: false,
-						mt: false,
-						mr: false,
-						mb: false,
-						mtr: false
-					})
-					fCanvas.add( fIcon )
-					fCanvas.requestRenderAll()
-					img.remove()
-				}
 
-			}else{
-				fIcon = new TYPE({
+	// const ele = b('div')
+	// ele.classList.add('bered-preview-icons')
+	for( let i = 0; i < 15; i++ ){
+
+		const wrap = b('div')
+		wrap.classList.add('bered-icon-wrap')
+		const img = b('img')
+		img.classList.add('bered-marker')
+		let c = 0
+		const base = BERED.plugin_url + '/resource/markers/' + (i+1)
+		img.onerror = e => {
+			if( c ) return
+			img.src = base + '.png'
+			c++
+		}
+		img.src = base + '.svg'
+		const label = b('label')
+		label.innerHTML = icon_captions[i]
+		wrap.append( img )
+		wrap.append( label )
+		icon_options.append( wrap )
+
+		wrap.addEventListener('click', () => {
+
+			// the fabric bit
+			const fimg = new Image()
+			fimg.src = BERED.plugin_url + '/resource/markers/' + (i+1) + '.svg'
+			img_loader.append( fimg )
+			fimg.onload = e => {
+				const fIcon = new fabric.Image( fimg, {
 					// should work for different types:
-					radius: 15,
-					width: 30,
-					height: 30,
 					// should be same for all types:
-					fill: entry.color,
+					width: fimg.width,
+					height: fimg.height,
 					top: 50,
 					left: 50,
 					hasRotatingPoint: false,
 				})
-
+				fIcon.bered_icon = true
+				fIcon.scaleToWidth( 35 )
+				fIcon.scaleToHeight( 35 )
 				fIcon.setControlsVisibility({
 					tr: false,
 					tl: false,
@@ -205,12 +226,91 @@ const build_fabric_picker = widget_ele => {
 				})
 				fCanvas.add( fIcon )
 				fCanvas.requestRenderAll()
-
+				fimg.remove()
 			}
 
 		})
-		icon_options.append( icon )
+
 	}
+
+	// for( const entry of icons ){
+	// 	let icon
+	// 	if( entry.type == 'image'){
+	// 		icon = new Image()
+	// 		icon.src = BERED.plugin_url + '/resource/' + entry.src
+	// 	}else{
+	// 		icon = document.createElement('div')
+	// 		icon.style.background = entry.color
+	// 	}
+	// 	icon.classList.add('icon', entry.type )
+	// 	icon.addEventListener('click', () => {
+	// 		const TYPE = type_map[ entry.type ]
+	// 		let fIcon
+	// 		if( entry.type === 'image' ){
+	// 			const img = new Image()
+	// 			img.src = BERED.plugin_url + '/resource/' + entry.src
+	// 			img_loader.append( img )
+	// 			img.onload = e => {
+	// 				fIcon = new TYPE( img, {
+	// 					// should work for different types:
+	// 					// should be same for all types:
+	// 					width: img.width,
+	// 					height: img.height,
+	// 					top: 50,
+	// 					left: 50,
+	// 					hasRotatingPoint: false,
+	// 				})
+	// 				fIcon.bered_icon = true
+	// 				fIcon.scaleToWidth( 35 )
+	// 				fIcon.scaleToHeight( 35 )
+	// 				fIcon.setControlsVisibility({
+	// 					tr: false,
+	// 					tl: false,
+	// 					br: false,
+	// 					bl: false,
+	// 					ml: false,
+	// 					mt: false,
+	// 					mr: false,
+	// 					mb: false,
+	// 					mtr: false
+	// 				})
+	// 				fCanvas.add( fIcon )
+	// 				fCanvas.requestRenderAll()
+	// 				img.remove()
+	// 			}
+
+	// 		}else{
+	// 			fIcon = new TYPE({
+	// 				// should work for different types:
+	// 				radius: 15,
+	// 				width: 30,
+	// 				height: 30,
+	// 				// should be same for all types:
+	// 				fill: entry.color,
+	// 				top: 50,
+	// 				left: 50,
+	// 				hasRotatingPoint: false,
+	// 			})
+
+	// 			fIcon.setControlsVisibility({
+	// 				tr: false,
+	// 				tl: false,
+	// 				br: false,
+	// 				bl: false,
+	// 				ml: false,
+	// 				mt: false,
+	// 				mr: false,
+	// 				mb: false,
+	// 				mtr: false
+	// 			})
+	// 			fCanvas.add( fIcon )
+	// 			fCanvas.requestRenderAll()
+
+	// 		}
+
+	// 	})
+	// 	icon_options.append( icon )
+	// }
 
 	wrapper.append( icon_options )
 
@@ -370,15 +470,8 @@ const build_checkout_button = () => {
 	preview.classList.add('button')
 	preview.innerText = 'preview'
 	preview.addEventListener('click', () => {
-		const modal = new Modal({
-			type: 'preview-map'
-		})
 		const data_bundle = bundle_map_data()
-
-		const sign = preview_modal( JSON.stringify( data_bundle ) )
-		// generate_sign( BERED )
-		modal.content.append( sign )
-		document.body.append( modal.ele )
+		preview_modal( JSON.stringify( data_bundle ) )
 	})
 	wrapper.append( preview )
 
@@ -435,16 +528,18 @@ const build_form = () => {
 
 	*/
 
-	const addresse = gen_input('text', { placeholder: 'addresse', name: 'addresse' })
-	const kommune = gen_input('text', { placeholder: 'kommune', name: 'kommune' })
-	const ansvarlig = gen_input('text', { placeholder: 'ansvarlig', name: 'ansvarlig' })
-	const tif = gen_input('text', { placeholder: 'tif', name: 'tif' })
-	const nodslakt = gen_input('text', { placeholder: 'nodslakt', name: 'nodslakt' })
-	const melkentankservice = gen_input('text', { placeholder: 'melkentankservice', name: 'melkentankservice' })
-	const avloserlag = gen_input('text', { placeholder: 'avloserlag', name: 'avloserlag' })
-	const elektriker = gen_input('text', { placeholder: 'elektriker', name: 'elektriker' })
-	const rorlegger = gen_input('text', { placeholder: 'rorlegger', name: 'rorlegger' })
-	const nabokontakt = gen_input('text', { placeholder: 'nabokontakt', name: 'nabokontakt' })
+	const spoof = location.href.match(/localhost/) ? true : false
+
+	const addresse = gen_input('text', { placeholder: 'addresse', name: 'addresse', spoof: 'addresse' })
+	const kommune = gen_input('text', { placeholder: 'kommune', name: 'kommune', spoof: 'kommune' })
+	const ansvarlig = gen_input('text', { placeholder: 'ansvarlig', name: 'ansvarlig', spoof: 'ansvarlig' })
+	const tif = gen_input('text', { placeholder: 'tif', name: 'tif', spoof: 'tif' })
+	const nodslakt = gen_input('text', { placeholder: 'nodslakt', name: 'nodslakt', spoof: 'nodslakt' })
+	const melkentankservice = gen_input('text', { placeholder: 'melkentankservice', name: 'melkentankservice', spoof: 'melkentankservice' })
+	const avloserlag = gen_input('text', { placeholder: 'avloserlag', name: 'avloserlag', spoof: 'avloserlag' })
+	const elektriker = gen_input('text', { placeholder: 'elektriker', name: 'elektriker', spoof: 'elektriker' })
+	const rorlegger = gen_input('text', { placeholder: 'rorlegger', name: 'rorlegger', spoof: 'rorlegger' })
+	const nabokontakt = gen_input('text', { placeholder: 'nabokontakt', name: 'nabokontakt', spoof: 'nabokontakt' })
 	form.append( addresse )
 	form.append( kommune )
 	form.append( ansvarlig )

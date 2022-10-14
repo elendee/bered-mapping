@@ -10,14 +10,14 @@ const client_dev = async() => {
 
 			// step to:
 			const START_STEP = 5
-			const SPEED = 200
+			const SPEED = 500
 			const next = document.querySelector('#bered-nav .forward')
-			if( next ){
+			if( 0 && next ){
 				let c
 				for( let i = 0; i < START_STEP-1; i++ ){
 					setTimeout(() => {
 						next.click()
-					}, i * SPEED )
+					}, (i+1) * SPEED )
 					c = i
 				}
 				// open preview:

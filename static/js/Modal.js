@@ -10,7 +10,7 @@ const css =`
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
-	background: rgba(0, 0, 0, .5);
+	background: rgba(0, 0, 0, .7);
 }
 .modal-close{
 	user-select: none;

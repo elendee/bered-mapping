@@ -176,6 +176,8 @@ const add_layer = event => {
 
 } // add layer
 
+
+
 const clear = event => {
 	console.log("map clear: " , event )
 	const { type } = event
