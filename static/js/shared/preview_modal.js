@@ -174,10 +174,15 @@ const build_map = ( type, json_data ) => {
 
 		const view = OL_MAP.getView()
 
-		OL_MAP.getView().setCenter([ json_data.map.x, json_data.map.y ])
+		const mapkey = type == 'left' ? 'a' : 'b'
 
-		view.setRotation( json_data.map.r )
-		view.setZoom( json_data.map.z )
+		OL_MAP.getView().setCenter([ 
+			json_data[mapkey].x, 
+			json_data[mapkey].y,
+		])
+
+		view.setRotation( json_data[mapkey].r )
+		view.setZoom( json_data[mapkey].z )
 
 	}
 

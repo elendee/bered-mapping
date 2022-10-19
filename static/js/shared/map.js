@@ -11,11 +11,6 @@ const LAYERS = BERED.LAYERS = {}
 const SOURCES = BERED.SOURCES = {}
 
 
-// await new Promise(( resolve ) => {
-// 	setTimeout(() => {
-// 		resolve()
-// 	}, 1000 )
-// })
 let map
 
 const init = ( container, target_id ) => {

@@ -3,6 +3,7 @@ import {
 	build_button,
 	build_section,
 } from '../shared/build.js?v=109'
+import STEPS from '../shared/STEPS.js?v=109'
 import { 
 	gen_input,
 	b,
@@ -105,36 +106,36 @@ const type_map = {
 	'image': fabric.Image,
 }
 
-const build_fabric_drawer = widget_ele => {
+// const build_fabric_drawer = widget_ele => {
 
-	const wrapper = document.createElement('div')
-	wrapper.classList.add('draw-wrap')
+// 	const wrapper = document.createElement('div')
+// 	wrapper.classList.add('draw-wrap')
 
-	const expl = document.createElement('p')
-	expl.innerText = `Click the pencil to draw your building.  
-Connect the dots to complete a shape.
-You can click and drag the shape to fit.
-`
-	wrapper.append( expl )
+// 	const expl = document.createElement('p')
+// 	expl.innerText = `Click the pencil to draw your building.  
+// Connect the dots to complete a shape.
+// You can click and drag the shape to fit.
+// `
+// 	wrapper.append( expl )
 
-	const pencil = document.createElement('div')
-	pencil.classList.add('button')
-	pencil.innerText = 'pencil'
-	pencil.addEventListener('click', () => {
-		BROKER.publish('SET_DRAW_STATE', { 
-			// state: !BERED.fCanvas.isDrawingMode, 
-			state: !BERED.is_polygon_mode,
-			button: pencil,
-		})
-	})
-	wrapper.append( pencil )
+// 	const pencil = document.createElement('div')
+// 	pencil.classList.add('button')
+// 	pencil.innerText = 'pencil'
+// 	pencil.addEventListener('click', () => {
+// 		BROKER.publish('SET_DRAW_STATE', { 
+// 			// state: !BERED.fCanvas.isDrawingMode, 
+// 			state: !BERED.is_polygon_mode,
+// 			button: pencil,
+// 		})
+// 	})
+// 	wrapper.append( pencil )
 
-	return wrapper
+// 	return wrapper
 
-}
+// }
 
 let onetime
-const build_fabric_picker = widget_ele => {
+const build_fabric_picker = ( widget_ele, which ) => {
 
 	// the GUI part
 	const wrapper = document.createElement('div')
@@ -149,7 +150,6 @@ const build_fabric_picker = widget_ele => {
 	canvas.width = widget_ele.getBoundingClientRect().width
 	canvas.height = widget_ele.getBoundingClientRect().height
 	widget_ele.append( canvas )
-
 
 	if( onetime ) return console.log('--- need to run this one time only... ---')
 	onetime = true
@@ -336,10 +336,6 @@ const add_navs = section => {
 		BROKER.publish('SET_NAV_STEP', {
 			dir: 'back',
 		})
-		BROKER.publish('SET_DRAW_STATE', { 
-			state: false, 
-			button: section.parentElement.querySelector('.draw-wrap .button'),
-		})
 	})
 
 	const forward = document.createElement('div')
@@ -350,10 +346,10 @@ const add_navs = section => {
 		BROKER.publish('SET_NAV_STEP', {
 			dir: 'forward',
 		})
-		BROKER.publish('SET_DRAW_STATE', { 
-			state: false, 
-			button: section.parentElement.querySelector('.draw-wrap .button'),
-		})
+		// BROKER.publish('SET_DRAW_STATE', { 
+		// 	state: false, 
+		// 	button: section.parentElement.querySelector('.draw-wrap .button'),
+		// })
 	})
 
 	wrap.append( back )
@@ -375,9 +371,8 @@ const build_instruction_panel = ( wrapper, widget ) => {
 
 	let step, header, expl
 
-
 	let s = 1
-	const steps = 5
+	const steps = STEPS.length
 
 	// step 1
 	step = build_section()
@@ -390,7 +385,7 @@ const build_instruction_panel = ( wrapper, widget ) => {
 	panel.append( step )
 	s++
 
-	// step 2
+	// step 2 - move & rotate map
 	step = build_section()
 	expl = document.createElement('div')
 	expl.innerHTML = `
@@ -419,19 +414,7 @@ const build_instruction_panel = ( wrapper, widget ) => {
 	panel.append( step )
 	s++
 
-	// step 3
-	step = build_section()
-	expl = document.createElement('div')
-	expl.innerHTML = `
-	<h3>step ${s}/${steps}</h3>
-	`
-	step.append( expl )
-	step.append( build_fabric_drawer( widget ) )
-	add_navs( step )
-	panel.append( step )
-	s++
-
-	// step 4
+	// step 3 - first icons
 	step = build_section()
 	expl = document.createElement('div')
 	expl.innerHTML = `<h3>step ${s}/${steps}</h3>`
@@ -441,7 +424,48 @@ const build_instruction_panel = ( wrapper, widget ) => {
 	panel.append( step )
 	s++
 
-	// step 5
+	// step 4 - rezoom map
+	step = build_section()
+	expl = document.createElement('div')
+	expl.innerHTML = `
+	<h3>step ${s}/${steps}</h3>
+	<p>position the map to fit...</p>`
+	step.append( expl )
+	const r1b = build_button('rotate +')
+	r1b.classList.add('rotate')
+	r1b.addEventListener('mousedown', () => {
+		BROKER.publish('MAP_ROTATE', {
+			state: true,
+			dir: 1,
+		})
+	})
+	const r2b = build_button('rotate -')
+	r2b.classList.add('rotate')
+	r2b.addEventListener('mousedown', () => {
+		BROKER.publish('MAP_ROTATE', {
+			state: true,
+			dir: -1,
+		})
+	})
+	step.append( r1b )
+	step.append( r2b )
+	add_navs( step )
+	panel.append( step )
+	s++
+
+	// step 5 - second icons
+	step = build_section()
+	expl = document.createElement('div')
+	expl.innerHTML = `
+	<h3>step ${s}/${steps}</h3>
+	Now place icons specifically on your main building`
+	step.append( build_fabric_picker( widget ) )
+	step.append( expl )
+	add_navs( step )
+	panel.append( step )
+	s++
+
+	// step 6 - checkout
 	step = build_section()
 	expl = document.createElement('div')
 	expl.innerHTML = `
@@ -470,8 +494,8 @@ const build_checkout_button = () => {
 	preview.classList.add('button')
 	preview.innerText = 'preview'
 	preview.addEventListener('click', () => {
-		const data_bundle = bundle_map_data()
-		preview_modal( JSON.stringify( data_bundle ) )
+		// const data_bundle = bundle_map_data()
+		preview_modal( JSON.stringify( BERED.json_data ) )
 	})
 	wrapper.append( preview )
 

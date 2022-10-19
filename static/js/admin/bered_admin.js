@@ -44,7 +44,8 @@ let parsing = setInterval(() => {
 
 					try{
 
-						preview_modal( json )
+						const json_data = JSON.parse( json )
+						preview_modal( json_data )
 						
 					}catch( err ){
 						lib.hal('error', 'there was an error interpreting the map data', 15 * 1000)
