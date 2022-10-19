@@ -46,10 +46,10 @@ const init_popup = () => {
 	gui.build_instruction_panel( m.right_panel, widget ) // ( container )
 
 	// dev panel
-	const ele = document.getElementById('bered-map')
-	gui.build_dev_panel( ele )
+	// const ele = document.getElementById('bered-map')
+	// gui.build_dev_panel( ele )
 	// console.log('hiding bered dev panel')
-	document.getElementById('bered-dev-gui').style.display = 'none'
+	// document.getElementById('bered-dev-gui').style.display = 'none'
 
 	map.init( widget, 'bered-map' )
 

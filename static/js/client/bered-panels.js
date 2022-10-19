@@ -494,7 +494,6 @@ const build_checkout_button = () => {
 	preview.classList.add('button')
 	preview.innerText = 'preview'
 	preview.addEventListener('click', () => {
-		// const data_bundle = bundle_map_data()
 		preview_modal( JSON.stringify( BERED.json_data ) )
 	})
 	wrapper.append( preview )

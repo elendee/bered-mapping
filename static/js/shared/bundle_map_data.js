@@ -36,7 +36,8 @@ const bundle_data = ( current_canvas_state_iter ) => {
 	if( step.key.match(/map/) ){
 		const params = new URLSearchParams( location.search )
 		bundle[ which_map ].map = {}
-		const center = BERED.MAP.getView().getCenter()
+		// if( !BERED.MAPS['bered-map'] ) debugger
+		const center = BERED.MAPS['bered-map'].getView().getCenter()
 		bundle[ which_map ].map.x = center[0] 
 		bundle[ which_map ].map.y = center[1] 
 		bundle[ which_map ].map.z = params.get('z')

@@ -156,7 +156,7 @@ const build_map = ( type, json_data ) => {
 			break;
 
 		case 'right':
-			// OL_MAP = init( canvas_wrap, 'bered-preview-map-right' ) 
+			OL_MAP = init( canvas_wrap, 'bered-preview-map-right' ) 
 			break;
 
 		default: return b('div')
@@ -169,6 +169,7 @@ const build_map = ( type, json_data ) => {
 		setTimeout(() => {
 			BROKER.publish('MAP_ADD_LAYER', {
 				type: 'data',
+				map: OL_MAP,
 			})
 		}, 500)
 
@@ -183,6 +184,9 @@ const build_map = ( type, json_data ) => {
 
 		view.setRotation( json_data[mapkey].r )
 		view.setZoom( json_data[mapkey].z )
+
+		debugger
+		// problem is here somewhere...
 
 	}
 

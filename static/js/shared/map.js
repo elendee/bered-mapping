@@ -10,12 +10,15 @@ const IS_LOCAL = !!location.href.match(/localhost/)
 const LAYERS = BERED.LAYERS = {}
 const SOURCES = BERED.SOURCES = {}
 
+BERED.MAPS = {}
 
-let map
+
+// let map
 
 const init = ( container, target_id ) => {
 	// const map = new Map({
 	// interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
+	let map
 
 	size_map({
 		passed_widget: container,
@@ -23,7 +26,7 @@ const init = ( container, target_id ) => {
 	
 	// const source = new ol.source.OSM()
 
-	map = BERED.MAP = new ol.Map({
+	map = BERED.MAPS[ target_id ] = new ol.Map({ // BERED.MAP
 
 		interactions: ol.interaction.defaults.defaults().extend( [ new ol.interaction.DragRotateAndZoom() ] ),
 
@@ -67,6 +70,7 @@ const init = ( container, target_id ) => {
 	setTimeout(() => {
 		BROKER.publish('MAP_ADD_LAYER', {
 			type: 'data',
+			map: map,
 		})
 	}, 500)
 	// const format = new ol.format.GeoJSON({
@@ -92,7 +96,7 @@ const size_map = event => {
 
 const add_layer = event => {
 
-	const { type } = event
+	const { type, map } = event
 
 	// add layer dynamically instead of at instantiation:
 	let layer, source

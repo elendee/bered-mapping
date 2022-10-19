@@ -11,7 +11,7 @@ console.log('bered-map js')
 // const map = new Map({
 //   interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
 
-const map = BERED.MAP = new ol.Map({
+const map = new ol.Map({//  BERED.MAP
 
 	interactions: ol.interaction.defaults.defaults().extend( [ new ol.interaction.DragRotateAndZoom() ] ),
 
