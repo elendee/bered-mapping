@@ -196,7 +196,7 @@ const clear_rotation = e => {
 }
 
 const rotate_map = event => {
-	const { dir, state } = event
+	const { dir, state, map } = event
 
 	// console.log( dir, map.getView().getRotation())
 

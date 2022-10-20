@@ -45,8 +45,10 @@ const init_popup = () => {
 	const widget = document.getElementById('bered-widget')
 	m.left_panel.append( widget )
 
+	const map_obj = map.init( widget, 'bered-map' )
+
 	// instruction / steps / fabric widget
-	gui.build_instruction_panel( m.right_panel, widget ) // ( container )
+	gui.build_instruction_panel( m.right_panel, widget, map_obj ) // ( container )
 
 	// dev panel
 	// const ele = document.getElementById('bered-map')
@@ -54,7 +56,7 @@ const init_popup = () => {
 	// console.log('hiding bered dev panel')
 	// document.getElementById('bered-dev-gui').style.display = 'none'
 
-	map.init( widget, 'bered-map' )
+	// map.init( widget, 'bered-map' )
 
 }
 
@@ -97,10 +99,10 @@ const set_canvas_state = ( step_iter, last_iter ) => {
 	}
 	BERED.current_step = step_iter
 
-	set_map_state( step_iter )
-
 	// bundle last step
 	bundle_data( last_iter ) // even though we are on 'current_step', canvas state will still be on last step
+
+	set_map_state( step_iter )
 
 }
 
@@ -129,10 +131,10 @@ const set_map_state = step => {
 }
 
 const set_map_data = map_data => {
-	BERED.MAP.set('x', map_data.x )
-	BERED.MAP.set('y', map_data.y )
-	BERED.MAP.set('z', map_data.z )
-	BERED.MAP.set('r', map_data.r )
+	BERED.MAPS['bered-map'].set('x', map_data.x )
+	BERED.MAPS['bered-map'].set('y', map_data.y )
+	BERED.MAPS['bered-map'].set('z', map_data.z )
+	BERED.MAPS['bered-map'].set('r', map_data.r )
 }
 
 // // render poly on closing click

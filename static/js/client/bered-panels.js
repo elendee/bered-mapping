@@ -369,7 +369,7 @@ const add_navs = section => {
 
 
 
-const build_instruction_panel = ( wrapper, widget ) => {
+const build_instruction_panel = ( wrapper, widget, map ) => {
 
 	const panel = document.createElement('div')
 	panel.classList.add('bered-instructions')
@@ -390,6 +390,8 @@ const build_instruction_panel = ( wrapper, widget ) => {
 	panel.append( step )
 	s++
 
+	// debugger
+
 	// step 2 - move & rotate map
 	step = build_section()
 	expl = document.createElement('div')
@@ -403,6 +405,7 @@ const build_instruction_panel = ( wrapper, widget ) => {
 		BROKER.publish('MAP_ROTATE', {
 			state: true,
 			dir: 1,
+			map: map,
 		})
 	})
 	const r2 = build_button('rotate -')
@@ -411,6 +414,7 @@ const build_instruction_panel = ( wrapper, widget ) => {
 		BROKER.publish('MAP_ROTATE', {
 			state: true,
 			dir: -1,
+			map: map,
 		})
 	})
 	step.append( r1 )
@@ -442,6 +446,7 @@ const build_instruction_panel = ( wrapper, widget ) => {
 		BROKER.publish('MAP_ROTATE', {
 			state: true,
 			dir: 1,
+			map: map,
 		})
 	})
 	const r2b = build_button('rotate -')
@@ -450,6 +455,7 @@ const build_instruction_panel = ( wrapper, widget ) => {
 		BROKER.publish('MAP_ROTATE', {
 			state: true,
 			dir: -1,
+			map: map,
 		})
 	})
 	step.append( r1b )
