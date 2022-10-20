@@ -151,24 +151,27 @@ const build_fabric_picker = ( widget_ele, which ) => {
 	canvas.height = widget_ele.getBoundingClientRect().height
 	widget_ele.append( canvas )
 
-	if( onetime ) return console.log('--- need to run this one time only... ---')
+	if( onetime ) return console.error('--- need to run this one time only... ---')
 	onetime = true
 
-	const fCanvas = BERED.fCanvas = new fabric.Canvas( canvas, {
-		// width: canvas.width,
-		// height: canvas.height,
-	})
-	const w = widget_ele.getBoundingClientRect().width
-	fCanvas.setWidth( w )
-	fCanvas.setHeight( w )
-	window.addEventListener('resize', () => {
-		// console.log('w', canvas.width )
-		canvas.width = widget_ele.getBoundingClientRect().width
-		canvas.height = widget_ele.getBoundingClientRect().height
-		
-		fCanvas.setWidth( canvas.width )
-		fCanvas.setHeight( canvas.width )
-	})
+	// if( !BERED.fCanvas ){ // ( runs multiple times )
+		const fCanvas = BERED.fCanvas = new fabric.Canvas( canvas, {
+			// width: canvas.width,
+			// height: canvas.height,
+		})		
+		const w = widget_ele.getBoundingClientRect().width
+		fCanvas.setWidth( w )
+		fCanvas.setHeight( w )
+		window.addEventListener('resize', () => {
+			// console.log('w', canvas.width )
+			canvas.width = widget_ele.getBoundingClientRect().width
+			canvas.height = widget_ele.getBoundingClientRect().height
+			
+			fCanvas.setWidth( canvas.width )
+			fCanvas.setHeight( canvas.width )
+		})
+
+	// }
 
 	const icon_options = document.createElement('div')
 
@@ -313,6 +316,8 @@ const build_fabric_picker = ( widget_ele, which ) => {
 	// }
 
 	wrapper.append( icon_options )
+
+	BERED.fabricPicker = wrapper
 
 	return wrapper
 	// console.log('what is widget though..', widget_ele )
@@ -459,8 +464,9 @@ const build_instruction_panel = ( wrapper, widget ) => {
 	expl.innerHTML = `
 	<h3>step ${s}/${steps}</h3>
 	Now place icons specifically on your main building`
-	step.append( build_fabric_picker( widget ) )
 	step.append( expl )
+	// appends self later:
+	// step.append( build_fabric_picker( widget ) )
 	add_navs( step )
 	panel.append( step )
 	s++

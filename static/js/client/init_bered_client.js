@@ -1,6 +1,9 @@
 /*
-	entry point module for clientside bered widget
+	entry point for both client and admin module
+
+
 */
+
 import STEPS from '../shared/STEPS.js?v=109'
 import * as lib from '../lib.js?v=109'
 import BROKER from '../EventBroker.js?v=109'
@@ -57,9 +60,11 @@ const init_popup = () => {
 
 
 // lock / unlock canvas for drawing, map moving etc:
-const steps_map = [1]
-const steps_fabric = [2,3] // - buildings and icons (but zero indexed)
-const steps_bundle = [2,3]
+// const steps_map = [1]
+// const steps_fabric = [2,3] // - buildings and icons (but zero indexed)
+// const steps_bundle = [2,3]
+const MAP_ONE = [2,3]
+const MAP_TWO = [4,5]
 const set_canvas_state = ( step_iter, last_iter ) => {
 
 	// blank slate
@@ -72,33 +77,63 @@ const set_canvas_state = ( step_iter, last_iter ) => {
 	if( STEPS[ step_iter ].match(/fabric/) ){ 
 		BERED.fCanvas.wrapperEl.style['pointer-events'] = 'initial'
 		BERED.fCanvas.wrapperEl.style.opacity = 1
-		if( STEPS[ step_iter ].fabric ){
-			BERED.fCanvas.loadFromDatalessJSON( STEPS[ step_iter ].fabric )
-		}
+		document.querySelector('.section.selected').append( BERED.fabricPicker )
 
 	}else if( STEPS[ step_iter ].match(/map/) ){
 		map_ele.style['pointer-events'] = 'initial'
 
-		if( BERED.json_data ){
-			const map_data = BERED.json_data[ STEPS[ step_iter ] ]?.map
-			if( map_data ){
-				BERED.MAP.set('x', map_data.x )
-				BERED.MAP.set('y', map_data.y )
-				BERED.MAP.set('z', map_data.z )
-				BERED.MAP.set('r', map_data.r )
-			}
-		}
+		// if( BERED.json_data ){
+		// 	const map_data = BERED.json_data[ STEPS[ step_iter ] ]?.map
+		// 	if( map_data ){
+		// 		BERED.MAP.set('x', map_data.x )
+		// 		BERED.MAP.set('y', map_data.y )
+		// 		BERED.MAP.set('z', map_data.z )
+		// 		BERED.MAP.set('r', map_data.r )
+		// 	}
+		// }
 
 	}else if( STEPS[ step_iter ].match(/info/) ){
 		//
 	}
 	BERED.current_step = step_iter
 
+	set_map_state( step_iter )
+
 	// bundle last step
 	bundle_data( last_iter ) // even though we are on 'current_step', canvas state will still be on last step
 
 }
 
+
+const set_map_state = step => {
+	BERED.fCanvas.clear()
+	let map_data, f_data
+	switch( step ){
+		case 0:
+		case 1:
+		case 2:
+			f_data = BERED.json_data.a.fabric
+			map_data = BERED.json_data.a.map
+			break;
+		case 3:
+		case 4:
+		case 5:
+			f_data = BERED.json_data.b.fabric
+			map_data = BERED.json_data.b.map
+			break;
+		default: return console.log("missing map state case ", step )
+
+	}
+	if( f_data ) BERED.fCanvas.loadFromDatalessJSON( f_data )
+	if( map_data ) set_map_data( map_data )
+}
+
+const set_map_data = map_data => {
+	BERED.MAP.set('x', map_data.x )
+	BERED.MAP.set('y', map_data.y )
+	BERED.MAP.set('z', map_data.z )
+	BERED.MAP.set('r', map_data.r )
+}
 
 // // render poly on closing click
 // const render_live_poly = () => {
