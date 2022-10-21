@@ -50,7 +50,7 @@ let parsing = setInterval(() => {
 							// console.log('parsing')
 							const bounded = JSON.parse( json )
 							const json_data = bounded[0] // bounded with array to help parsing
-							preview_modal( json_data )
+							preview_modal( JSON.stringify( json_data ) )
 							
 						}catch( err ){
 							lib.hal('error', 'there was an error interpreting the map data', 15 * 1000)
