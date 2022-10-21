@@ -426,12 +426,14 @@ body.bered .woocommerce-product-details__short-description .button{
 }
 .bered-footer-data{
 /* 	border: 2px solid blue; */
+	line-height: 1rem;
 }
 .bered-footer-data *{
 	display: inline-block;
+	font-size: 1rem;
 }
 .bered-footer-data.footer-column-2 label{
-	max-width: 35%;
+	max-width: 43%;
 }
 .bered-footer-data.footer-column-2 div{
 	border-bottom: 1px solid grey;
