@@ -23,38 +23,45 @@ let parsing = setInterval(() => {
 	*/
 	for( const order of orders ){
 
-		if( order.getAttribute('data-bered-parsed')) continue
-		for( const wcpa of order.querySelectorAll('.item_wcpa') ){
-			if( wcpa.innerText.match(/bered order data/i ) ){
-				const data = wcpa.querySelector('td.value .view')
-				if( !data ){
-					console.log('could not find bered data')
-					continue
-				}
+		try{
 
-				console.log('found data row')
-
-				order.setAttribute('data-bered-parsed', true)
-				const json = data.innerText
-				data.innerHTML = ''
-				const preview = document.createElement('div')
-				preview.classList.add('button')
-				preview.innerText = 'preview'
-				preview.addEventListener('click', () => {
-
-					try{
-
-						const json_data = JSON.parse( json )
-						preview_modal( json_data )
-						
-					}catch( err ){
-						lib.hal('error', 'there was an error interpreting the map data', 15 * 1000)
-						console.log( err )
+			if( order.getAttribute('data-bered-parsed')) continue
+			for( const wcpa of order.querySelectorAll('.item_wcpa') ){
+				if( wcpa.innerText.match(/bered order data/i ) ){
+					const data = wcpa.querySelector('td.value .view')
+					if( !data ){
+						console.log('could not find bered data')
+						continue
 					}
-				})
-				data.append( preview )
+
+					console.log('found data row')
+
+					order.setAttribute('data-bered-parsed', true)
+					const json = data.innerText
+					data.innerHTML = ''
+					const preview = document.createElement('div')
+					preview.classList.add('button')
+					preview.innerText = 'preview'
+					preview.addEventListener('click', () => {
+
+						try{
+
+							const json_data = JSON.parse( json )
+							preview_modal( json_data )
+							
+						}catch( err ){
+							lib.hal('error', 'there was an error interpreting the map data', 15 * 1000)
+							console.log( err )
+						}
+					})
+					data.append( preview )
+				}
 			}
+
+		}catch( err ){
+			console.log( err )
 		}
+		
 	}
 
 	c++
