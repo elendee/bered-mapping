@@ -5,7 +5,9 @@ body.bered .map {
     height: 100%;
 	background: #0d0d64;
 }
-
+.bered *{
+	box-sizing: border-box;	
+}
 
 .bered .row{
 	font-size: 0px;
