@@ -9,19 +9,23 @@ body.bered .map {
 	box-sizing: border-box;	
 }
 
-.bered .row{
+.bered .row,
+#bered-sign .row{
 	font-size: 0px;
 	text-align: center;
 }
-.bered .column{
+.bered .column,
+#bered-sign .column{
 	display: inline-block;
 	width: 100%;
 	font-size: initial;
 	vertical-align: top;
 }
-.bered .column-2{
+.bered .column-2,
+#bered-sign .column{
 	max-width: 50%;
 }
+#bered-sign .column-3,
 .bered .column-3{
 	max-width: 33%;
 }
