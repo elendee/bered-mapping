@@ -47,6 +47,7 @@ let parsing = setInterval(() => {
 
 						try{
 
+							// console.log('parsing')
 							const bounded = JSON.parse( json )
 							const json_data = bounded[0] // bounded with array to help parsing
 							preview_modal( json_data )

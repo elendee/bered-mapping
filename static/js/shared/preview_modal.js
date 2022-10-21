@@ -30,6 +30,8 @@ import BROKER from '../EventBroker.js?v=110'
 
 const init_popup = json => {
 
+	console.log('json data for modal: ', json )
+
 	const json_data = BERED.json_data = JSON.parse( json )
 
 	console.log('previewing json: ', json_data )
