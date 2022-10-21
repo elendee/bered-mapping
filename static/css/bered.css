@@ -28,6 +28,7 @@ body.bered .map {
     position: relative;
     z-index: 99;
 	max-width: 705px !important;
+	width: 705px !important;
 }
 .modal-content #bered-widget{
 /* 	border: 3px so */
@@ -125,6 +126,7 @@ body.bered .button:active{
 .bered-instructions .section.selected{
 	display: inline-block;
 	width: 100%;
+	padding: 0px 15px 10px 15px;
 }
 .bered-instructions .button.rotate{
 	margin: 5px;
@@ -212,6 +214,17 @@ body.bered .woocommerce-product-details__short-description .button{
 
 .modal-content h3{
 	margin: 10px 0;
+}
+.modal-content .right-panel{
+	max-width: calc( 100% - 705px );
+	padding-top: 0px !important;
+}
+.modal-content .left-panel{
+	height: 705px !important;
+}
+.modal-content .left-panel{
+	max-width: 705px;
+	padding: 0px !important;
 }
 
 .modal.bered-map form{
