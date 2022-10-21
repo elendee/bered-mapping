@@ -286,8 +286,6 @@ const build_footer = ( type, info ) => {
 
 		case 'left':
 			top.innerHTML = 'viktige telefonnumbre'
-			const row = b('div')
-			row.classList.add('row')
 			const leftkeys = {
 				'brann': true,
 				'politi': true,
@@ -326,9 +324,12 @@ const build_footer = ( type, info ) => {
 				silogass: 'lorem ipsum',
 			}
 			top.innerHTML = 'viktige rutiner'
+			const main = b('div')
+			main.classList.add('column')
 			for( const key in ruti_keys ){
-				ele.append( footer_data( 'footer-standard', key, ruti_keys[ key ] ) )
+				main.append( footer_data( 'footer-standard', key, ruti_keys[ key ] ) )
 			}
+			ele.append( main )
 			break;
 
 		default: break;
