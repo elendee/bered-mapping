@@ -88,11 +88,11 @@ const init = ( container, target_id ) => {
 // subscribers
 
 const size_map = event => {
-	console.log('no more size map...')
-	// const { passed_widget } = event
-	// if( document.querySelector('.modal') ){
-	// 	passed_widget.style.height = passed_widget.getBoundingClientRect().width + 'px'
-	// }
+	// console.log('no more size map...')
+	const { passed_widget } = event
+	if( document.querySelector('.modal') ){
+		passed_widget.style.height = passed_widget.getBoundingClientRect().width + 'px'
+	}
 }
 
 const add_layer = event => {
