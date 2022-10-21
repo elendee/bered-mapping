@@ -276,7 +276,11 @@ body.bered .woocommerce-product-details__short-description .button{
 	border: 3px solid lightgreen;
 } */
 
-
+.flex-wrapper{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
 
 /**********************
