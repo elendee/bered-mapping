@@ -233,19 +233,19 @@ BROKER.subscribe('MAP_ROTATE', rotate_map )
 // BROKER.subscribe('MAP_RESIZE', size_  map )
 
 
-window.addEventListener('resize', () => {
-	let container
-	if( location.href.match(/wp-admin/) ){
-		container = document.querySelector("#bered-preview-map")
-		// for( const )
-	}else{
-		container = widget
-		size_map({ 
-			passed_widget: container,
-		})
-	}
+// window.addEventListener('resize', () => {
+// 	let container
+// 	if( location.href.match(/wp-admin/) ){
+// 		// container = document.querySelector("#bered-preview-map")
+// 		// for( const )
+// 	}else{
+// 		container = widget
+// 		size_map({ 
+// 			passed_widget: container,
+// 		})
+// 	}
 
-})
+// })
 
 
 
