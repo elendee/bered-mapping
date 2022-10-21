@@ -131,10 +131,13 @@ const set_map_state = step => {
 }
 
 const set_map_data = map_data => {
-	BERED.MAPS['bered-map'].set('x', map_data.x )
-	BERED.MAPS['bered-map'].set('y', map_data.y )
-	BERED.MAPS['bered-map'].set('z', map_data.z )
-	BERED.MAPS['bered-map'].set('r', map_data.r )
+	BERED.MAPS['bered-map'].getView().setCenter([ map_data.x, map_data.y ])
+	if( map_data.r ) BERED.MAPS['bered-map'].getView().setRotation( map_data.r )
+	if( map_data.z ) BERED.MAPS['bered-map'].getView().setZoom( map_data.z )
+	// BERED.MAPS['bered-map'].set('x', map_data.x )
+	// BERED.MAPS['bered-map'].set('y', map_data.y )
+	// BERED.MAPS['bered-map'].set('z', map_data.z )
+	// BERED.MAPS['bered-map'].set('r', map_data.r )
 }
 
 // // render poly on closing click

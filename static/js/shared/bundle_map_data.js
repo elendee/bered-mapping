@@ -19,7 +19,7 @@ const bundle_data = ( current_canvas_state_iter ) => {
 		iter: current_canvas_state_iter,
 		key: STEPS[ current_canvas_state_iter ],
 	}
-	console.log('bundling ', step )
+	// console.log('bundling ', step )
 
 	// --- validations
 	const form = document.querySelector('#bered-form')
