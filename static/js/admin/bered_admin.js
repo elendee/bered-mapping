@@ -28,7 +28,7 @@ let parsing = setInterval(() => {
 			if( order.getAttribute('data-bered-parsed')) continue
 			for( const wcpa of order.querySelectorAll('.item_wcpa') ){
 				if( wcpa.innerText.match(/bered order data/i ) ){
-					const data = wcpa.querySelector('td.value .view')
+					const data = wcpa.querySelector('td.value .edit input')
 					if( !data ){
 						console.log('could not find bered data')
 						continue
@@ -46,7 +46,8 @@ let parsing = setInterval(() => {
 
 						try{
 
-							const json_data = JSON.parse( json )
+							const bounded = JSON.parse( json )
+							const json_data = bounded[0] // bounded with array to help parsing
 							preview_modal( json_data )
 							
 						}catch( err ){
@@ -61,7 +62,7 @@ let parsing = setInterval(() => {
 		}catch( err ){
 			console.log( err )
 		}
-		
+
 	}
 
 	c++
