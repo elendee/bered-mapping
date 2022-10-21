@@ -12,7 +12,7 @@ import * as map from '../shared/map.js?v=110'
 import * as gui from './bered-panels.js?v=110'
 import admin from '../admin/bered_admin.js?v=110' // no op
 import DEV from '../dev.js?v=110'
-import bundle_data from '../shared/bundle_map_data.js?v=110'
+import bundle_map_data from '../shared/bundle_map_data.js?v=110'
 
 console.log('bered-client js')
 
@@ -100,7 +100,7 @@ const set_canvas_state = ( step_iter, last_iter ) => {
 	BERED.current_step = step_iter
 
 	// bundle last step
-	bundle_data( last_iter ) // even though we are on 'current_step', canvas state will still be on last step
+	bundle_map_data( last_iter ) // even though we are on 'current_step', canvas state will still be on last step
 
 	set_map_state( step_iter )
 

@@ -517,8 +517,9 @@ const build_checkout_button = () => {
 	checkout.addEventListener('click', () => {
 		const data_area = document.querySelector('textarea.bered-order-data')
 		if( !data_area ) return console.error('Unable to find "order data" field to append map data')
-		const data_bundle = bundle_map_data()
-		data_area.value = JSON.stringify( data_bundle )
+		// const data_bundle = bundle_map_data()
+		// data_area.value = JSON.stringify( data_bundle )
+		data_area.value = JSON.stringify( BERED.json_data )
 		const real_checkout = document.querySelector('form.cart button[name="add-to-cart"]')
 		real_checkout.click()
 
