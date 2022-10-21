@@ -27,6 +27,7 @@ body.bered .map {
 #bered-widget{
     position: relative;
     z-index: 99;
+	max-width: 705px !important;
 }
 .modal-content #bered-widget{
 /* 	border: 3px so */

@@ -122,7 +122,11 @@ const build_subheader = ( info ) => {
 	return subheader
 }
 
+let offset = 1
+
 const build_map = ( type, json_data ) => {
+
+	offset = ( offset + 1 ) % 2
 
 	const WIDTH = 705 // match with bered-preview-map CSS just in case
 
@@ -220,7 +224,7 @@ const build_map = ( type, json_data ) => {
 
 		}
 
-	}, 100 )
+	}, 500 + ( 500 * offset ) )
 
 	return canvas_wrap
 

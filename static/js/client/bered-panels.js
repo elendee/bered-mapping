@@ -438,7 +438,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	expl = document.createElement('div')
 	expl.innerHTML = `
 	<h3>step ${s}/${steps}</h3>
-	<p>position the map to fit...</p>`
+	<p>Now position the map to fit your main building...</p>`
 	step.append( expl )
 	const r1b = build_button('rotate +')
 	r1b.classList.add('rotate')
