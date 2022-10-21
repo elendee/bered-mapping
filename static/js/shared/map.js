@@ -88,10 +88,11 @@ const init = ( container, target_id ) => {
 // subscribers
 
 const size_map = event => {
-	const { passed_widget } = event
-	if( document.querySelector('.modal') ){
-		passed_widget.style.height = passed_widget.getBoundingClientRect().width + 'px'
-	}
+	console.log('no more size map...')
+	// const { passed_widget } = event
+	// if( document.querySelector('.modal') ){
+	// 	passed_widget.style.height = passed_widget.getBoundingClientRect().width + 'px'
+	// }
 }
 
 const add_layer = event => {
@@ -236,12 +237,14 @@ window.addEventListener('resize', () => {
 	let container
 	if( location.href.match(/wp-admin/) ){
 		container = document.querySelector("#bered-preview-map")
+		// for( const )
 	}else{
 		container = widget
+		size_map({ 
+			passed_widget: container,
+		})
 	}
-	size_map({ 
-		passed_widget: container,
-	})
+
 })
 
 
