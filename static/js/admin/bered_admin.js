@@ -28,8 +28,9 @@ let parsing = setInterval(() => {
 			if( order.getAttribute('data-bered-parsed')) continue
 			for( const wcpa of order.querySelectorAll('.item_wcpa') ){
 				if( wcpa.innerText.match(/bered order data/i ) ){
-					const data = wcpa.querySelector('td.value .edit input')
-					if( !data ){
+					const data1 = wcpa.querySelector('td.value .edit input')
+					const data2 = wcpa.querySelector('td.value .view')
+					if( !data2 ){
 						console.log('could not find bered data')
 						continue
 					}
@@ -37,8 +38,8 @@ let parsing = setInterval(() => {
 					console.log('found data row')
 
 					order.setAttribute('data-bered-parsed', true)
-					const json = data.innerText
-					data.innerHTML = ''
+					const json = data2.innerText
+					data2.innerHTML = ''
 					const preview = document.createElement('div')
 					preview.classList.add('button')
 					preview.innerText = 'preview'
@@ -55,7 +56,7 @@ let parsing = setInterval(() => {
 							console.log( err )
 						}
 					})
-					data.append( preview )
+					data2.append( preview )
 				}
 			}
 
