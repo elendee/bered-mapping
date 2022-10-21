@@ -31,7 +31,6 @@ const bundle_data = ( current_canvas_state_iter ) => {
 	if( step.key.match(/fabric/) ){
 		bundle[ which_map ].fabric = BERED.fCanvas.toDatalessJSON()
 	}
-	debugger
 
 	// --- map
 	if( step.key.match(/map/) ){
