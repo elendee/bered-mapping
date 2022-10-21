@@ -65,13 +65,42 @@ body.bered .button{
     font-size: 1rem;
     display: inline-block;
     background: white;
-    border: 1px solid grey;
+    border: 4px solid #e0dede;
     padding: 5px;
     color: black;
     user-select: none;
+	margin-right: 10px;
+	border-radius: 3px;
+	font-family: monospace;
+	box-shadow: 0px 0px 3px black;
+	background: lightgrey;
+}
+body.bered .button:active{
+	background: grey;
 }
 .bered-instructions .button:hover{
-    background: lightgrey;
+    background: #e6e5e5;
+}
+
+#bered-nav{
+	position: fixed;
+	z-index: 99;
+	bottom: 10px;
+	right: 20px;
+	background: #010169;
+	display: inline-block;
+	width: 135px;
+	height: 52px;
+	border-radius: 5px;
+}
+.bered-instructions .nav{
+	position: absolute;
+}
+.bered-instructions .nav.forward{
+	right: -2px;
+}
+.bered-instructions .nav.back{
+	right: 61px;
 }
 
 #bered-dev-gui .section,
@@ -84,24 +113,13 @@ body.bered .button{
 }
 
 
-.bered-instructions .nav{
-	display: inline-block;
-	position: absolute;
-	right: 0;
-	bottom: 0;
-}
-.bered-instructions .nav.forward{
-	right: 5px;
-}
-.bered-instructions .nav.back{
-	right: 50px;
-}
 
 .bered-instructions .section{
 	display: none;
 	border: 3px solid lightgrey;
 	position: relative;
 	padding: 5px;
+	background: white;
 }
 .bered-instructions .section.selected{
 	display: inline-block;
@@ -199,18 +217,50 @@ body.bered .woocommerce-product-details__short-description .button{
 	font-size: .8rem;
 }
 
-#bered-nav{
-	position: fixed;
-	z-index: 99;
-	bottom: 10px;
-	right: 10px;
-	background: blue;
-	padding: 10px;
-	display: inline-block;
-	width: 101px;
-	height: 47px;
+
+.modal-content.selected-0{
+	background: #85e79a;
+}
+.modal-content.selected-1{
+	background: #e2c8ca;
+}
+.modal-content.selected-2{
+	background: #e2c8ca;
+}
+.modal-content.selected-3{
+	background: #e1dfad;
+}
+.modal-content.selected-4{
+	background: #e1dfad;
+}
+.modal-content.selected-5{
+	background: #79e177;
 }
 
+/* .bered-instructions .selected-0,
+.selected-0{
+	border: 3px solid green;
+}
+.bered-instructions .selected-1,
+.selected-1{
+	border: 3px solid blue;
+}
+.bered-instructions .selected-2,
+.selected-2{
+	border: 3px solid blue;
+}
+.bered-instructions .selected-3,
+.selected-3{
+	border: 3px solid orange;
+}
+.bered-instructions .selected-4,
+.selected-4{
+	border: 3px solid orange;
+}
+.bered-instructions .selected-5,
+.selected-5{
+	border: 3px solid lightgreen;
+} */
 
 
 
@@ -254,7 +304,9 @@ body.bered .woocommerce-product-details__short-description .button{
 	subheader 
 */
 .bered-preview-subheader{
-	border: 1px solid green;
+	padding: 5px;
+	background: grey;
+/* 	border: 1px solid green; */
 }
 .bered-preview-subheader>div{
 	display: inline-block;
@@ -294,19 +346,32 @@ body.bered .woocommerce-product-details__short-description .button{
 
 
 /***************************
-	map left
+	maps
 */
-/* (both maps) */
 .bered-preview-map{
 	display: inline-block;
-	width: 700px;
-	max-width: 10000px;
-	min-height: 500px;
-	border: 5px solid red;
+	width: 705px !important;
+	max-width: 10000px !important;
+	min-height: 705px;
 	vertical-align: top;
+	background: blue;
+	position: relative;
+	pointer-events: none;
+}
+.bered-preview-map .canvas-container{
+	position: absolute;
+	z-index: 999;
+	top: 0;
+	left: 0;
+	width: 704px !important;
+	height: 704px !important;
+	border: 3px solid #4e4d4d;
 }
 #bered-preview-map-left{
 /* 	border: 5px solid purple; */
+}
+#bered-preview-map-right{
+/* 	border: 5px solid orange; */
 }
 
 /***************************
@@ -314,11 +379,11 @@ body.bered .woocommerce-product-details__short-description .button{
 */
 .bered-preview-icons{
 	display: inline-block;
-	border: 2px solid blue;
+/* 	border: 2px solid blue; */
 	width: 300px;
 	height: 500px;
 	display: inline-block;
-	padding: 0 5px;
+	padding: 5px;
 }
 .bered-icon-wrap img.bered-marker{
 	max-width: 30px;
@@ -332,13 +397,6 @@ body.bered .woocommerce-product-details__short-description .button{
 	max-width: 200px;
 	vertical-align: top;
 	padding: 0 10px;
-}
-
-/***************************
-	map right
-*/
-#bered-preview-map-right{
-/* 	border: 5px solid orange; */
 }
 
 

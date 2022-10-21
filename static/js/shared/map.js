@@ -1,4 +1,4 @@
-import BROKER from '../EventBroker.js?v=109'
+import BROKER from '../EventBroker.js?v=110'
 // import TileLayer from 'ol/layer/Tile';
 // import TileWMS from 'ol/source/TileWMS';
 
@@ -207,7 +207,7 @@ const rotate_map = event => {
 
 	const view = map.getView()
 
-	view.setRotation( ( view.getRotation() + ( .1 * dir ) ) )
+	view.setRotation( ( Number( view.getRotation() ) + ( .1 * dir ) ) )
 
 	if( !rotating ){
 

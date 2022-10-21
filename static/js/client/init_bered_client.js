@@ -4,15 +4,15 @@
 
 */
 
-import STEPS from '../shared/STEPS.js?v=109'
-import * as lib from '../lib.js?v=109'
-import BROKER from '../EventBroker.js?v=109'
-import { Modal } from '../Modal.js?v=109'
-import * as map from '../shared/map.js?v=109'
-import * as gui from './bered-panels.js?v=109'
-import admin from '../admin/bered_admin.js?v=109' // no op
-import DEV from '../dev.js?v=109'
-import bundle_data from '../shared/bundle_map_data.js?v=109'
+import STEPS from '../shared/STEPS.js?v=110'
+import * as lib from '../lib.js?v=110'
+import BROKER from '../EventBroker.js?v=110'
+import { Modal } from '../Modal.js?v=110'
+import * as map from '../shared/map.js?v=110'
+import * as gui from './bered-panels.js?v=110'
+import admin from '../admin/bered_admin.js?v=110' // no op
+import DEV from '../dev.js?v=110'
+import bundle_data from '../shared/bundle_map_data.js?v=110'
 
 console.log('bered-client js')
 
@@ -106,10 +106,38 @@ const set_canvas_state = ( step_iter, last_iter ) => {
 
 }
 
+const classes = [
+	'selected-0',
+	'selected-1',
+	'selected-2',
+	'selected-3',
+	'selected-4',
+	'selected-5',
+]
 
 const set_map_state = step => {
+
+	const mc = document.querySelector('.modal.bered-map .modal-content')
+	if( mc ){
+		for( const c of classes ){
+			mc.classList.remove( c )
+		}
+		mc.classList.add( classes[ step ])
+	}
+	// const bm = document.querySelector('#bered-map')
+	// const section = document.querySelector('.section.selected')
+	// if( bm ){
+	// 	for( const c of classes ){
+	// 		bm.classList.remove( c )
+	// 		section.classList.remove( c )
+	// 	}
+	// 	bm.classList.add( classes[ step ] )
+	// 	section.classList.add( classes[ step ] )
+	// }
+
 	BERED.fCanvas.clear()
 	let map_data, f_data
+
 	switch( step ){
 		case 0:
 		case 1:

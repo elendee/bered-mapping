@@ -1,7 +1,7 @@
-import { Modal } from '../Modal.js?v=109'
-import { init } from './map.js?v=109'
-import { b } from '../lib.js?v=109'
-import BROKER from '../EventBroker.js?v=109'
+import { Modal } from '../Modal.js?v=110'
+import { init } from './map.js?v=110'
+import { b } from '../lib.js?v=110'
+import BROKER from '../EventBroker.js?v=110'
 
 /*
 
@@ -124,7 +124,9 @@ const build_subheader = ( info ) => {
 
 const build_map = ( type, json_data ) => {
 
-	const WIDTH = type === 'left' ? 500 : 500
+	const WIDTH = 705 // match with bered-preview-map CSS just in case
+
+	const icondata = type === 'left' ? json_data.a.fabric : json_data.b.fabric
 
 	const canvas_wrap = b('div')
 	canvas_wrap.classList.add('bered-preview-map')
@@ -132,63 +134,93 @@ const build_map = ( type, json_data ) => {
 	canvas_wrap.style['position'] = 'relative'
 	let OL_MAP
 
-	switch( type ){
+	setTimeout(() => { // canvas has to be on DOM before init OL
 
-		case 'left':
-			// ----- build canvas for map data
-			// used for sizing everything:
-			canvas_wrap.style['max-width'] = WIDTH + 'px'
+		let canvas_ele, fCanvas
 
-			// ----- fill fabric data
-			window.preview_canvases = window.preview_canvases || []
-			const canvas_ele = b('canvas')
-			canvas_wrap.append( canvas_ele )
-			const fCanvas = new fabric.Canvas( canvas_ele, {
-				width: WIDTH,
-				height: WIDTH,
-			})
-			window.preview_canvases.push( fCanvas )
+		console.log('should be loading', icondata )
 
-			fCanvas.loadFromDatalessJSON( json_data )
-			fCanvas.requestRenderAll()
+		switch( type ){
 
-			OL_MAP = init( canvas_wrap, 'bered-preview-map-left' ) 
-			break;
+			case 'left':
+				// ----- build canvas for map data
+				// used for sizing everything:
+				canvas_wrap.style['max-width'] = WIDTH + 'px'
 
-		case 'right':
-			OL_MAP = init( canvas_wrap, 'bered-preview-map-right' ) 
-			break;
+				// ----- fill fabric data
+				window.preview_canvases = window.preview_canvases || []
+				canvas_ele = b('canvas')
+				canvas_wrap.append( canvas_ele )
+				fCanvas = new fabric.Canvas( canvas_ele, {
+					width: WIDTH,
+					height: WIDTH,
+				})
+				window.preview_canvases.push( fCanvas )
 
-		default: return b('div')
-	}
+				fCanvas.loadFromDatalessJSON( icondata )
+				fCanvas.requestRenderAll()
 
-	// ----- init map data
-	
-	if( OL_MAP ){ // because it is sometimes skipped in dev....
+				OL_MAP = init( canvas_wrap, 'bered-preview-map-left' ) 
+				// console.log('res from ol map: ', OL_MAP )
+				break;
 
-		setTimeout(() => {
-			BROKER.publish('MAP_ADD_LAYER', {
-				type: 'data',
-				map: OL_MAP,
-			})
-		}, 500)
+			case 'right':
+				// used for sizing everything:
+				canvas_wrap.style['max-width'] = WIDTH + 'px'
 
-		const view = OL_MAP.getView()
+				// ----- fill fabric data
+				window.preview_canvases = window.preview_canvases || []
+				canvas_ele = b('canvas')
+				canvas_wrap.append( canvas_ele )
+				fCanvas = new fabric.Canvas( canvas_ele, {
+					width: WIDTH,
+					height: WIDTH,
+				})
+				window.preview_canvases.push( fCanvas )
 
-		const mapkey = type == 'left' ? 'a' : 'b'
+				fCanvas.loadFromDatalessJSON( icondata )
+				fCanvas.requestRenderAll()
+				OL_MAP = init( canvas_wrap, 'bered-preview-map-right' ) 
+				// console.log('res from ol map2: ', OL_MAP )
+				break;
 
-		OL_MAP.getView().setCenter([ 
-			json_data[mapkey].x, 
-			json_data[mapkey].y,
-		])
+			default: return b('div')
+		}
 
-		view.setRotation( json_data[mapkey].r )
-		view.setZoom( json_data[mapkey].z )
+		// ----- init map data
+		
+		if( OL_MAP ){ // because it is sometimes skipped in dev....
 
-		debugger
-		// problem is here somewhere...
+			const mapkey = type == 'left' ? 'a' : 'b'
 
-	}
+			setTimeout(() => {
+
+				BROKER.publish('MAP_ADD_LAYER', {
+					type: 'data',
+					map: OL_MAP,
+				})
+
+				setTimeout(() => {
+
+					const view = OL_MAP.getView()
+
+					OL_MAP.getView().setCenter([ 
+						Number( json_data[mapkey].map.x ),
+						Number( json_data[mapkey].map.y ),
+					])
+
+					view.setRotation( Number( json_data[mapkey].map.r ) )
+					view.setZoom( Number( json_data[mapkey].map.z ) )
+
+				}, 500 )
+
+			}, 500)
+
+			// problem is here somewhere...
+
+		}
+
+	}, 100 )
 
 	return canvas_wrap
 
