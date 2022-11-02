@@ -293,12 +293,12 @@ const build_footer = ( type, info ) => {
 		case 'left':
 			top.innerHTML = 'viktige telefonnumbre'
 			const leftkeys = {
-				'brann': true,
-				'politi': true,
-				'ambulanse': true,
-				'giftinformasjon': true,
-				'mattilsynet': true,
-				'arbeidstilsynet': true,
+				'brann': 110,
+				'politi': 112,
+				'ambulanse': 113,
+				'giftinformasjon': '22 59 13 00',
+				'mattilsynet': '22 40 00 00',
+				'arbeidstilsynet': '73 19 97 00',
 			}
 			const rightkeys = {
 				'nodslakt': true,
@@ -311,7 +311,8 @@ const build_footer = ( type, info ) => {
 			const left = b('div')
 			left.classList.add('column', 'column-2')
 			for( const key in leftkeys ){
-				left.append( footer_data( 'footer-column-2', key, info[ key ] ) )
+				// left.append( footer_data( 'footer-column-2', key, info[ key ] ) )
+				left.append( footer_data( 'footer-column-2', key, leftkeys[ key ] ) )
 			}
 			const right = b('div')
 			right.classList.add('column', 'column-2')
