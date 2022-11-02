@@ -25,7 +25,7 @@ img_loader.style.opacity = 0
 document.body.append( img_loader )
 
 
-
+BERED.icon_count = 19
 
 
 const icon_captions = [
@@ -177,7 +177,7 @@ const build_fabric_picker = ( widget_ele, which ) => {
 
 	// const ele = b('div')
 	// ele.classList.add('bered-preview-icons')
-	for( let i = 0; i < 15; i++ ){
+	for( let i = 0; i < BERED.icon_count; i++ ){
 
 		const wrap = b('div')
 		wrap.classList.add('bered-icon-wrap')
@@ -336,7 +336,7 @@ const add_navs = section => {
 	const back = document.createElement('div')
 	back.setAttribute('data-dir', 'back')
 	back.classList.add('nav', 'button', 'back')
-	back.innerText = 'back'
+	back.innerHTML = '<img src="' + BERED.plugin_url + '/resource/icons/BACK.png">'
 	back.addEventListener('click', () => {
 		BROKER.publish('SET_NAV_STEP', {
 			dir: 'back',
@@ -346,7 +346,7 @@ const add_navs = section => {
 	const forward = document.createElement('div')
 	forward.setAttribute('data-dir', 'forward')
 	forward.classList.add('nav', 'button', 'forward')
-	forward.innerText = 'next'
+	forward.innerHTML = '<img src="' + BERED.plugin_url + '/resource/icons/NEXT.png">'
 	forward.addEventListener('click', () => {
 		BROKER.publish('SET_NAV_STEP', {
 			dir: 'forward',
@@ -399,7 +399,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	<h3>step ${s}/${steps}</h3>
 	<p>position the map to fit...</p>`
 	step.append( expl )
-	const r1 = build_button('rotate +')
+	const r1 = build_button('<img src="' + BERED.plugin_url + '/resource/icons/rotateright.png">')
 	r1.classList.add('rotate')
 	r1.addEventListener('mousedown', () => {
 		BROKER.publish('MAP_ROTATE', {
@@ -408,7 +408,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 			map: map,
 		})
 	})
-	const r2 = build_button('rotate -')
+	const r2 = build_button('<img src="' + BERED.plugin_url + '/resource/icons/rotateleft.png">')
 	r2.classList.add('rotate')
 	r2.addEventListener('mousedown', () => {
 		BROKER.publish('MAP_ROTATE', {
@@ -417,8 +417,11 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 			map: map,
 		})
 	})
-	step.append( r1 )
-	step.append( r2 )
+	const rwrapper = b('div')
+	rwrapper.classList.add('button-wrapper')
+	rwrapper.append( r2 )
+	rwrapper.append( r1 )
+	step.append( rwrapper)
 	add_navs( step )
 	panel.append( step )
 	s++
@@ -440,7 +443,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	<h3>step ${s}/${steps}</h3>
 	<p>Now position the map to fit your main building...</p>`
 	step.append( expl )
-	const r1b = build_button('rotate +')
+	const r1b = build_button('<img src="' + BERED.plugin_url + '/resource/icons/rotateright.png">')
 	r1b.classList.add('rotate')
 	r1b.addEventListener('mousedown', () => {
 		BROKER.publish('MAP_ROTATE', {
@@ -449,7 +452,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 			map: map,
 		})
 	})
-	const r2b = build_button('rotate -')
+	const r2b = build_button('<img src="' + BERED.plugin_url + '/resource/icons/rotateleft.png">')
 	r2b.classList.add('rotate')
 	r2b.addEventListener('mousedown', () => {
 		BROKER.publish('MAP_ROTATE', {
@@ -458,8 +461,13 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 			map: map,
 		})
 	})
-	step.append( r1b )
-	step.append( r2b )
+	const rwrapper2 = b('div')
+	rwrapper2.classList.add('button-wrapper')
+	rwrapper2.append( r2b )
+	rwrapper2.append( r1b )
+	step.append( rwrapper2)
+	// step.append( r1b )
+	// step.append( r2b )
 	add_navs( step )
 	panel.append( step )
 	s++
@@ -661,9 +669,39 @@ const build_dev_panel = wrapper => {
 }
 
 
+const add_zoom = ( widget, map_obj ) => {
+	const url = {
+		in: BERED.plugin_url + '/resource/icons/pluss.png',
+		out: BERED.plugin_url + '/resource/icons/minus.png',
+	}
+	let c = 0
+	const zoomin = b('div')
+	zoomin.classList.add('bered-zoom', 'zoomin')
+	zoomin.innerHTML = `<img src="${ url.in }">`
+	widget.append( zoomin )
+	zoomin.querySelector('img').onerr = err => {
+		if( c > 10 ) return
+		zoomin.src = url.in
+		c++
+	}
+	let c2 = 0
+	const zoomout = b('div')
+	zoomout.classList.add('bered-zoom', 'zoomout')
+	zoomout.innerHTML = `<img src="${ url.out }">`
+	widget.append( zoomout )
+	zoomout.querySelector('img').onerr = err => {
+		if( c2 > 10 ) return 
+		zoomout.src = url.out
+		c2++
+	}
+}
+
+
+
 
 
 export {
 	build_dev_panel,
 	build_instruction_panel,
+	add_zoom,
 }

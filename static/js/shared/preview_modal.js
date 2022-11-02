@@ -258,7 +258,7 @@ const build_icons = json_data => {
 
 	const ele = b('div')
 	ele.classList.add('bered-preview-icons')
-	for( let i = 0; i < 15; i++ ){
+	for( let i = 0; i < BERED.icon_count; i++ ){
 		const wrap = b('div')
 		wrap.classList.add('bered-icon-wrap')
 		const img = b('img')

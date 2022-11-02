@@ -6,7 +6,7 @@ const build_section = () => {
 
 const build_button = text => {
 	const wrapper = document.createElement('div')
-	wrapper.innerText = text
+	wrapper.innerHTML = text
 	wrapper.classList.add('button')
 	return wrapper
 }

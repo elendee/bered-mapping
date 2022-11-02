@@ -47,8 +47,10 @@ const init_popup = () => {
 
 	const map_obj = map.init( widget, 'bered-map' )
 
+
 	// instruction / steps / fabric widget
 	gui.build_instruction_panel( m.right_panel, widget, map_obj ) // ( container )
+	gui.add_zoom( widget, map_obj )
 
 	// dev panel
 	// const ele = document.getElementById('bered-map')
@@ -57,6 +59,16 @@ const init_popup = () => {
 	// document.getElementById('bered-dev-gui').style.display = 'none'
 
 	// map.init( widget, 'bered-map' )
+
+	setTimeout(() => {
+		console.log('adding selected', widget.parentElement )
+		const left_col = widget.parentElement
+		left_col.classList.add('selected-0')
+		left_col.style['max-width'] = '0px'
+		const right_col = left_col.parentElement.querySelector('.right-panel')
+		right_col.style['max-width'] = '100%'
+		// right_col.style.max-width = '0px'
+	}, 500)
 
 }
 

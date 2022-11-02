@@ -39,6 +39,9 @@ body.bered .map {
 .modal-content #bered-widget{
 /* 	border: 3px so */
 }
+.selected-0 #bered-widget{
+	display: none !important;
+}
 
 body.bered .woocommerce-product-gallery{
     width: 58% !important;
@@ -95,20 +98,37 @@ body.bered .button:active{
 	z-index: 99;
 	bottom: 10px;
 	right: 20px;
-	background: #010169;
+	background: #34343b;
+	border: 3px solid #51515f;
+	box-shadow: 2px 2px 10px;
 	display: inline-block;
-	width: 135px;
-	height: 52px;
+	width: 154px;
+	height: 76px;
 	border-radius: 5px;
 }
-.bered-instructions .nav{
+.button-wrapper{
+	background: #34343b;
+	border: 3px solid #51515f;
+	box-shadow: 2px 2px 10px;	
+	border-radius: 5px;
+	display: inline-block;
+}
+.bered-instructions .nav.button{
 	position: absolute;
+	background: transparent;
+	padding: 0;
+	height: 32px;
+	border: 0px solid;
+	box-shadow: 0px 0px;
+}
+.bered-instructions .nav img{
+	max-width: 60px;
 }
 .bered-instructions .nav.forward{
 	right: -2px;
 }
 .bered-instructions .nav.back{
-	right: 61px;
+	right: 71px;
 }
 
 #bered-dev-gui .section,
@@ -136,6 +156,13 @@ body.bered .button:active{
 }
 .bered-instructions .button.rotate{
 	margin: 5px;
+	background: 0px;
+	border: 0px;
+	box-shadow: 0px 0px;
+	padding: 0;
+}
+.bered-instructions .button.rotate img{
+	max-width: 70px;
 }
 
 .woocommerce-product-details__short-description .section{
@@ -288,6 +315,55 @@ body.bered .woocommerce-product-details__short-description .button{
 	align-items: center;
 }
 
+.bered-map .ol-zoom-in, 
+.bered-map .ol-zoom-out{
+	width: 50px;
+	height: 51px;
+	opacity: 0;
+}
+
+.bered-zoom{
+	position: absolute;
+	left: 10px;
+	z-index: 999;
+	pointer-events: none;
+	display: none;
+}
+.selected-1 .bered-zoom{
+	display: inline-block;
+}
+.bered-zoom img{
+	max-width: 50px !important;
+}
+.bered-zoom.zoomin{
+	top: 12px;
+}
+.bered-zoom.zoomout{
+	top: 64px;
+}
+.ol-zoom.ol-control{
+	background: transparent;
+}
+.selected-1 .ol-zoom.ol-control{
+	background: #34343b;
+	border: 3px solid #51515f;
+	box-shadow: 2px 2px 10px;	
+	border-radius: 5px;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	width: 55px;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 /**********************
  SIGN
@@ -373,6 +449,10 @@ body.bered .woocommerce-product-details__short-description .button{
 
 
 
+
+
+
+
 /***************************
 	maps
 */
@@ -401,6 +481,8 @@ body.bered .woocommerce-product-details__short-description .button{
 #bered-preview-map-right{
 /* 	border: 5px solid orange; */
 }
+
+
 
 /***************************
 	map icons
