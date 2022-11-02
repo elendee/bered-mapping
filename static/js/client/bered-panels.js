@@ -397,7 +397,8 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	expl = document.createElement('div')
 	expl.innerHTML = `
 	<h3>step ${s}/${steps}</h3>
-	<p>position the map to fit...</p>`
+	<p>Position the map to fit.</p>
+	<p>Scroll your mouse for greater precision.</p>`
 	step.append( expl )
 	const r1 = build_button('<img src="' + BERED.plugin_url + '/resource/icons/rotateright.png">')
 	r1.classList.add('rotate')

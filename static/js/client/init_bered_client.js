@@ -62,11 +62,11 @@ const init_popup = () => {
 
 	setTimeout(() => {
 		console.log('adding selected', widget.parentElement )
-		const left_col = widget.parentElement
-		left_col.classList.add('selected-0')
-		left_col.style['max-width'] = '0px'
-		const right_col = left_col.parentElement.querySelector('.right-panel')
-		right_col.style['max-width'] = '100%'
+		const modal_content = widget.parentElement.parentElement
+		modal_content.classList.add('selected-0')
+		// left_col.style['max-width'] = '0px'
+		// const right_col = left_col.parentElement.querySelector('.right-panel')
+		// right_col.style['max-width'] = '100%'
 		// right_col.style.max-width = '0px'
 	}, 500)
 

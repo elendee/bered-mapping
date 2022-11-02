@@ -284,6 +284,13 @@ body.bered .woocommerce-product-details__short-description .button{
 	background: #79e177;
 }
 
+.modal-content.selected-0 .right-panel{
+	max-width: 100%;
+}
+.modal-content.selected-0 .left-panel{
+	max-width: 0px;
+}
+
 /* .bered-instructions .selected-0,
 .selected-0{
 	border: 3px solid green;
