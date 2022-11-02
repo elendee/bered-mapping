@@ -367,7 +367,7 @@ const footer_data = ( column_type, key, value ) => {
 	const wrap = b('div')
 	wrap.classList.add('bered-footer-data', column_type )
 	const label = b('label')
-	label.innerHTML = key
+	label.innerHTML = key + ': '
 	const data = b('div')
 	data.innerHTML = value || '(none)'
 	wrap.append( label )
