@@ -108,16 +108,16 @@ const build_subheader = ( info ) => {
 
 	const gards = b('div')
 	gards.id = 'gards'
-	fill_sub( gards, 'gards', info )
+	fill_sub( gards, 'Gards - Bruksnummer', info )
 	subheader.append( gards )
 
 	const ansvarlig = b('div')
-	ansvarlig.id = 'ansvarlig'
+	ansvarlig.id = 'Ansvarlig'
 	fill_sub( ansvarlig, 'ansvarlig', info )
 	subheader.append( ansvarlig )
 
 	const telefon = b('div')
-	telefon.id = 'telefon'
+	telefon.id = 'Telefon'
 	fill_sub( telefon, 'telefon', info )
 	subheader.append( telefon )
 
