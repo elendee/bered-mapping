@@ -9,12 +9,15 @@ const client_dev = async() => {
 			checkout.click()
 
 			// step to:
-			const START_STEP = 5
+			const PREVIEW = true // can skip START_STEP if so
+
+			let START_STEP = 5
 			const SPEED = 500
 			const next = document.querySelector('#bered-nav .forward')
-			if( 0 && next ){
+			if( 1 && next ){
+				const iter = PREVIEW ? 4 : START_STEP-1 // if previewing, make sure its set to step all the way through
 				let c
-				for( let i = 0; i < START_STEP-1; i++ ){
+				for( let i = 0; i < iter; i++ ){
 					setTimeout(() => {
 						next.click()
 					}, (i+1) * SPEED )

@@ -21,6 +21,24 @@ const bered_hidden = document.querySelector('textarea.bered-order-data')
 
 
 
+// logging ...
+const print_sign_widths = window.print_sign_widths = () => {
+
+	const sign = document.querySelector('#bered-sign')
+
+	for( const ele of sign.querySelectorAll('*')){
+		const id = ele.id // || ( ele.classList?.length ? ele.classList[0] : 'somethign' )
+		if( id ){
+			console.log( id, ele.getBoundingClientRect().width )
+		}
+	}
+}
+
+
+
+
+
+
 // ------------------------------------------
 // library
 // ------------------------------------------
