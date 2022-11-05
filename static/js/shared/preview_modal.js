@@ -130,7 +130,7 @@ const build_map = ( type, json_data ) => {
 
 	offset = ( offset + 1 ) % 2
 
-	const WIDTH = 705 // match with bered-preview-map CSS just in case
+	const WIDTH = 955 // match with bered-preview-map CSS just in case
 
 	const icondata = type === 'left' ? json_data.a.fabric : json_data.b.fabric
 

@@ -16,8 +16,8 @@ import bundle_map_data from '../shared/bundle_map_data.js?v=110'
 
 console.log('bered-client js')
 
-const details = document.querySelector('.woocommerce-product-details__short-description')
-const bered_hidden = document.querySelector('textarea.bered-order-data')
+const details = document.querySelector('.summary.entry-summary')
+const bered_hidden = document.querySelectorAll('.bered-order-data')
 
 
 
@@ -95,8 +95,8 @@ const init_popup = () => {
 // const steps_map = [1]
 // const steps_fabric = [2,3] // - buildings and icons (but zero indexed)
 // const steps_bundle = [2,3]
-const MAP_ONE = [2,3]
-const MAP_TWO = [4,5]
+// const MAP_ONE = [2,3]
+// const MAP_TWO = [4,5]
 const set_canvas_state = ( step_iter, last_iter ) => {
 
 	// blank slate
@@ -398,7 +398,7 @@ const set_nav = event => {
 ;(async() => {
 
 	if( !details ) return console.log('halting bered - invalid woo field')
-	if( !bered_hidden ) return console.log('halting bered - no hidden field')
+	if( !bered_hidden?.length ) return console.log('halting bered - no hidden field')
 
 	document.body.classList.add('bered')
 

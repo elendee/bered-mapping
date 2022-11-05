@@ -128,8 +128,8 @@ class Spinner{
 
 
 
-const spinner = window.spinner = new Spinner({
-	src: BERED.plugin_url + '/resource/gifs/gif1.gif'
+const bered_spinner = window.bered_spinner = new Spinner({
+	src: BERED.plugin_url + '/resource/gifs/spinner.gif'
 })
 
 
@@ -148,7 +148,7 @@ const fetch_wrap = async( url, method, body, no_spinner ) => {
 
 	return new Promise( ( resolve, reject ) => {
 
-		if( !no_spinner ) spinner.show()
+		if( !no_spinner ) bered_spinner.show()
 
 		if( !method ){
 			console.log('assuming GET for url: ' + url )
@@ -163,11 +163,11 @@ const fetch_wrap = async( url, method, body, no_spinner ) => {
 				method: method,
 			})
 			.then( res => {
-				if( !no_spinner )  spinner.hide()
+				if( !no_spinner )  bered_spinner.hide()
 				resolve( res )
 			})
 			.catch( err => {
-				if( !no_spinner )  spinner.hide()
+				if( !no_spinner )  bered_spinner.hide()
 				reject( err )
 			})
 
@@ -178,16 +178,16 @@ const fetch_wrap = async( url, method, body, no_spinner ) => {
 				method: method,
 			})
 			.then( r => {
-				if( !no_spinner )  spinner.hide()
+				if( !no_spinner )  bered_spinner.hide()
 				resolve( r )
 			}).catch( err => {
-				if( !no_spinner )  spinner.hide()
+				if( !no_spinner )  bered_spinner.hide()
 				reject( err )
 			})
 
 		}else{
 
-			if( !no_spinner )  spinner.hide()
+			if( !no_spinner )  bered_spinner.hide()
 			reject('invalid fetch ' + url )
 			
 		}
@@ -1084,7 +1084,7 @@ export {
 	// base ui functions
 	hal,
 	fetch_wrap,
-	// spinner,
+	bered_spinner,
 
 	// base app classes
 	Spinner,

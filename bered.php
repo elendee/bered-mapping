@@ -41,6 +41,7 @@ $bered_version = '1.1.0';
 
 $bered_settings = [];
 
+
 if ( !class_exists( 'BeredMapper' ) ) {
 
 	abstract class BeredMapper{
@@ -114,7 +115,7 @@ if ( !class_exists( 'BeredMapper' ) ) {
     		wp_enqueue_script( // this is used for localized BERED global var
 				'bered-global-js', 
 				plugins_url( '/static/js/global.js?v=' . $bered_version, __FILE__ ),
-				array()
+				array('jquery')
 			);
     		wp_enqueue_script( 
 				'bered-fabric-js', 
@@ -146,7 +147,7 @@ if ( !class_exists( 'BeredMapper' ) ) {
 			wp_localize_script( 'bered-global-js', 'BERED', array(
 					'plugin_url' => plugins_url( '', __FILE__ ), //plugins_url(), // '/static/js/global.js', __FILE__
 					'home_url' => home_url(),
-					'ajaxurl' => admin_url( 'global-ajax.php' ),
+					'ajaxurl' => admin_url( 'admin-ajax.php' ), // global-ajax.php
 					'version' => $bered_version,
 				)
 			);
@@ -220,10 +221,67 @@ if ( !class_exists( 'BeredMapper' ) ) {
 
 	    }
 
-	}
+	  //   public static function handle_order( ){
+
+	  //   	BeredMapper::LOG('-- ORDER DETECTED -- : ' . json_encode( $_FILES ) );
+
+	  //   	if( $_FILES ){
+			// 	//if u don't want to $post_id u gan give 0
+			// 	// $attachment_id = media_handle_upload( 'abe_update_epub', $post_id );
+
+			// 	// if ( is_wp_error( $attachment_id ) ) {
+			// 	//     $errors = $attachment_id->get_error_messages();
+			// 	//     foreach( $errors as $error ){
+			// 	//         echo $error;
+			// 	//     }
+			// 	//     echo 'There was an error uploading the image';
+			// 	// } else {
+			// 	//     // NEW FILE: Setting the name, getting the url and and Md5 hash number
+			// 	//     $file_name = 'Epub Files';
+			// 	//     $file_url  = wp_get_attachment_url($attachment_id);
+			// 	//     $md5_num = md5( $file_url );
+
+			// 	//     // Inserting new file in downloadable files
+			// 	//     $files[$md5_num] = array(
+			// 	//         'name' => $file_name,
+			// 	//         'file' => $file_url
+			// 	//     );
+
+			// 	//     // Updating database with the new array
+
+
+			// 	//     $order = new WC_Order($order_id);
+
+			// 	//     if(!empty($files)){
+			// 	//         update_post_meta($order->ID,_files,$files));
+			// 	//     }
+			// 	//     // Displaying a success notice
+			// 	//     echo 'The image was uploaded successfully!';
+			// 	// }
+			// }
+
+	  //   }
+
+	  //   public static function add_file_upload(){
+
+	  //   	global $wpdb;
+
+			// BeredMapper::LOG( 'SCRIPT DATA: ' . woocommerce_get_script_data() );
+
+	  //   	// echo '
+	  //   	// <input type="file" class="bered-upload-map" id="bered-upload-map1">
+	  //   	// <input type="file" class="bered-upload-map" id="bered-upload-map2">';
+
+	  //   }
+
+	} // end class 
+
 	// <link rel="stylesheet" href="' . plugins_url() . '/bered-mapping/static/css/ol.css">
 	// <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.js"></script>
 	// <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.css">
+
+	// ------------- plugin execute:
+
 
 	// ------------- admin init
 	$has_module = false;
@@ -245,7 +303,6 @@ if ( !class_exists( 'BeredMapper' ) ) {
 		// 	add_action( 'wp_ajax_bered_get_model', 'BeredMapper::get_model' );
 		// 	add_action( 'wp_ajax_bered_get_image', 'BeredMapper::get_image' );
 		// 	add_action( 'wp_ajax_bered_settings', 'BeredMapper::get_settings', 100 );
-
 
 		}else{
 
@@ -282,6 +339,35 @@ if ( !class_exists( 'BeredMapper' ) ) {
 	add_shortcode('bered', 'BeredMapper::shortcode');
 	// add_shortcode('bered_world', 'BeredMapper::shortcode_world');
 
+	// -------------- dev actions
+
 	register_activation_hook( __FILE__, 'BeredMapper::activate' );
 
+	// BeredMapper::LOG('we are loggin...' . $_SESSION['id'] );
+
 }
+
+// ------------- order processing:
+
+// -- useful URL's:
+// https://squelchdesign.com/web-design-newbury/woocommerce-detecting-order-complete-on-order-completion/
+// https://woocommerce.github.io/code-reference/hooks/hooks.html
+
+// add_action('woocommerce_before_cart', 'BeredMapper::handle _ order', 1, 1 ); // [ priority, # args ]
+// add_action('woocommerce_before_cart', 'BeredMapper::handle _ order', 1, 1 ); // [ priority, # args ]
+// add_action('woocommerce_pay_order_before_submit', 'BeredMapper::handle _ order', 1, 1 ); // [ priority, # args ]
+// add_action('woocommerce_order_status_completed', 'BeredMapper::handle _ order', 1, 1 ); // [ priority, # args ]
+
+// DOM prep
+// add_action('woocommerce_short_description', 'BeredMapper::add_file_upload', 1, 1 ); // [ priority, # args ]
+// order processing
+// add_action('woocommerce_checkout_create_order', 'BeredMapper::handle_order', 1, 1 ); // [ priority, # args ]
+
+
+
+
+
+
+include_once __DIR__ . '/append_image.php';
+
+

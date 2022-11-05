@@ -33,8 +33,8 @@ body.bered .map {
 #bered-widget{
     position: relative;
     z-index: 99;
-	max-width: 705px !important;
-	width: 705px !important;
+	max-width: 955px !important;
+	width: 955px !important;
 }
 .modal-content #bered-widget{
 /* 	border: 3px so */
@@ -60,7 +60,6 @@ body.bered .disabled{
 /*     padding: 10px; */
 /*     min-height: 500px; */
 }
-
 
 #bered-dev-gui{
     position: absolute;
@@ -139,7 +138,6 @@ body.bered .button:active{
 #bered-dev-gui .section{
     padding: 0 15px;
 }
-
 
 
 .bered-instructions .section{
@@ -260,14 +258,14 @@ body.bered .woocommerce-product-details__short-description .button{
 	margin: 10px 0;
 }
 .modal-content .right-panel{
-	max-width: calc( 100% - 705px );
+	max-width: calc( 100% - 955px );
 	padding-top: 0px !important;
 }
 .modal-content .left-panel{
-	height: 705px !important;
+	height: 955px !important;
 }
 .modal-content .left-panel{
-	max-width: 705px;
+	max-width: 955px;
 	padding: 0px !important;
 }
 
@@ -375,6 +373,38 @@ body.bered .woocommerce-product-details__short-description .button{
 	box-sizing: border-box !important;
 	width: 55px;
 }
+
+
+
+.bered-spinner{
+    position: fixed;
+    z-index: 999999999;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    transition: .3s;
+    background: rgba(0, 0, 0, .6);
+	font-size: initial;
+
+}
+
+.bered-spinner>img{
+	opacity: 1 !important;
+	font-size: initial;
+    width: 120px;
+    max-width: 90% !important;
+}
+
+
+
+
+
 
 
 
@@ -488,9 +518,9 @@ body.bered .woocommerce-product-details__short-description .button{
 */
 .bered-preview-map{
 	display: inline-block;
-	width: 705px !important;
+	width: 955px !important;
 	max-width: 10000px !important;
-	min-height: 705px;
+	min-height: 955px;
 	vertical-align: top;
 	background: blue;
 	position: relative;
@@ -501,8 +531,8 @@ body.bered .woocommerce-product-details__short-description .button{
 	z-index: 999;
 	top: 0;
 	left: 0;
-	width: 704px !important;
-	height: 704px !important;
+	width: 954px !important;
+	height: 954px !important;
 	border: 3px solid #4e4d4d;
 }
 #bered-preview-map-left{

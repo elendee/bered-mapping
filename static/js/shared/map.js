@@ -20,6 +20,8 @@ const init = ( container, target_id ) => {
 	// interactions: defaultInteractions().extend([new DragRotateAndZoom()]),
 	let map
 
+	if( !container ) console.error('missing bered init container: ', container )
+
 	size_map({
 		passed_widget: container,
 	})
