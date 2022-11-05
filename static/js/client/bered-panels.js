@@ -201,6 +201,7 @@ const build_fabric_picker = ( widget_ele, which ) => {
 
 			// the fabric bit
 			const fimg = new Image()
+			fimg.crossOrigin = 'Anonymous'
 			fimg.src = BERED.plugin_url + '/resource/markers/' + (i+1) + '.svg'
 			img_loader.append( fimg )
 			fimg.onload = e => {

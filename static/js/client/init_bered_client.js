@@ -13,6 +13,7 @@ import * as gui from './bered-panels.js?v=110'
 import admin from '../admin/bered_admin.js?v=110' // no op
 import DEV from '../dev.js?v=110'
 import bundle_map_data from '../shared/bundle_map_data.js?v=110'
+import get_blob from './get-blob.js?v=110'
 
 console.log('bered-client js')
 
@@ -128,6 +129,25 @@ const set_canvas_state = ( step_iter, last_iter ) => {
 		//
 	}
 	BERED.current_step = step_iter
+
+	const ol_map = document.querySelector('.ol-layer canvas')
+
+	// update image eles 
+	if( step_iter == 3 && last_iter == 2 ){
+		get_blob( ol_map, BERED.fCanvas.lowerCanvasEl )
+		.then( res => {
+			BERED.imageBlob1 = res
+			console.log( '1: ', res )
+		})
+
+	}else if( step_iter === 5 && last_iter === 4 ){
+		get_blob( ol_map, BERED.fCanvas.lowerCanvasEl )
+		.then( res => {
+			BERED.imageBlob2 = res
+			console.log( '2: ', res )
+		})
+
+	}
 
 	// bundle last step
 	bundle_map_data( last_iter ) // even though we are on 'current_step', canvas state will still be on last step
