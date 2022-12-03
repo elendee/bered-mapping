@@ -1073,8 +1073,13 @@ const gen_input = ( type, args ) => { // placeholder, required
 }
 
 
-const b = type => {
-	return document.createElement( type )
+const b = ( type, id, ...classes ) => {
+	const ele = document.createElement( type )
+	if( id ) ele.id = id
+	for( const c of classes ){
+		ele.classList.add( c )
+	}
+	return ele
 }
 
 

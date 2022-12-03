@@ -1,7 +1,7 @@
 import STEPS from './STEPS.js?v=110'
 
 
-const bundle_data = ( current_canvas_state_iter ) => {
+const bundle_json = ( current_canvas_state_iter ) => {
 	/*
 		bundle:
 		- OpenLayers map data 
@@ -66,4 +66,4 @@ const bundle_data = ( current_canvas_state_iter ) => {
 
 }
 
-export default bundle_data
+export default bundle_json

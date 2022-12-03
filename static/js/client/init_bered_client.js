@@ -3,7 +3,6 @@
 
 
 */
-
 import STEPS from '../shared/STEPS.js?v=110'
 import * as lib from '../lib.js?v=110'
 import BROKER from '../EventBroker.js?v=110'
@@ -12,7 +11,8 @@ import * as map from '../shared/map.js?v=110'
 import * as gui from './bered-panels.js?v=110'
 import admin from '../admin/bered_admin.js?v=110' // no op
 import DEV from '../dev.js?v=110'
-import bundle_map_data from '../shared/bundle_map_data.js?v=110'
+import bundle_json from '../shared/bundle_map_data.js?v=110'
+import combine_blobs from '../shared/combine_blobs.js?v=110'
 // import get_blob from './get-blob.js?v=110'
 
 console.log('bered-client js')
@@ -92,13 +92,25 @@ const init_popup = () => {
 }
 
 
+
+
+
+
+
+
+
+
 // lock / unlock canvas for drawing, map moving etc:
 // const steps_map = [1]
 // const steps_fabric = [2,3] // - buildings and icons (but zero indexed)
 // const steps_bundle = [2,3]
 // const MAP_ONE = [2,3]
 // const MAP_TWO = [4,5]
-const set_canvas_state = ( step_iter, last_iter ) => {
+const set_map_active = ( step_iter ) => {
+	/*
+		display only
+		set map active / inactive
+	*/
 
 	// blank slate
 	const map_ele = document.querySelector('#bered-map .ol-viewport')
@@ -130,49 +142,115 @@ const set_canvas_state = ( step_iter, last_iter ) => {
 	}
 	BERED.current_step = step_iter
 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const update_map_blobs = async( step_iter, last_iter ) => {
+	/*
+		set BERED raw image blobs depending on last step
+		- openlayers 
+		- fabricjs
+	*/
+
 	const ol_map = document.querySelector('.ol-layer canvas')
+
+	let loaded = new Array(2)
+
+	const params = {
+		side: '',
+		map: '',
+		fcanvas: '',
+	}
 
 	// update image eles 
 	if( step_iter == 3 && last_iter == 2 ){
-
-		ol_map.toBlob( blob => {
-			BERED.imageBlob1 = blob
-
-			// const test = document.createElement('img')
-			// test.style.position = 'fixed'
-			// test.style['z-index'] = '999999'
-			// test.style.border = '3px solid lightgreen'
-			// test.style.top = '50px'
-			// test.style.left = '50px'
-			// test.src = URL.createObjectURL( BERED.imageBlob1 )
-			// document.body.append( test )
-
-			console.log('made map blob: ', blob )
-		})
-
-		BERED.fCanvas.lowerCanvasEl.toBlob( blob => {
-			BERED.imageBlob1_fCanvas = blob
-			console.log('made fcanvas blob: ', blob )
-		})
-
+		params.side = 'left'
+		params.map = 'imageBlob1'
+		params.fcanvas = 'imageBlob1_fCanvas'
 	}else if( step_iter === 5 && last_iter === 4 ){
-
-		ol_map.toBlob( blob => {
-			BERED.imageBlob2 = blob
-		})
-
-		BERED.fCanvas.lowerCanvasEl.toBlob( blob => {
-			BERED.imageBlob2_fCanvas = blob
-		})
-
+		params.side = 'right'
+		params.map = 'imageBlob2'
+		params.fcanvas = 'imageBlob2_fCanvas'
+	}else{
+		return // ( function runs on every step but only in conditions ^^ )
 	}
 
-	// bundle last step
-	bundle_map_data( last_iter ) // even though we are on 'current_step', canvas state will still be on last step
+	await new Promise(( resolve, reject ) => {
+		// set the 2 raw blobs
+		ol_map.toBlob( blob => {
+			BERED[ params.map ] = blob
+			loaded[0] = true
+			if( loaded[0] && loaded[1] ) resolve()
+		})
+		BERED.fCanvas.lowerCanvasEl.toBlob( blob => {
+			BERED[ params.fcanvas ] = blob
+			loaded[1] = true
+			if( loaded[0] && loaded[1] ) resolve()
+		})
+	})
 
-	set_map_state( step_iter )
+	combine_blobs( params.side, BERED[ params.map ], BERED[ params.fcanvas ] )
+	.then( img => {
+		console.log('updated ' + params.side + ' image blob')
+	})
 
 }
+
+
+// const render_test = n => {
+
+// 	if( !localStorage.getItem('bered-dev') ) return console.log('skipping dev render')
+
+// 	lib.hal('standard', 'rendering test....', 3000 )
+
+// 	console.log('rendering test', n )
+
+// 	setTimeout(() => { // otherwise blobs arent loaded yet
+// 		const test = document.createElement('img')
+// 		test.style.position = 'fixed'
+// 		test.style['z-index'] = '999999'
+// 		test.style.border = '3px solid lightgreen'
+// 		test.style.top = '50px'
+// 		test.style.left = '50px'
+// 		test.src = URL.createObjectURL( BERED['imageBlob' + n] )
+// 		document.body.append( test )
+
+// 		setTimeout(() => {
+// 			test.src = URL.createObjectURL( BERED['imageBlob' + n + '_fCanvas' ])
+// 			test.style.border = '3px solid red'
+// 			setTimeout(() => {
+// 				test.remove()
+// 			}, 4000 )
+// 		}, 4000 )
+
+// 	}, 3000 )
+
+// }
+
+
+
+
+
+
+
+
+
+
+
 
 const classes = [
 	'selected-0',
@@ -183,7 +261,10 @@ const classes = [
 	'selected-5',
 ]
 
-const set_map_state = step => {
+const render_map_state = step => {
+	/*
+		render maps from BERED.json-data
+	*/
 
 	const mc = document.querySelector('.modal.bered-map .modal-content')
 	if( mc ){
@@ -192,16 +273,6 @@ const set_map_state = step => {
 		}
 		mc.classList.add( classes[ step ])
 	}
-	// const bm = document.querySelector('#bered-map')
-	// const section = document.querySelector('.section.selected')
-	// if( bm ){
-	// 	for( const c of classes ){
-	// 		bm.classList.remove( c )
-	// 		section.classList.remove( c )
-	// 	}
-	// 	bm.classList.add( classes[ step ] )
-	// 	section.classList.add( classes[ step ] )
-	// }
 
 	BERED.fCanvas.clear()
 	let map_data, f_data
@@ -223,10 +294,16 @@ const set_map_state = step => {
 
 	}
 	if( f_data ) BERED.fCanvas.loadFromDatalessJSON( f_data )
-	if( map_data ) set_map_data( map_data )
+	if( map_data ) render_map_view( map_data )
 }
 
-const set_map_data = map_data => {
+
+
+const render_map_view = map_data => {
+	/*
+		render openlayers properties from BERED.json-data
+	*/
+
 	BERED.MAPS['bered-map'].getView().setCenter([ map_data.x, map_data.y ])
 	if( map_data.r ) BERED.MAPS['bered-map'].getView().setRotation( map_data.r )
 	if( map_data.z ) BERED.MAPS['bered-map'].getView().setZoom( map_data.z )
@@ -235,6 +312,8 @@ const set_map_data = map_data => {
 	// BERED.MAPS['bered-map'].set('z', map_data.z )
 	// BERED.MAPS['bered-map'].set('r', map_data.r )
 }
+
+
 
 // // render poly on closing click
 // const render_live_poly = () => {
@@ -344,6 +423,10 @@ const set_map_data = map_data => {
 // ------------------------------------------
 
 const set_nav = event => {
+	/*
+		handle CSS and set-canvas-state
+	*/
+
 	// console.log( event )
 	const { dir } = event
 
@@ -373,7 +456,13 @@ const set_nav = event => {
 					for( const step of steps ) step.classList.remove('selected')
 					next.classList.add('selected')
 					// set canvas state
-					set_canvas_state( step_iter, i )
+					set_map_active( step_iter )
+					// bundle last step
+					bundle_json( i ) 
+					update_map_blobs( step_iter, i )
+					.then( res => {
+						render_map_state( step_iter )
+					})
 					break;
 
 				}else{
@@ -390,7 +479,12 @@ const set_nav = event => {
 					for( const step of steps ) step.classList.remove('selected')
 					prev.classList.add('selected')
 					// set canvas state
-					set_canvas_state( step_iter, i )
+					set_map_active( step_iter )
+					bundle_json( i ) 
+					update_map_blobs( step_iter, i )
+					.then( res => {
+						render_map_state( step_iter )
+					})
 					break;
 
 				}else{
@@ -424,6 +518,11 @@ const set_nav = event => {
 // 		button.classList.remove('selected')
 // 	}
 // }
+
+
+
+
+
 
 
 

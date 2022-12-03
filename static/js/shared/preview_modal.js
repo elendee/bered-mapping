@@ -48,6 +48,8 @@ const init_popup = json => {
 }
 
 
+
+
 // rendering
 
 const fill_popup = ( modal, json_data ) => {
@@ -63,13 +65,13 @@ const fill_popup = ( modal, json_data ) => {
 	const subheader = build_subheader( info )
 	SIGN.append( subheader )
 
-	const map_left = build_map('left', json_data )
+	const map_left = show_map('left')
 	SIGN.append( map_left )
 
 	const icons = build_icons( info )
 	SIGN.append( icons )
 
-	const map_right = build_map('right', json_data)
+	const map_right = show_map('right')
 	SIGN.append( map_right )
 
 	const footer_left = build_footer('left', info )
@@ -82,6 +84,27 @@ const fill_popup = ( modal, json_data ) => {
 
 }
 
+
+
+
+
+
+
+const show_map = side => {
+
+	const dataURL = BERED.json_data.combined_images[side]
+
+	const wrap = b('div', false, 'bered-preview-map')
+
+	const img = document.createElement('img')
+	// console.log( 'showin..', dataURL )
+	img.src = dataURL
+
+	wrap.append( img )
+	// URL.createObjectURL( dataURL )
+	return wrap
+
+}
 
 
 
@@ -132,151 +155,100 @@ const build_subheader = ( info ) => {
 
 
 
-let offset = 1
+// let offset = 1
 
-const build_map = ( type, json_data ) => {
+// const build_map = ( type, json_data ) => {
+// 	/*
+// 		build map for single image type
+// 		use raw blobs
+// 		combine to make single image
+// 		output img element
+// 	*/
 
-	offset = ( offset + 1 ) % 2
+// 	offset = ( offset + 1 ) % 2
 
-	let WIDTH = 955 // match with bered-preview-map CSS just in case
+// 	let WIDTH = 955 // match with bered-preview-map CSS just in case
 
-	console.log('spoofing mini display width')
-	WIDTH = 600
+// 	WIDTH = 600
+// 	console.log('spoofing mini display width', WIDTH)
 
-	const icondata = type === 'left' ? json_data.a.fabric : json_data.b.fabric
+// 	const icondata = type === 'left' ? json_data.a.fabric : json_data.b.fabric
 
-	const canvas_wrap = b('div')
-	canvas_wrap.classList.add('bered-preview-map')
-	canvas_wrap.id = 'bered-preview-map-' + type
-	canvas_wrap.style['position'] = 'relative'
-	canvas_wrap.style['max-width'] = WIDTH + 'px'
-	let OL_MAP
+// 	const canvas_wrap = b('div')
+// 	canvas_wrap.classList.add('bered-preview-map')
+// 	canvas_wrap.id = 'bered-preview-map-' + type
+// 	canvas_wrap.style['position'] = 'relative'
+// 	canvas_wrap.style['max-width'] = WIDTH + 'px'
+// 	let OL_MAP
 
-	setTimeout(() => { // canvas has to be on DOM before init OL
+// 	setTimeout(() => { // canvas has to be on DOM before init OL
 
-		let canvas_ele, fCanvas, ctx, img
+// 		switch( type ){
 
-		// console.log('fabric data at preview:', icondata )
+// 			case 'left':
+// 				window.preview_canvases = window.preview_canvases || []
+// 				combine_blobs( 'left', BERED.imageBlob1, BERED.imageBlob1_fCanvas )
+// 				.then( img => {
+// 					// BERED.combined_img = 
+// 					canvas_wrap.append( img )
+// 				})
+// 				break;
 
-		switch( type ){
+// 			case 'right':
+// 				// ----- fill fabric data
+// 				window.preview_canvases = window.preview_canvases || []
+// 				combine_blobs( 'right', BERED.imageBlob2, BERED.imageBlob2_fCanvas )
+// 				.then( img => {
 
-			case 'left':
-				window.preview_canvases = window.preview_canvases || []
+// 					canvas_wrap.append( img )
+// 				})
+// 				break;
 
-				// const img = 
-				combine_blobs( BERED.imageBlob1, BERED.imageBlob1_fCanvas )
-				.then( img => {
-					canvas_wrap.append( img )
-				})
-				break;
+// 			default: return b('div')
+// 		}
 
-			case 'right':
-				// ----- fill fabric data
-				window.preview_canvases = window.preview_canvases || []
-				break;
-
-			default: return b('div')
-		}
-
-		// ----- init map data
+// 		// ----- init map data
 		
-		if( OL_MAP ){ // because it is sometimes skipped in dev....
+// 		if( OL_MAP ){ // because it is sometimes skipped in dev....
 
-			const mapkey = type == 'left' ? 'a' : 'b'
+// 			const mapkey = type == 'left' ? 'a' : 'b'
 
-			setTimeout(() => {
+// 			setTimeout(() => {
 
-				BROKER.publish('MAP_ADD_LAYER', {
-					type: 'data',
-					map: OL_MAP,
-				})
+// 				BROKER.publish('MAP_ADD_LAYER', {
+// 					type: 'data',
+// 					map: OL_MAP,
+// 				})
 
-				setTimeout(() => {
+// 				setTimeout(() => {
 
-					const view = OL_MAP.getView()
+// 					const view = OL_MAP.getView()
 
-					OL_MAP.getView().setCenter([ 
-						Number( json_data[mapkey].map.x ),
-						Number( json_data[mapkey].map.y ),
-					])
+// 					OL_MAP.getView().setCenter([ 
+// 						Number( json_data[mapkey].map.x ),
+// 						Number( json_data[mapkey].map.y ),
+// 					])
 
-					view.setRotation( Number( json_data[mapkey].map.r ) )
-					view.setZoom( Number( json_data[mapkey].map.z ) )
+// 					view.setRotation( Number( json_data[mapkey].map.r ) )
+// 					view.setZoom( Number( json_data[mapkey].map.z ) )
 
-				}, 500 )
+// 				}, 500 )
 
-			}, 500)
+// 			}, 500)
 
-			// problem is here somewhere...
+// 			// problem is here somewhere...
 
-		}
+// 		}
 
-	}, 500 + ( 500 * offset ) )
+// 	}, 500 + ( 500 * offset ) )
 
-	return canvas_wrap
+// 	return canvas_wrap
 
-}
+// }
 
 
-const combine_blobs = async( blob1, blob2 ) => {
 
-	const result_img = await new Promise((resolve, reject) => {		
 
-		// set blobs to images
-		const img1 = document.createElement("img")
-		const img2 = document.createElement("img")
-		document.body.append( img1 )
-		document.body.append( img2 )
-		img1.src = URL.createObjectURL( blob1 )
-		img2.src = URL.createObjectURL( blob2 )
-
-		let loaded = [false, false]
-
-		img1.onload = e => {
-			loaded[0] = true
-			if( loaded[0] && loaded[1] ){
-				resolve( canvas_mash( img1, img2 ) )
-			}
-		}
-		img2.onload = e => {
-			loaded[1] = true
-			if( loaded[0] && loaded[1] ){
-				resolve( canvas_mash( img1, img2 ) )
-			}
-		}
-
-		console.log("combining, returning, dataURL", blob1, blob2 )
-
-	})
-
-	return result_img
-
-}
-
-const canvas_mash = ( img1, img2 ) => {
-	// set both images to canvas
-	const canvas = document.createElement('canvas')
-	// document.body.append( canvas )
-	canvas.width = 600
-	canvas.height = 600
-	const ctx = canvas.getContext('2d')
-	ctx.drawImage( img1, 0,0, 600, 600 )
-	ctx.drawImage( img2, 0,0, 600, 600 )
-
-	document.body.append( canvas )
-
-	const dataURL = canvas.toDataURL()
-
-	// draw canvas back to image
-	const result = document.createElement('img')
-	result.src = dataURL
-
-	// img1.remove()
-	// img2.remove()
-	// canvas.remove()
-
-	return result
-}
 
 
 
