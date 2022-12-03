@@ -13,7 +13,7 @@ import * as gui from './bered-panels.js?v=110'
 import admin from '../admin/bered_admin.js?v=110' // no op
 import DEV from '../dev.js?v=110'
 import bundle_map_data from '../shared/bundle_map_data.js?v=110'
-import get_blob from './get-blob.js?v=110'
+// import get_blob from './get-blob.js?v=110'
 
 console.log('bered-client js')
 
@@ -134,17 +134,35 @@ const set_canvas_state = ( step_iter, last_iter ) => {
 
 	// update image eles 
 	if( step_iter == 3 && last_iter == 2 ){
-		get_blob( ol_map, BERED.fCanvas.lowerCanvasEl )
-		.then( res => {
-			BERED.imageBlob1 = res
-			console.log( '1: ', res )
+
+		ol_map.toBlob( blob => {
+			BERED.imageBlob1 = blob
+
+			// const test = document.createElement('img')
+			// test.style.position = 'fixed'
+			// test.style['z-index'] = '999999'
+			// test.style.border = '3px solid lightgreen'
+			// test.style.top = '50px'
+			// test.style.left = '50px'
+			// test.src = URL.createObjectURL( BERED.imageBlob1 )
+			// document.body.append( test )
+
+			console.log('made map blob: ', blob )
+		})
+
+		BERED.fCanvas.lowerCanvasEl.toBlob( blob => {
+			BERED.imageBlob1_fCanvas = blob
+			console.log('made fcanvas blob: ', blob )
 		})
 
 	}else if( step_iter === 5 && last_iter === 4 ){
-		get_blob( ol_map, BERED.fCanvas.lowerCanvasEl )
-		.then( res => {
-			BERED.imageBlob2 = res
-			console.log( '2: ', res )
+
+		ol_map.toBlob( blob => {
+			BERED.imageBlob2 = blob
+		})
+
+		BERED.fCanvas.lowerCanvasEl.toBlob( blob => {
+			BERED.imageBlob2_fCanvas = blob
 		})
 
 	}

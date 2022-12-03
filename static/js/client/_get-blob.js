@@ -12,7 +12,7 @@ const load_ctx = load_canvas.getContext('2d')
 document.body.append( load_canvas )
 
 
-const get_blob = async( mapCanvas, fCanvas ) => {
+const get_blob = window.get_blob = async( mapCanvas, fCanvas ) => {
 
 	load_ctx.clearRect(0,0,load_ctx.width, load_ctx.height )
 
@@ -35,6 +35,8 @@ const get_blob = async( mapCanvas, fCanvas ) => {
 	    	resolve( blob )
 		})
 	})
+
+	console.log('adding mapcanvas to blob; need fcanvas added still')
 
 	return b
 

@@ -518,23 +518,31 @@ body.bered .woocommerce-product-details__short-description .button{
 */
 .bered-preview-map{
 	display: inline-block;
-	width: 955px !important;
-	max-width: 10000px !important;
-	min-height: 955px;
+	width: 100%;
+	height: 600px;
+/* 	width: 955px !important; */
+/* 	max-width: 10000px !important; */
+/* 	min-height: 955px; */
 	vertical-align: top;
 	background: blue;
 	position: relative;
 	pointer-events: none;
+}
+.bered-preview-map canvas{
+	width: 100%;
+	height: 100%;
+	border: 3px solid red;
 }
 .bered-preview-map .canvas-container{
 	position: absolute;
 	z-index: 999;
 	top: 0;
 	left: 0;
-	width: 954px !important;
-	height: 954px !important;
+/* 	width: 954px !important; */
+/* 	height: 954px !important; */
 	border: 3px solid #4e4d4d;
 }
+
 #bered-preview-map-left{
 /* 	border: 5px solid purple; */
 }

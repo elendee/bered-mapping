@@ -124,13 +124,24 @@ const build_subheader = ( info ) => {
 	return subheader
 }
 
+
+
+
+
+
+
+
+
 let offset = 1
 
 const build_map = ( type, json_data ) => {
 
 	offset = ( offset + 1 ) % 2
 
-	const WIDTH = 955 // match with bered-preview-map CSS just in case
+	let WIDTH = 955 // match with bered-preview-map CSS just in case
+
+	console.log('spoofing mini display width')
+	WIDTH = 600
 
 	const icondata = type === 'left' ? json_data.a.fabric : json_data.b.fabric
 
@@ -138,56 +149,30 @@ const build_map = ( type, json_data ) => {
 	canvas_wrap.classList.add('bered-preview-map')
 	canvas_wrap.id = 'bered-preview-map-' + type
 	canvas_wrap.style['position'] = 'relative'
+	canvas_wrap.style['max-width'] = WIDTH + 'px'
 	let OL_MAP
 
 	setTimeout(() => { // canvas has to be on DOM before init OL
 
-		let canvas_ele, fCanvas
+		let canvas_ele, fCanvas, ctx, img
 
-		console.log('should be loading', icondata )
+		// console.log('fabric data at preview:', icondata )
 
 		switch( type ){
 
 			case 'left':
-				// ----- build canvas for map data
-				// used for sizing everything:
-				canvas_wrap.style['max-width'] = WIDTH + 'px'
-
-				// ----- fill fabric data
 				window.preview_canvases = window.preview_canvases || []
-				canvas_ele = b('canvas')
-				canvas_wrap.append( canvas_ele )
-				fCanvas = new fabric.Canvas( canvas_ele, {
-					width: WIDTH,
-					height: WIDTH,
+
+				// const img = 
+				combine_blobs( BERED.imageBlob1, BERED.imageBlob1_fCanvas )
+				.then( img => {
+					canvas_wrap.append( img )
 				})
-				window.preview_canvases.push( fCanvas )
-
-				fCanvas.loadFromDatalessJSON( icondata )
-				fCanvas.requestRenderAll()
-
-				OL_MAP = init( canvas_wrap, 'bered-preview-map-left' ) 
-				// console.log('res from ol map: ', OL_MAP )
 				break;
 
 			case 'right':
-				// used for sizing everything:
-				canvas_wrap.style['max-width'] = WIDTH + 'px'
-
 				// ----- fill fabric data
 				window.preview_canvases = window.preview_canvases || []
-				canvas_ele = b('canvas')
-				canvas_wrap.append( canvas_ele )
-				fCanvas = new fabric.Canvas( canvas_ele, {
-					width: WIDTH,
-					height: WIDTH,
-				})
-				window.preview_canvases.push( fCanvas )
-
-				fCanvas.loadFromDatalessJSON( icondata )
-				fCanvas.requestRenderAll()
-				OL_MAP = init( canvas_wrap, 'bered-preview-map-right' ) 
-				// console.log('res from ol map2: ', OL_MAP )
 				break;
 
 			default: return b('div')
@@ -231,6 +216,71 @@ const build_map = ( type, json_data ) => {
 	return canvas_wrap
 
 }
+
+
+const combine_blobs = async( blob1, blob2 ) => {
+
+	const result_img = await new Promise((resolve, reject) => {		
+
+		// set blobs to images
+		const img1 = document.createElement("img")
+		const img2 = document.createElement("img")
+		document.body.append( img1 )
+		document.body.append( img2 )
+		img1.src = URL.createObjectURL( blob1 )
+		img2.src = URL.createObjectURL( blob2 )
+
+		let loaded = [false, false]
+
+		img1.onload = e => {
+			loaded[0] = true
+			if( loaded[0] && loaded[1] ){
+				resolve( canvas_mash( img1, img2 ) )
+			}
+		}
+		img2.onload = e => {
+			loaded[1] = true
+			if( loaded[0] && loaded[1] ){
+				resolve( canvas_mash( img1, img2 ) )
+			}
+		}
+
+		console.log("combining, returning, dataURL", blob1, blob2 )
+
+	})
+
+	return result_img
+
+}
+
+const canvas_mash = ( img1, img2 ) => {
+	// set both images to canvas
+	const canvas = document.createElement('canvas')
+	// document.body.append( canvas )
+	canvas.width = 600
+	canvas.height = 600
+	const ctx = canvas.getContext('2d')
+	ctx.drawImage( img1, 0,0, 600, 600 )
+	ctx.drawImage( img2, 0,0, 600, 600 )
+
+	document.body.append( canvas )
+
+	const dataURL = canvas.toDataURL()
+
+	// draw canvas back to image
+	const result = document.createElement('img')
+	result.src = dataURL
+
+	// img1.remove()
+	// img2.remove()
+	// canvas.remove()
+
+	return result
+}
+
+
+
+
 
 const build_icons = json_data => {
 

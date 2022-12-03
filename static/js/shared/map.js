@@ -107,6 +107,9 @@ const add_layer = event => {
 	switch( type ){
 
 		case 'borders':
+
+			console.log('initialized map as borders JSON')
+
 			source = new ol.source.Vector({
 	        	format: new ol.format.GeoJSON(),
 	        	url: '/oko/wp-content/plugins/bered-mapping/_storage/olw/data/countries.json',
@@ -136,9 +139,12 @@ const add_layer = event => {
 			// })
 			// proceed
 
-			console.log('running map init data')
+			// console.log('running map init data')
 
 			if( 0 && IS_LOCAL ){ // for when the URL is unresponsive
+
+				console.log('initialized map as WMS')
+
 				source = new ol.source.TileWMS({
 					url: 'https://ahocevar.com/geoserver/wms',
 				    params: {
@@ -149,11 +155,16 @@ const add_layer = event => {
 				    // Countries have transparency, so do not fade tiles:
 				    transition: 0,
 				})
+
 			}else{
-	            source = new ol.source.XYZ({
-	                url: 'https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}',
-	                attributions: '<a href="http://www.kartverket.no/">Kartverket</a>',
-	            })
+
+				console.log('initialized map as TMS')
+
+				source = new ol.source.XYZ({
+				    url: 'https://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo4&zoom={z}&x={x}&y={y}',
+				    attributions: '<a href="http://www.kartverket.no/">Kartverket</a>',
+				    crossOrigin: true,
+				})
 			}
 			layer = new ol.layer.Tile({
 		    	source: source,
@@ -161,6 +172,9 @@ const add_layer = event => {
 			break;
 
 		case 'osm':
+
+			console.log('initialized map as OSM')
+
 			source = new ol.source.OSM()
 	        layer = new ol.layer.Tile({
 	            source: source,

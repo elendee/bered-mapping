@@ -39,6 +39,7 @@ let parsing = setInterval(() => {
 
 					order.setAttribute('data-bered-parsed', true)
 					const json = data2.innerText
+					console.log( json )
 					data2.innerHTML = ''
 					const preview = document.createElement('div')
 					preview.classList.add('button')
