@@ -12,7 +12,8 @@ import * as gui from './bered-panels.js?v=110'
 import admin from '../admin/bered_admin.js?v=110' // no op
 import DEV from '../dev.js?v=110'
 import bundle_json from '../shared/bundle_map_data.js?v=110'
-import combine_blobs from '../shared/combine_blobs.js?v=110'
+// import combine_blobs from '../shared/combine_blobs.js?v=110'
+import html2canvas from '../shared/html2canvas.esm.js'
 // import get_blob from './get-blob.js?v=110'
 
 console.log('bered-client js')
@@ -20,6 +21,8 @@ console.log('bered-client js')
 const details = document.querySelector('.summary.entry-summary')
 const bered_hidden = document.querySelectorAll('.bered-order-data')
 
+
+window.html2canvas = html2canvas
 
 
 // logging ...
@@ -158,57 +161,76 @@ const set_map_active = ( step_iter ) => {
 
 
 
-
 const update_map_blobs = async( step_iter, last_iter ) => {
-	/*
-		set BERED raw image blobs depending on last step
-		- openlayers 
-		- fabricjs
-	*/
 
-	const ol_map = document.querySelector('.ol-layer canvas')
-
-	let loaded = new Array(2)
-
-	const params = {
-		side: '',
-		map: '',
-		fcanvas: '',
-	}
-
-	// update image eles 
+	let side
 	if( step_iter == 3 && last_iter == 2 ){
-		params.side = 'left'
-		params.map = 'imageBlob1'
-		params.fcanvas = 'imageBlob1_fCanvas'
+		side = 'left'
 	}else if( step_iter === 5 && last_iter === 4 ){
-		params.side = 'right'
-		params.map = 'imageBlob2'
-		params.fcanvas = 'imageBlob2_fCanvas'
-	}else{
-		return // ( function runs on every step but only in conditions ^^ )
-	}
+		side = 'right'
+	}	
+	if( !side ) return // ( runs on every step )
 
-	await new Promise(( resolve, reject ) => {
-		// set the 2 raw blobs
-		ol_map.toBlob( blob => {
-			BERED[ params.map ] = blob
-			loaded[0] = true
-			if( loaded[0] && loaded[1] ) resolve()
-		})
-		BERED.fCanvas.lowerCanvasEl.toBlob( blob => {
-			BERED[ params.fcanvas ] = blob
-			loaded[1] = true
-			if( loaded[0] && loaded[1] ) resolve()
+	await new Promise((resolve, reject) => {
+		html2canvas( document.querySelector('#bered-widget'), {} )
+		.then( canvas => {
+			BERED.json_data.combined_images = BERED.json_data.combined_images || {}
+			BERED.json_data.combined_images[ side ] = canvas.toDataURL()
+			console.log('updated map blob: ', side )
 		})
 	})
-
-	combine_blobs( params.side, BERED[ params.map ], BERED[ params.fcanvas ] )
-	.then( img => {
-		console.log('updated ' + params.side + ' image blob')
-	})
-
 }
+
+// const update_map_blobs = async( step_iter, last_iter ) => {
+// 	/*
+// 		set BERED raw image blobs depending on last step
+// 		- openlayers 
+// 		- fabricjs
+// 	*/
+
+// 	const ol_map = document.querySelector('.ol-layer canvas')
+
+// 	let loaded = new Array(2)
+
+// 	const params = {
+// 		side: '',
+// 		map: '',
+// 		fcanvas: '',
+// 	}
+
+// 	// update image eles 
+// 	if( step_iter == 3 && last_iter == 2 ){
+// 		params.side = 'left'
+// 		params.map = 'imageBlob1'
+// 		params.fcanvas = 'imageBlob1_fCanvas'
+// 	}else if( step_iter === 5 && last_iter === 4 ){
+// 		params.side = 'right'
+// 		params.map = 'imageBlob2'
+// 		params.fcanvas = 'imageBlob2_fCanvas'
+// 	}else{
+// 		return // ( function runs on every step but only in conditions ^^ )
+// 	}
+
+// 	await new Promise(( resolve, reject ) => {
+// 		// set the 2 raw blobs
+// 		ol_map.toBlob( blob => {
+// 			BERED[ params.map ] = blob
+// 			loaded[0] = true
+// 			if( loaded[0] && loaded[1] ) resolve()
+// 		})
+// 		BERED.fCanvas.lowerCanvasEl.toBlob( blob => {
+// 			BERED[ params.fcanvas ] = blob
+// 			loaded[1] = true
+// 			if( loaded[0] && loaded[1] ) resolve()
+// 		})
+// 	})
+
+// 	combine_blobs( params.side, BERED[ params.map ], BERED[ params.fcanvas ] )
+// 	.then( img => {
+// 		console.log('updated ' + params.side + ' image blob')
+// 	})
+
+// }
 
 
 // const render_test = n => {
@@ -539,7 +561,7 @@ const set_nav = event => {
 
 	document.body.classList.add('bered')
 
-	const begin = document.createElement('div')
+	const begin = lib.b('div')
 	begin.classList.add('button')
 	begin.innerText= 'Make your map'
 	begin.style['text-shadow'] = 'none'

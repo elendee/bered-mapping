@@ -96,7 +96,7 @@ const show_map = side => {
 
 	const wrap = b('div', false, 'bered-preview-map')
 
-	const img = document.createElement('img')
+	const img = b('img')
 	// console.log( 'showin..', dataURL )
 	img.src = dataURL
 

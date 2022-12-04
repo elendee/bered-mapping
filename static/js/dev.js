@@ -52,6 +52,54 @@ const admin_dev = async() => {
 }
 
 
+
+window.preview_canvas = async( time, canvas, src_type ) => {
+
+	const c = canvas || document.querySelector('.ol-layer canvas')
+	const blob = await new Promise((resolve, reject ) => {
+		c.toBlob( blob => {
+			resolve( blob )
+		})		
+	})
+
+	const dataURL = c.toDataURL()
+
+	const preview = document.createElement('div')
+	window.preview_ele = preview
+	preview.style.position = 'fixed' 
+	preview.style.top = '50px'
+	preview.style.left = '50px'
+	preview.style.transform = 'rotate(2deg)'
+	preview.style.background = 'maroon'
+	preview.style.border = '3px solid black'
+	preview.style.width = '500px'
+	preview.style.height = '500px'
+	preview.style['z-index'] = '99999'
+	document.body.append( preview )
+	setTimeout(() => {
+		preview.remove()
+	}, time || 25000 )
+
+	const img = document.createElement('img')
+	if( src_type == 'blob' ){
+		img.src = URL.createObjectURL( blob )
+	}else if( src_type == 'dataURL' ){
+		img.src = dataURL
+	}else{
+		console.log('unrecognized src_type', src_type )
+	}
+	img.style.border = '2px solid red'
+
+	preview.append( img )
+	console.log( 'img: ', img )
+
+	return true
+
+}
+
+
+
+
 if( localStorage.getItem('bered-dev') ){
 	if( location.href.match(/wp-admin/)){
 		admin_dev()

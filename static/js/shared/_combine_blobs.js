@@ -1,7 +1,10 @@
 /*
 	combine pre-existing BERED blobs into:
-	
+
 */
+import {
+	b,
+} from '../lib.js?v=110'
 
 
 
@@ -10,8 +13,8 @@ const combine_blobs = async( side, blob1, blob2 ) => {
 	const result_img = await new Promise((resolve, reject) => {		
 
 		// set blobs to images
-		const img1 = document.createElement("img")
-		const img2 = document.createElement("img")
+		const img1 = b('img')
+		const img2 = b('img')
 		document.body.append( img1 )
 		document.body.append( img2 )
 		img1.src = URL.createObjectURL( blob1 )
@@ -47,7 +50,7 @@ const combine_blobs = async( side, blob1, blob2 ) => {
 
 const canvas_mash = ( side, img1, img2 ) => {
 	// set both images to canvas
-	const canvas = document.createElement('canvas')
+	const canvas = b('canvas')
 	// document.body.append( canvas )
 	canvas.width = 600
 	canvas.height = 600
@@ -60,7 +63,7 @@ const canvas_mash = ( side, img1, img2 ) => {
 	const dataURL = canvas.toDataURL()
 
 	// draw canvas back to image
-	const result = document.createElement('img')
+	const result = b('img')
 	result.src = dataURL
 
 	// img1.remove()
