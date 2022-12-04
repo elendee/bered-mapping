@@ -475,7 +475,7 @@ body.bered .woocommerce-product-details__short-description .button{
 }
 /* ansvarlig */
 .bered-preview-subheader>div:nth-of-type(2){
-	max-width: 860px;
+	max-width: 800px;
 }
 /* telefon */
 .bered-preview-subheader>div:nth-of-type(3){
@@ -518,12 +518,8 @@ body.bered .woocommerce-product-details__short-description .button{
 */
 .bered-preview-map{
 	display: inline-block;
-/* 	width: 100%; */
-	width: 655px !important;
-	
-	height: 655px;
-/* 	max-width: 10000px !important; */
-/* 	min-height: 955px; */
+	width: 705px !important;
+	height: 705px;
 	vertical-align: top;
 	background: blue;
 	position: relative;
@@ -551,9 +547,9 @@ body.bered .woocommerce-product-details__short-description .button{
 #bered-preview-map-right{
 /* 	border: 5px solid orange; */
 }
-.bered-preview-map .ol-zoom{
+/* .bered-preview-map .ol-zoom{
 	display: none;
-}
+} */
 
 
 

@@ -172,7 +172,10 @@ const update_map_blobs = async( step_iter, last_iter ) => {
 	if( !side ) return // ( runs on every step )
 
 	await new Promise((resolve, reject) => {
-		html2canvas( document.querySelector('#bered-widget'), {} )
+		html2canvas( document.querySelector('#bered-widget'), {
+			// allowTaint: true
+			// useCORS: true,
+		})
 		.then( canvas => {
 			BERED.json_data.combined_images = BERED.json_data.combined_images || {}
 			BERED.json_data.combined_images[ side ] = canvas.toDataURL()
