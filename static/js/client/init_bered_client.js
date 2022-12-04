@@ -51,6 +51,9 @@ let m
 
 const init_popup = () => {
 
+	const req = 1000
+	if( window.innerWidth < req ) return hal('error', 'the map builder requires at least a '+ req + ' pixel screen', 10 * 1000 )
+
 	if( m ){
 		console.log('ay')
 		return m.ele.style.display = 'block'
@@ -86,10 +89,6 @@ const init_popup = () => {
 		console.log('adding selected', widget.parentElement )
 		const modal_content = widget.parentElement.parentElement
 		modal_content.classList.add('selected-0')
-		// left_col.style['max-width'] = '0px'
-		// const right_col = left_col.parentElement.querySelector('.right-panel')
-		// right_col.style['max-width'] = '100%'
-		// right_col.style.max-width = '0px'
 	}, 500)
 
 }
@@ -119,7 +118,7 @@ const set_map_active = ( step_iter ) => {
 	const map_ele = document.querySelector('#bered-map .ol-viewport')
 	map_ele.style['pointer-events'] = 'none'
 	BERED.fCanvas.wrapperEl.style['pointer-events'] = 'none'
-	BERED.fCanvas.wrapperEl.style.opacity = 0.5
+	BERED.fCanvas.wrapperEl.style.opacity = 0
 
 	// reactivate as appropriate
 	if( STEPS[ step_iter ].match(/fabric/) ){ 
@@ -130,19 +129,12 @@ const set_map_active = ( step_iter ) => {
 	}else if( STEPS[ step_iter ].match(/map/) ){
 		map_ele.style['pointer-events'] = 'initial'
 
-		// if( BERED.json_data ){
-		// 	const map_data = BERED.json_data[ STEPS[ step_iter ] ]?.map
-		// 	if( map_data ){
-		// 		BERED.MAP.set('x', map_data.x )
-		// 		BERED.MAP.set('y', map_data.y )
-		// 		BERED.MAP.set('z', map_data.z )
-		// 		BERED.MAP.set('r', map_data.r )
-		// 	}
-		// }
-
 	}else if( STEPS[ step_iter ].match(/info/) ){
 		//
+	}else{
+		BERED.fCanvas.wrapperEl.style.opacity = 1
 	}
+
 	BERED.current_step = step_iter
 
 }
@@ -154,8 +146,20 @@ const set_map_active = ( step_iter ) => {
 
 
 
+let last_opacity, last_active
 
-
+const map_say_cheese = state => {
+	if( state ){
+		last_opacity = BERED.fCanvas.wrapperEl.style.opacity
+		BERED.fCanvas.wrapperEl.style.opacity = 1		
+		last_active = BERED.fCanvas.getActiveObject()
+		BERED.fCanvas.discardActiveObject()
+	}else{
+		BERED.fCanvas.wrapperEl.style.opacity = last_opacity
+		if( last_active ) BERED.fCanvas.setActiveObject( last_active )
+	}
+	BERED.fCanvas.requestRenderAll()
+}
 
 
 
@@ -171,104 +175,30 @@ const update_map_blobs = async( step_iter, last_iter ) => {
 	}	
 	if( !side ) return // ( runs on every step )
 
+	// --- make sure opaque for save
+	map_say_cheese( true )
+
 	await new Promise((resolve, reject) => {
-		html2canvas( document.querySelector('#bered-widget'), {
-			// allowTaint: true
-			// useCORS: true,
-		})
-		.then( canvas => {
-			BERED.json_data.combined_images = BERED.json_data.combined_images || {}
-			BERED.json_data.combined_images[ side ] = canvas.toDataURL()
-			console.log('updated map blob: ', side )
-		})
+
+		setTimeout(() => { // wait for canvas to render cheese
+
+			html2canvas( document.querySelector('#bered-widget'), {
+				// allowTaint: true
+				// useCORS: true,
+			})
+			.then( canvas => {
+				BERED.json_data.combined_images = BERED.json_data.combined_images || {}
+				BERED.json_data.combined_images[ side ] = canvas.toDataURL()
+				console.log('updated map blob: ', side )
+
+				// --- reset opacity
+				map_say_cheese( false )
+
+			})
+		}, 200 )
+
 	})
 }
-
-// const update_map_blobs = async( step_iter, last_iter ) => {
-// 	/*
-// 		set BERED raw image blobs depending on last step
-// 		- openlayers 
-// 		- fabricjs
-// 	*/
-
-// 	const ol_map = document.querySelector('.ol-layer canvas')
-
-// 	let loaded = new Array(2)
-
-// 	const params = {
-// 		side: '',
-// 		map: '',
-// 		fcanvas: '',
-// 	}
-
-// 	// update image eles 
-// 	if( step_iter == 3 && last_iter == 2 ){
-// 		params.side = 'left'
-// 		params.map = 'imageBlob1'
-// 		params.fcanvas = 'imageBlob1_fCanvas'
-// 	}else if( step_iter === 5 && last_iter === 4 ){
-// 		params.side = 'right'
-// 		params.map = 'imageBlob2'
-// 		params.fcanvas = 'imageBlob2_fCanvas'
-// 	}else{
-// 		return // ( function runs on every step but only in conditions ^^ )
-// 	}
-
-// 	await new Promise(( resolve, reject ) => {
-// 		// set the 2 raw blobs
-// 		ol_map.toBlob( blob => {
-// 			BERED[ params.map ] = blob
-// 			loaded[0] = true
-// 			if( loaded[0] && loaded[1] ) resolve()
-// 		})
-// 		BERED.fCanvas.lowerCanvasEl.toBlob( blob => {
-// 			BERED[ params.fcanvas ] = blob
-// 			loaded[1] = true
-// 			if( loaded[0] && loaded[1] ) resolve()
-// 		})
-// 	})
-
-// 	combine_blobs( params.side, BERED[ params.map ], BERED[ params.fcanvas ] )
-// 	.then( img => {
-// 		console.log('updated ' + params.side + ' image blob')
-// 	})
-
-// }
-
-
-// const render_test = n => {
-
-// 	if( !localStorage.getItem('bered-dev') ) return console.log('skipping dev render')
-
-// 	lib.hal('standard', 'rendering test....', 3000 )
-
-// 	console.log('rendering test', n )
-
-// 	setTimeout(() => { // otherwise blobs arent loaded yet
-// 		const test = document.createElement('img')
-// 		test.style.position = 'fixed'
-// 		test.style['z-index'] = '999999'
-// 		test.style.border = '3px solid lightgreen'
-// 		test.style.top = '50px'
-// 		test.style.left = '50px'
-// 		test.src = URL.createObjectURL( BERED['imageBlob' + n] )
-// 		document.body.append( test )
-
-// 		setTimeout(() => {
-// 			test.src = URL.createObjectURL( BERED['imageBlob' + n + '_fCanvas' ])
-// 			test.style.border = '3px solid red'
-// 			setTimeout(() => {
-// 				test.remove()
-// 			}, 4000 )
-// 		}, 4000 )
-
-// 	}, 3000 )
-
-// }
-
-
-
-
 
 
 
@@ -318,7 +248,7 @@ const render_map_state = step => {
 		default: return console.log("missing map state case ", step )
 
 	}
-	if( f_data ) BERED.fCanvas.loadFromDatalessJSON( f_data )
+	if( f_data ) BERED.fCanvas.loadFromJSON( f_data ) // loadFromDatalessJSON
 	if( map_data ) render_map_view( map_data )
 }
 
@@ -332,108 +262,8 @@ const render_map_view = map_data => {
 	BERED.MAPS['bered-map'].getView().setCenter([ map_data.x, map_data.y ])
 	if( map_data.r ) BERED.MAPS['bered-map'].getView().setRotation( map_data.r )
 	if( map_data.z ) BERED.MAPS['bered-map'].getView().setZoom( map_data.z )
-	// BERED.MAPS['bered-map'].set('x', map_data.x )
-	// BERED.MAPS['bered-map'].set('y', map_data.y )
-	// BERED.MAPS['bered-map'].set('z', map_data.z )
-	// BERED.MAPS['bered-map'].set('r', map_data.r )
 }
 
-
-
-// // render poly on closing click
-// const render_live_poly = () => {
-
-// 	const poly = new fabric.Polygon( BERED.live_polygon, {
-// 		fill: 'khaki',
-// 		stroke: 'black',
-// 		strokeWidth: 3,
-// 		hasControls: false,
-// 	})
-// 	BERED.fCanvas.add( poly )
-// 	BERED.fCanvas.requestRenderAll()
-// 	BROKER.publish('SET_DRAW_STATE', {
-// 		state: false,
-// 		button: document.querySelector('.bered-instructions .draw-wrap .button')
-// 	})
-// 	const objs = BERED.fCanvas._objects
-// 	for( let i = objs.length-1; i >= 0; i-- ){
-// 		if( objs[i].bered_is_marker ) BERED.fCanvas.remove( objs[i] )
-// 	}
-// 	delete BERED.live_polygon 
-// 	BERED.fCanvas.requestRenderAll()
-// }
-
-
-// // canvas clicks
-// const set_polygon = e => {
-// 	/* 
-// 		update live-polygon points
-// 	*/
-
-// 	const { isClick, pointer } = e // absolutePointer
-// 	const { x, y } = pointer
-
-// 	if( BERED.live_polygon ){ // 
-// 		console.log('set polygon', 1)
-// 		for( const point of BERED.live_polygon ){
-// 			if( Math.abs( point.x - x ) < 10 && Math.abs( point.y - y ) < 10 ){
-// 				console.log('closing click')
-// 				return render_live_poly()
-// 			}
-// 		}
-// 		// BERED.live_polygon.push({ x: x, y: y }) // ( NOT a Polygon instance, just array )
-
-// 	}else{ // just started drawing
-// 		// BERED.live_polygon = [{x: x,y: y}]
-// 		console.log('set polygon', 2)
-// 	}
-// 	update_polygon( x, y, true )
-// }
-
-
-// const update_polygon = ( x, y, called_by_set ) => {
-// 	if( !called_by_set ) return console.log('only call from set_polygon')
-
-// 	BERED.live_polygon = BERED.live_polygon || []
-// 	BERED.live_polygon.push({x: x, y: y})
-
-// 	// line marker
-// 	if( BERED.live_polygon.length > 1 ){
-// 		const len = BERED.live_polygon.length
-// 		const penultimate_point = BERED.live_polygon[ len - 2 ]
-// 		const ultimate_point = BERED.live_polygon[ len - 1 ]
-// 		const points = [
-// 			penultimate_point.x, 
-// 			penultimate_point.y,
-// 			ultimate_point.x, 
-// 			ultimate_point.y,
-// 		]
-// 		console.log( 'points', points )
-// 		const new_line = new fabric.Line(points, {
-// 			stroke: 'black',
-// 			// left: 50,
-// 			// top: 50,
-// 			strokeWidth: 3,
-// 			selectable: false,
-// 		})
-// 		new_line.bered_is_marker = true
-// 		console.log( new_line )
-// 		BERED.fCanvas.add( new_line )
-// 	}
-
-// 	// circle marker
-// 	const new_marker = new fabric.Circle({
-// 		radius: 7,
-// 		fill: 'orange',
-// 		originX: 'center',
-// 		originY: 'center',
-// 		left: x,
-// 		top: y,
-// 		selectable: false,
-// 	})
-// 	new_marker.bered_is_marker = true
-// 	BERED.fCanvas.add( new_marker )
-// }
 
 
 
@@ -523,27 +353,6 @@ const set_nav = event => {
 	}
 
 }
-
-// const set_draw_mode = event => {
-// 	const { state, button } = event
-// 	// fCanvas.isDrawingMode = state
-
-// 	// object state
-// 	BERED.is_polygon_mode = state
-// 	// canvas state
-// 	if( state ){
-// 		BERED.fCanvas.on('mouse:up', set_polygon )
-// 	}else{
-// 		BERED.fCanvas.off('mouse:up', set_polygon )
-// 	}
-// 	// DOM state
-// 	if( state ){
-// 		button.classList.add('selected')
-// 	}else{
-// 		button.classList.remove('selected')
-// 	}
-// }
-
 
 
 

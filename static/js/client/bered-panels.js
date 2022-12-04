@@ -205,13 +205,17 @@ const build_fabric_picker = ( widget_ele, which ) => {
 			fimg.src = BERED.plugin_url + '/resource/markers/' + (i+1) + '.svg'
 			img_loader.append( fimg )
 			fimg.onload = e => {
+				const dest = {
+					x: fCanvas.getWidth() / 2 + ( Math.random() * 100 ),
+					y: 50 + ( Math.random() * 100 ),
+				}
 				const fIcon = new fabric.Image( fimg, {
 					// should work for different types:
 					// should be same for all types:
 					width: fimg.width,
 					height: fimg.height,
-					top: 50,
-					left: 50,
+					top: fCanvas.getHeight() / 2,
+					left: fCanvas.getWidth(),
 					hasRotatingPoint: false,
 				})
 				fIcon.bered_icon = true
@@ -229,6 +233,12 @@ const build_fabric_picker = ( widget_ele, which ) => {
 					mtr: false
 				})
 				fCanvas.add( fIcon )
+				fIcon.animate('left', dest.x, {
+					onChange: fCanvas.renderAll.bind( fCanvas )
+				})
+				fIcon.animate('top', dest.y, {
+					onChange: fCanvas.renderAll.bind( fCanvas )
+				})
 				fCanvas.requestRenderAll()
 				fimg.remove()
 			}
@@ -375,7 +385,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	const panel = document.createElement('div')
 	panel.classList.add('bered-instructions')
 
-	let step, header, expl
+	let step, expl //header,
 
 	let s = 1
 	const steps = STEPS.length
@@ -399,7 +409,13 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	expl.innerHTML = `
 	<h3>step ${s}/${steps}</h3>
 	<p>Position the map to fit.</p>
-	<p>Scroll your mouse for greater precision.</p>`
+	<p>Scroll your mouse for greater precision.</p>
+	<p>
+		<i>
+			If you do not see a map, it is likely the window was resized.  Try closing this popup and re-opening.  Your data will be saved.
+		</i>
+	</p>
+	`
 	step.append( expl )
 	const r1 = build_button('<img src="' + BERED.plugin_url + '/resource/icons/rotateright.png">')
 	r1.classList.add('rotate')

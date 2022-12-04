@@ -19,7 +19,7 @@ const bundle_json = ( current_canvas_state_iter ) => {
 		iter: current_canvas_state_iter,
 		key: STEPS[ current_canvas_state_iter ],
 	}
-	// console.log('bundling ', step )
+	console.log('bundling ', step )
 
 	// --- validations
 	const form = document.querySelector('#bered-form')
@@ -29,7 +29,10 @@ const bundle_json = ( current_canvas_state_iter ) => {
 
 	// --- fabric
 	if( step.key.match(/fabric/) ){
+		// const init_opacity = BERED.fCanvas.wrapperEl.style.opacity
+		// BERED.fCanvas.wrapperEl.style.opacity = 1
 		bundle[ which_map ].fabric = BERED.fCanvas.toDatalessJSON()
+		// BERED.fCanvas.wrapperEl.style.opacity = init_opacity
 	}
 
 	// --- map

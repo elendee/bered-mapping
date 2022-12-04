@@ -119,7 +119,7 @@ if ( !class_exists( 'BeredMapper' ) ) {
 			);
     		wp_enqueue_script( 
 				'bered-fabric-js', 
-				plugins_url( '/resource/fabric.min.js?v=' . $bered_version, __FILE__ ),
+				plugins_url( '/resource/custom-fabric.min.js?v=' . $bered_version, __FILE__ ),
 				array()
 			);
     		wp_enqueue_script( 
