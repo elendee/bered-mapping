@@ -51,6 +51,8 @@ let m
 
 const init_popup = () => {
 
+	// if( BERED.resized ) return hal('error', 'page was resized - please refresh page and click again', 10 * 1000)
+
 	const req = 1000
 	if( window.innerWidth < req ) return hal('error', 'the map builder requires at least a '+ req + ' pixel screen', 10 * 1000 )
 
@@ -175,6 +177,8 @@ const update_map_blobs = async( step_iter, last_iter ) => {
 	}	
 	if( !side ) return // ( runs on every step )
 
+	bered_spinner.show() 
+
 	// --- make sure opaque for save
 	map_say_cheese( true )
 
@@ -193,6 +197,11 @@ const update_map_blobs = async( step_iter, last_iter ) => {
 
 				// --- reset opacity
 				map_say_cheese( false )
+
+				setTimeout(() => {
+					bered_spinner.hide() 
+					resolve()
+				}, 100)
 
 			})
 		}, 200 )
@@ -282,7 +291,6 @@ const set_nav = event => {
 		handle CSS and set-canvas-state
 	*/
 
-	// console.log( event )
 	const { dir } = event
 
 	const modal = document.querySelector('.modal.bered-map')
@@ -368,26 +376,63 @@ const set_nav = event => {
 
 ;(async() => {
 
-	if( !details ) return console.log('halting bered - invalid woo field')
-	if( !bered_hidden?.length ) return console.log('halting bered - no hidden field')
-
-	document.body.classList.add('bered')
-
-	const begin = lib.b('div')
-	begin.classList.add('button')
-	begin.innerText= 'Make your map'
-	begin.style['text-shadow'] = 'none'
-	begin.addEventListener('click', init_popup )
-	details.append( begin )
-
 	const checkout = document.querySelector('form.cart button[name="add-to-cart"]')
-	if( !checkout ) return console.log('could not find woocommerce checkout button for bered')
+	if( checkout ){ // valid product page
 
-	checkout.classList.add('disabled')
+		if( !details ) return console.log('halting bered - invalid woo field')
+		if( !bered_hidden?.length ) return console.log('halting bered - no hidden field')
+
+		const begin = lib.b('div')
+		begin.classList.add('button')
+		begin.innerText= 'Make your map'
+		begin.style['text-shadow'] = 'none'
+		begin.addEventListener('click', init_popup )
+		details.append( begin )
+
+		document.body.classList.add('bered')
+
+		checkout.classList.add('disabled')
+
+	}else if( document.querySelector('.variation-BeredOrderData') ){ // checkout page
+
+		const orders = document.querySelectorAll('dd.variation-BeredOrderData')
+		let errors = []
+		for( const data of orders ){
+			const data_p = data.querySelector('p')
+			try{
+				const bered = JSON.parse( data_p?.innerText )[0]
+				if( !bered.combined_images?.left || 
+					!bered.combined_images?.right || 
+					!bered.info 
+				){
+					errors.push('invalid map data found')
+				}
+				data_p.style.display = 'none'
+				console.log('data: ', bered )
+			}catch(err){
+				console.error( err )
+				errors.push('unable to parse order data')
+				console.log('invalid order data', data_p )
+			}
+		}
+		if( errors.length ){
+			hal('error', 'invalid order data found - please confirm with us that your order is received correctly', 30 * 1000)
+			for( const e of errors ){
+				hal('error', e, 10 * 1000)
+			}
+		}
+
+	}else{ // dont run on any other pages
+
+		return console.log('not a bered page')
+
+	}
 
 })();
 
-
+window.addEventListener('resize', () => {
+	BERED.resized = true
+})
 
 
 

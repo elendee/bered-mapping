@@ -25,7 +25,7 @@ tstack('lib.js')
 
 const alert_contain = document.createElement('div')
 alert_contain.id = 'alert-contain-3p'
-document.body.appendChild( alert_contain )
+document.body.append( alert_contain )
 
 
 
@@ -50,10 +50,10 @@ const hal = window.hal = ( type, msg, time ) => {
 	alert_msg.innerHTML = `<div class='alert-icon-3p type-${ type }'>${ icon }</div>${ msg }`
 	alert_wrapper.classList.add('ui-fader')
 	alert_msg.classList.add('alert-msg-3p' ) // , 'hal-' + type
-	alert_msg.appendChild( close )
-	alert_wrapper.appendChild( alert_msg )
+	alert_msg.append( close )
+	alert_wrapper.append( alert_msg )
 
-	alert_contain.appendChild( alert_wrapper )
+	alert_contain.append( alert_wrapper )
 
 
 	close.onclick = function(){
@@ -94,9 +94,9 @@ class Spinner{
 		this.ele.classList.add('bered-spinner')
 		this.img = init.img || document.createElement('img')
 		this.img.src = this.img.src || init.src
-		this.ele.appendChild( this.img )
+		this.ele.append( this.img )
 
-		document.body.appendChild( this.ele )
+		document.body.append( this.ele )
 		this.hide()
 	}
 
@@ -129,7 +129,7 @@ class Spinner{
 
 
 const bered_spinner = window.bered_spinner = new Spinner({
-	src: BERED.plugin_url + '/resource/gifs/spinner.gif'
+	src: BERED.plugin_url + '/resource/gifs/spinner.png'
 })
 
 
@@ -705,8 +705,8 @@ const process_split = ( string, require_length ) => {
 // 		})
 // 	}
 
-// 	selection.appendChild( label_ele )
-// 	selection.appendChild( input )
+// 	selection.append( label_ele )
+// 	selection.append( input )
 // 	return selection
 // }
 
@@ -725,13 +725,13 @@ const build_positioner = ( type, gallery, is_ground_dims ) => {
 	const dims = ['x', 'y', 'z']
 	for( const dim of dims ){
 		const ele = coord_range( dim, is_ground_dims, dim )
-		wrapper.appendChild( ele )
+		wrapper.append( ele )
 		ele.addEventListener('change', () => {
 			gallery.render_change( ele.parentElement, gallery.form )
 			gallery.render_position_strings()
 		})
 	}
-	wrapper.appendChild( readout )
+	wrapper.append( readout )
 	const pre = document.createElement('div')
 	if( is_ground_dims ){
 		pre.innerHTML = '<b>x:</b> ground plane width &nbsp;&nbsp;&nbsp; <b>y:</b> ground height scale (if height mapped) &nbsp;&nbsp;&nbsp; <b>z:</b> ground plane depth'
@@ -998,10 +998,11 @@ let jaman_perlin = {
 jaman_perlin.reset();
 
 
-const gen_input = ( type, args ) => { // placeholder, required
+const gen_input = ( type, args ) => {
 
 	let wrapper
 	if( type === 'option' ){
+		if( !args.select ) console.error('MISSING SELECT FOR OPTION')
 		wrapper = args.select
 	}else{
 		wrapper = document.createElement('div')
@@ -1047,6 +1048,28 @@ const gen_input = ( type, args ) => { // placeholder, required
 		}
 	}
 
+	if( args.force_number ){
+		if( type !== 'text' ){
+			console.log('can only force number on text fields (', type, ')')
+		}else{
+			input.addEventListener('keyup', e => {
+				if( input.value.match( /[^0-9]/g )){
+					input.value = input.value.replace(/[^0-9]/g, '')
+					hal('error', 'numbers only', 3000 )
+				}
+				const dashes = [1, 4, 7]
+				let new_val = ''
+				const vals = input.value.split('')
+				for( let i = 0; i < vals.length; i++ ){
+					if( vals[i] === '-') continue
+					new_val += vals[i]
+					if( dashes.includes(i)) new_val += '-'
+				}
+				input.value = new_val
+			})
+		}
+	}
+
 	if( type === 'number'){
 		input.min = args.min
 		input.max = args.max
@@ -1064,10 +1087,10 @@ const gen_input = ( type, args ) => { // placeholder, required
 		if( args.required ){
 			label.innerHTML += '<span class="required">*</span>'
 		}
-		wrapper.appendChild( label )
+		wrapper.append( label )
 	}
 
-	wrapper.appendChild( input )
+	wrapper.append( input )
 	return wrapper
 
 }

@@ -7,6 +7,8 @@ import STEPS from '../shared/STEPS.js?v=110'
 import { 
 	gen_input,
 	b,
+	hal,
+	bered_spinner,
 } from '../lib.js?v=110'
 import { Modal } from '../Modal.js?v=110'
 // import generate_sign from '../generate_sign.js?v=110'
@@ -17,7 +19,7 @@ import bundle_map_data from '../shared/bundle_map_data.js?v=110'
 
 
 
-const img_loader = document.createElement('div')
+const img_loader = b('div')
 img_loader.style.position = 'absolute'
 img_loader.style.width = '0px'
 img_loader.style.height = '0px'
@@ -108,17 +110,17 @@ const type_map = {
 
 // const build_fabric_drawer = widget_ele => {
 
-// 	const wrapper = document.createElement('div')
+// 	const wrapper = b('div')
 // 	wrapper.classList.add('draw-wrap')
 
-// 	const expl = document.createElement('p')
+// 	const expl = b('p')
 // 	expl.innerText = `Click the pencil to draw your building.  
 // Connect the dots to complete a shape.
 // You can click and drag the shape to fit.
 // `
 // 	wrapper.append( expl )
 
-// 	const pencil = document.createElement('div')
+// 	const pencil = b('div')
 // 	pencil.classList.add('button')
 // 	pencil.innerText = 'pencil'
 // 	pencil.addEventListener('click', () => {
@@ -138,15 +140,14 @@ let onetime
 const build_fabric_picker = ( widget_ele, which ) => {
 
 	// the GUI part
-	const wrapper = document.createElement('div')
-	wrapper.classList.add('icon-wrap')
+	const wrapper = b('div', false, 'icon-wrap')
 
-	const expl = document.createElement('p')
+	const expl = b('p')
 	expl.innerText = 'Click an icon to add it to map.'
 	wrapper.append( expl )
 
 	// the map overlay part
-	const canvas = document.createElement('canvas')
+	const canvas = b('canvas')
 	canvas.width = widget_ele.getBoundingClientRect().width
 	canvas.height = widget_ele.getBoundingClientRect().height
 	widget_ele.append( canvas )
@@ -173,16 +174,14 @@ const build_fabric_picker = ( widget_ele, which ) => {
 
 	// }
 
-	const icon_options = document.createElement('div')
+	const icon_options = b('div')
 
 	// const ele = b('div')
 	// ele.classList.add('bered-preview-icons')
 	for( let i = 0; i < BERED.icon_count; i++ ){
 
-		const wrap = b('div')
-		wrap.classList.add('bered-icon-wrap')
-		const img = b('img')
-		img.classList.add('bered-marker')
+		const wrap = b('div', false, 'bered-icon-wrap')
+		const img = b('img', false, 'bered-marker')
 		let c = 0
 		const base = BERED.plugin_url + '/resource/markers/' + (i+1)
 		img.onerror = e => {
@@ -253,7 +252,7 @@ const build_fabric_picker = ( widget_ele, which ) => {
 	// 		icon = new Image()
 	// 		icon.src = BERED.plugin_url + '/resource/' + entry.src
 	// 	}else{
-	// 		icon = document.createElement('div')
+	// 		icon = b('div')
 	// 		icon.style.background = entry.color
 	// 	}
 	// 	icon.classList.add('icon', entry.type )
@@ -341,12 +340,10 @@ const build_fabric_picker = ( widget_ele, which ) => {
 
 const add_navs = section => {
 
-	const wrap = document.createElement('div')
-	wrap.id = 'bered-nav'
+	const wrap = b('div', 'bered-nav')
 
-	const back = document.createElement('div')
+	const back = b('div', false, 'nav', 'button', 'back')
 	back.setAttribute('data-dir', 'back')
-	back.classList.add('nav', 'button', 'back')
 	back.innerHTML = '<img src="' + BERED.plugin_url + '/resource/icons/BACK.png">'
 	back.addEventListener('click', () => {
 		BROKER.publish('SET_NAV_STEP', {
@@ -354,9 +351,8 @@ const add_navs = section => {
 		})
 	})
 
-	const forward = document.createElement('div')
+	const forward = b('div', false, 'nav', 'button', 'forward')
 	forward.setAttribute('data-dir', 'forward')
-	forward.classList.add('nav', 'button', 'forward')
 	forward.innerHTML = '<img src="' + BERED.plugin_url + '/resource/icons/NEXT.png">'
 	forward.addEventListener('click', () => {
 		BROKER.publish('SET_NAV_STEP', {
@@ -382,8 +378,7 @@ const add_navs = section => {
 
 const build_instruction_panel = ( wrapper, widget, map ) => {
 
-	const panel = document.createElement('div')
-	panel.classList.add('bered-instructions')
+	const panel = b('div', false, 'bered-instructions')
 
 	let step, expl //header,
 
@@ -393,7 +388,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	// step 1
 	step = build_section()
 	step.classList.add('selected')
-	expl = document.createElement('div')
+	expl = b('div')
 	expl.innerHTML = `<h3>step ${s}/${steps}</h3>`
 	step.append( expl )
 	step.append( build_form() )
@@ -405,16 +400,16 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 
 	// step 2 - move & rotate map
 	step = build_section()
-	expl = document.createElement('div')
+	expl = b('div')
 	expl.innerHTML = `
 	<h3>step ${s}/${steps}</h3>
 	<p>Position the map to fit.</p>
 	<p>Scroll your mouse for greater precision.</p>
-	<p>
+	<!--p>
 		<i>
 			If you do not see a map, it is likely the window was resized.  Try closing this popup and re-opening.  Your data will be saved.
 		</i>
-	</p>
+	</p-->
 	`
 	step.append( expl )
 	const r1 = build_button('<img src="' + BERED.plugin_url + '/resource/icons/rotateright.png">')
@@ -435,8 +430,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 			map: map,
 		})
 	})
-	const rwrapper = b('div')
-	rwrapper.classList.add('button-wrapper')
+	const rwrapper = b('div', false, 'button-wrapper')
 	rwrapper.append( r2 )
 	rwrapper.append( r1 )
 	step.append( rwrapper)
@@ -446,7 +440,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 
 	// step 3 - first icons
 	step = build_section()
-	expl = document.createElement('div')
+	expl = b('div')
 	expl.innerHTML = `<h3>step ${s}/${steps}</h3>`
 	step.append( expl )
 	step.append( build_fabric_picker( widget ) )
@@ -456,7 +450,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 
 	// step 4 - rezoom map
 	step = build_section()
-	expl = document.createElement('div')
+	expl = b('div')
 	expl.innerHTML = `
 	<h3>step ${s}/${steps}</h3>
 	<p>Now position the map to fit your main building...</p>`
@@ -479,8 +473,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 			map: map,
 		})
 	})
-	const rwrapper2 = b('div')
-	rwrapper2.classList.add('button-wrapper')
+	const rwrapper2 = b('div', false, 'button-wrapper')
 	rwrapper2.append( r2b )
 	rwrapper2.append( r1b )
 	step.append( rwrapper2)
@@ -492,7 +485,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 
 	// step 5 - second icons
 	step = build_section()
-	expl = document.createElement('div')
+	expl = b('div')
 	expl.innerHTML = `
 	<h3>step ${s}/${steps}</h3>
 	Now place icons specifically on your main building`
@@ -505,7 +498,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 
 	// step 6 - checkout
 	step = build_section()
-	expl = document.createElement('div')
+	expl = b('div')
 	expl.innerHTML = `
 	<h3>step ${s}/${steps}</h3>
 	<p>checkout...</p>`
@@ -524,12 +517,10 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 
 const build_checkout_button = () => {
 
-	const wrapper = document.createElement('div')
-	wrapper.id = 'bered-checkout-wrap'
+	const wrapper = b('div', 'bered-checkout-wrap')
 
 	// preview
-	const preview = document.createElement('div')
-	preview.classList.add('button')
+	const preview = b('div', false, 'button')
 	preview.innerText = 'preview'
 	preview.addEventListener('click', () => {
 		preview_modal( JSON.stringify( BERED.json_data ) )
@@ -537,18 +528,29 @@ const build_checkout_button = () => {
 	wrapper.append( preview )
 
 	// checkout
-	const checkout = document.createElement('div')
-	checkout.classList.add('button')
+	const checkout = b('div', false, 'button')
 	checkout.innerText = 'add to cart'
 	checkout.addEventListener('click', () => {
-		const data_area = document.querySelector('textarea.bered-order-data')
-		if( !data_area ) return console.error('Unable to find "order data" field to append map data')
-		// const data_bundle = bundle_map_data()
-		// data_area.value = JSON.stringify( data_bundle )
-		const bounded = [ BERED.json_data ]
-		data_area.value = JSON.stringify( bounded )
-		const real_checkout = document.querySelector('form.cart button[name="add-to-cart"]')
-		real_checkout.click()
+
+		bered_spinner.show()
+		hal('standard', 'This can take up to a full minute to process', 5000)
+
+		setTimeout(() => { // time to show spinner
+
+			const data_area = document.querySelector('textarea.bered-order-data')
+			if( !data_area ) return console.error('Unable to find "order data" field to append map data')
+			// const data_bundle = bundle_map_data()
+			// data_area.value = JSON.stringify( data_bundle )
+			const bounded = [ BERED.json_data ]
+			data_area.value = JSON.stringify( bounded )
+			const real_checkout = document.querySelector('form.cart button[name="add-to-cart"]')
+			if( !real_checkout ) return hal('error', 'unable to process order; invalid checkout button', 5000 )
+			console.log('checkout button for dev: ', real_checkout )
+			if( 1 ){
+				real_checkout.click()
+			}
+
+		}, 100 )
 
 		/*
 			page refreshes here
@@ -568,8 +570,7 @@ const build_form = () => {
 	/*
 		build step 1 info form
 	*/
-	const form = document.createElement('form')
-	form.id = 'bered-form'
+	const form = b('form', 'bered-form')
 	/*
 	name farm
 	address 
@@ -591,28 +592,80 @@ const build_form = () => {
 
 	*/
 
-	const spoof = location.href.match(/localhost/) ? true : false
+	// const spoof = 0 && location.href.match(/localhost/) ? true : false
 
-	const addresse = gen_input('text', { placeholder: 'addresse', name: 'addresse', spoof: 'addresse' })
-	const kommune = gen_input('text', { placeholder: 'kommune', name: 'kommune', spoof: 'kommune' })
-	const ansvarlig = gen_input('text', { placeholder: 'ansvarlig', name: 'ansvarlig', spoof: 'ansvarlig' })
-	const tif = gen_input('text', { placeholder: 'tif', name: 'tif', spoof: 'tif' })
-	const nodslakt = gen_input('text', { placeholder: 'nodslakt', name: 'nodslakt', spoof: 'nodslakt' })
-	const melkentankservice = gen_input('text', { placeholder: 'melkentankservice', name: 'melkentankservice', spoof: 'melkentankservice' })
-	const avloserlag = gen_input('text', { placeholder: 'avloserlag', name: 'avloserlag', spoof: 'avloserlag' })
-	const elektriker = gen_input('text', { placeholder: 'elektriker', name: 'elektriker', spoof: 'elektriker' })
-	const rorlegger = gen_input('text', { placeholder: 'rorlegger', name: 'rorlegger', spoof: 'rorlegger' })
-	const nabokontakt = gen_input('text', { placeholder: 'nabokontakt', name: 'nabokontakt', spoof: 'nabokontakt' })
-	form.append( addresse )
-	form.append( kommune )
-	form.append( ansvarlig )
-	form.append( tif )
-	form.append( nodslakt )
-	form.append( melkentankservice )
-	form.append( avloserlag )
-	form.append( elektriker )
-	form.append( rorlegger )
-	form.append( nabokontakt )
+
+	const render_display = b('div', 'font-display', 'column')
+	render_display.innerText = 'Gårdsnavn'
+	form.append( render_display )
+
+	// -------- LEFT panel
+	const LEFT = b('div', false, 'column', 'column-2')
+
+	const gardsnavn = gen_input('text', { placeholder: 'Gårdsnavn', name: 'gardsnavn' }) // placeholder: 'kommune',
+	gardsnavn.querySelector('input').addEventListener('keyup', e => {
+		const val = gardsnavn.querySelector('input').value
+		if( val ){
+			render_display.innerText = val
+		}else{
+			render_display.innerText = 'Gårdsnavn'
+		}
+	})
+	const addresse = gen_input('text', { placeholder: 'addresse', name: 'addresse' })
+	// font <select>
+	const font_drop = gen_input('select', {
+		name: 'font_drop',
+	})
+	font_drop.id = 'font-selection'
+	const label = b('label', false)
+	label.innerText = 'Choose a font for your title'
+	font_drop.prepend( label )
+	const fonts = ['helvetica', 'times']	
+	let c = 0
+	for( const font of fonts ){
+		const option = gen_input('option', {
+			select: font_drop.querySelector('select'),
+			content: font,
+			value: font,
+		})
+		c++
+		if( c == 1 ) option.selected = true // querySelector('option')
+	}
+
+	const kommune = gen_input('number', { label_content: 'kommune', name: 'kommune', max: 9999 }) // placeholder: 'kommune',
+	const ansvarlig = gen_input('text', { placeholder: 'ansvarlig', name: 'ansvarlig' })
+	const gardsnummer = gen_input('number', { label_content: 'gardsnummer', name: 'gardsnummer', max: 999 })
+	const bruksnr = gen_input('number', { label_content: 'bruksnr', name: 'bruksnr', max: 9999 })
+
+	LEFT.append( gardsnavn )
+	LEFT.append( addresse )
+	LEFT.append( font_drop )
+	LEFT.append( gardsnummer )
+	LEFT.append( kommune ) // 4 dig
+	LEFT.append( bruksnr ) // user number 
+	LEFT.append( ansvarlig ) // owner
+
+	// -------- RIGHT panel
+	const RIGHT = b('div', false, 'column', 'column-2')
+
+	const tif = gen_input('text', { placeholder: 'tif', name: 'tif', force_number: true })
+	const nodslakt = gen_input('text', { placeholder: 'nodslakt', name: 'nodslakt', force_number: true })
+	const melkentankservice = gen_input('text', { placeholder: 'melkentankservice', name: 'melkentankservice', force_number: true })
+	const avloserlag = gen_input('text', { placeholder: 'avloserlag', name: 'avloserlag', force_number: true })
+	const elektriker = gen_input('text', { placeholder: 'elektriker', name: 'elektriker', force_number: true })
+	const rorlegger = gen_input('text', { placeholder: 'rorlegger', name: 'rorlegger', force_number: true })
+	const nabokontakt = gen_input('text', { placeholder: 'nabokontakt', name: 'nabokontakt', force_number: true })
+
+	RIGHT.append( tif )
+	RIGHT.append( nodslakt )
+	RIGHT.append( melkentankservice )
+	RIGHT.append( avloserlag )
+	RIGHT.append( elektriker )
+	RIGHT.append( rorlegger )
+	RIGHT.append( nabokontakt )
+
+	form.append( LEFT )
+	form.append( RIGHT )
 
 	return form
 }
@@ -624,7 +677,7 @@ const build_form = () => {
 
 // const build_dev_panel = wrapper => {
 
-// 	const panel = document.createElement('div')
+// 	const panel = b('div')
 // 	panel.id = 'bered-dev-gui'
 // 	wrapper.append( panel )
 
