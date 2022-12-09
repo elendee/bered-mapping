@@ -3,18 +3,18 @@
 
 
 */
-import STEPS from '../shared/STEPS.js?v=110'
-import * as lib from '../lib.js?v=110'
-import BROKER from '../EventBroker.js?v=110'
-import { Modal } from '../Modal.js?v=110'
-import * as map from '../shared/map.js?v=110'
-import * as gui from './bered-panels.js?v=110'
-import admin from '../admin/bered_admin.js?v=110' // no op
-import DEV from '../dev.js?v=110'
-import bundle_json from '../shared/bundle_map_data.js?v=110'
-// import combine_blobs from '../shared/combine_blobs.js?v=110'
+import STEPS from '../shared/STEPS.js?v=111'
+import * as lib from '../lib.js?v=111'
+import BROKER from '../EventBroker.js?v=111'
+import { Modal } from '../Modal.js?v=111'
+import * as map from '../shared/map.js?v=111'
+import * as gui from './bered-panels.js?v=111'
+import admin from '../admin/bered_admin.js?v=111' // no op
+import DEV from '../dev.js?v=111'
+import bundle_json from '../shared/bundle_map_data.js?v=111'
+// import combine_blobs from '../shared/combine_blobs.js?v=111'
 import html2canvas from '../shared/html2canvas.esm.js'
-// import get_blob from './get-blob.js?v=110'
+// import get_blob from './get-blob.js?v=111'
 
 console.log('bered-client js')
 

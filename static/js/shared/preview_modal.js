@@ -1,7 +1,7 @@
-import { Modal } from '../Modal.js?v=110'
-import { init } from './map.js?v=110'
-import { b } from '../lib.js?v=110'
-import BROKER from '../EventBroker.js?v=110'
+import { Modal } from '../Modal.js?v=111'
+import { init } from './map.js?v=111'
+import { b } from '../lib.js?v=111'
+import BROKER from '../EventBroker.js?v=111'
 
 /*
 
@@ -117,11 +117,15 @@ const build_header = info => {
 	const header = b('div')
 	header.classList.add('bered-preview-header')
 	const main = b('h1')
-	main.innerHTML = info.addresse
+	main.innerHTML = info.gardsnavn
 	const sub = b('h3')
 	sub.innerHTML = '---  ' + info.addresse + '  ---'
 	header.append( main )
 	header.append( sub )
+
+	// fonts
+	header.style['font-family'] = sub.style['font-family'] = BERED.title_font || 'Berkshire'
+
 	return header
 }
 
@@ -305,7 +309,7 @@ const build_icons = json_data => {
 const build_footer = ( type, info ) => {
 
 	const ele = b('div')
-	ele.classList.add('bered-preview-footer')
+	ele.classList.add('bered-preview-footer', 'footer-' + type )
 	const top = b('div')
 	top.classList.add('bered-footer-top')
 	ele.append( top )

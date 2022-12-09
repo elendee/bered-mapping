@@ -1,8 +1,8 @@
-// import '../inc/seedrandom.js?v=110'
+// import '../inc/seedrandom.js?v=111'
 // import {
 // 	Box3,
 // 	Vector3,
-// } from '../inc/three.module.js?v=110'
+// } from '../inc/three.module.js?v=111'
 
 
 
@@ -1053,9 +1053,13 @@ const gen_input = ( type, args ) => {
 			console.log('can only force number on text fields (', type, ')')
 		}else{
 			input.addEventListener('keyup', e => {
-				if( input.value.match( /[^0-9]/g )){
-					input.value = input.value.replace(/[^0-9]/g, '')
-					hal('error', 'numbers only', 3000 )
+				if( input.value.match( /[^0-9\-]/g ) ){
+					for( const match of input.value.match( /[^0-9\-]/g ) ){
+						// if( match !== '-'){
+						// }
+						input.value = input.value.replace(/[^0-9\-]/g, '')
+						hal('error', 'numbers only', 3000 )
+					}
 				}
 				const dashes = [1, 4, 7]
 				let new_val = ''

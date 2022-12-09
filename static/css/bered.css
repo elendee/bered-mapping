@@ -1,4 +1,28 @@
-/*asdf*/
+@font-face{
+	font-family: 'Poppins';
+	src: url('../../resource/fonts/poppins/Poppins-Regular.ttf');
+}
+@font-face{
+	font-family: 'Berkshire';
+	src: url('../../resource/fonts/farmnames/BerkshireSwash-Regular.ttf');
+}
+@font-face{
+	font-family: 'Galada';
+	src: url('../../resource/fonts/farmnames/Galada-Regular.ttf');
+}
+@font-face{
+	font-family: 'Lobster';
+	src: url('../../resource/fonts/farmnames/Lobster-Regular.ttf');
+}
+@font-face{
+	font-family: 'Oleo';
+	src: url('../../resource/fonts/farmnames/OleoScriptSwashCaps-Regular.ttf');
+}
+@font-face{
+	font-family: 'Veracruz';
+	src: url('../../resource/fonts/farmnames/Veracruz-Bold.ttf');
+}
+
 body.bered .map {
     position: relative;
 /*     width: 100%; */
@@ -16,7 +40,7 @@ body.bered .map {
 }
 #bered-sign h1{
 	margin: 35px 0;
-	font-size: 2rem;
+	font-size: 3rem;
 	line-height: 2rem;
 }
 #bered-sign h3{
@@ -49,8 +73,6 @@ body.bered .map {
 #bered-widget{
     position: relative;
     z-index: 99;
-	max-width: 955px !important;
-	width: 955px !important;
 }
 .modal-content #bered-widget{
 /* 	border: 3px so */
@@ -97,7 +119,7 @@ body.bered .button{
     user-select: none;
 	margin-right: 10px;
 	border-radius: 3px;
-	font-family: monospace;
+	font-family: Poppins;
 	box-shadow: 0px 0px 3px black;
 	background: lightgrey;
 }
@@ -198,7 +220,7 @@ body.bered .woocommerce-product-details__short-description .button{
 /* 	border: 5px solid #3ca04d; */
 /* 	color: #0a8423; */
 	text-transform: uppercase;
-	font-family: monospace;
+	font-family: Poppins;
 	letter-spacing: 2px;
 	font-weight: bold;
 	font-size: .8rem;
@@ -272,6 +294,9 @@ body.bered .woocommerce-product-details__short-description .button{
 .modal-content .input-wrapper input[type=number]{
 	max-width: 350px;
 }
+.modal-content .input-wrapper select{
+	padding: 5px;
+}
 
 /* submit */
 .input-wrapper:last-of-type{
@@ -281,16 +306,15 @@ body.bered .woocommerce-product-details__short-description .button{
 .modal-content h3{
 	margin: 10px 0;
 }
-.modal-content .right-panel{
-	max-width: calc( 100% - 955px );
-	padding-top: 0px !important;
-}
 .modal-content .left-panel{
-	height: 955px !important;
-}
-.modal-content .left-panel{
-	max-width: 955px;
+	height: calc(65vw - 10px);
 	padding: 0px !important;
+	max-width: calc(65vw - 70px);
+/* 	border: 2px solid red; */
+}
+.modal-content .right-panel{
+	max-width: calc(35vw - 70px);
+	padding-top: 0px !important;
 }
 
 .modal.bered-map form{
@@ -452,7 +476,7 @@ body.bered .woocommerce-product-details__short-description .button{
 	padding: 30px;
 	text-align: left;
 	display: inline-block;
-	font-family: monospace;
+	font-family: Poppins;
 }
 
 /***********************
@@ -586,11 +610,14 @@ body.bered .woocommerce-product-details__short-description .button{
 }
 .bered-icon-wrap{
 	line-height: 1.3rem;
-	
 }
 .right-panel .bered-icon-wrap{
 /* 	padding: 0 10px; */
 	cursor: pointer;
+}
+.right-panel .bered-icon-wrap label{
+	vertical-align: 45%;
+/* 	display: inline-block; */
 }
 .right-panel  .bered-icon-wrap:hover img{
 	transform: scale(1.2);
@@ -601,13 +628,16 @@ body.bered .woocommerce-product-details__short-description .button{
 	map footer
 */
 .bered-preview-footer{
-/* 	border: 3px solid orange; */
 	display: inline-block;
 	width: 100%;
-	max-width: 50%;
+	max-width: calc(50% - 2px);
 	vertical-align: top;
-	padding: 10px;
+	padding: 10px 0;
 }
+.bered-preview-footer.footer-left{
+	margin-right: 4px;
+}
+
 .bered-footer-top{
 	background: #d40808;
 	color: white;
@@ -749,7 +779,7 @@ body.bered .woocommerce-product-details__short-description .button{
 }
 
 #font-display{
-	font-size: 2.5rem;
+	font-size: 3rem;
 }
 
 .ol-attribution{
@@ -757,4 +787,8 @@ body.bered .woocommerce-product-details__short-description .button{
 }
 .ol-attribution:hover{
 	opacity: 1;
+}
+
+.modal.bered-map{
+	font-family: Poppins, Helvetica;
 }

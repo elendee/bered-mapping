@@ -4,7 +4,7 @@
 */
 import {
 	b,
-} from '../lib.js?v=110'
+} from '../lib.js?v=111'
 
 
 

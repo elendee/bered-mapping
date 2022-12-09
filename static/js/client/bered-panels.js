@@ -1,19 +1,19 @@
-import BROKER from '../EventBroker.js?v=110'
+import BROKER from '../EventBroker.js?v=111'
 import {
 	build_button,
 	build_section,
-} from '../shared/build.js?v=110'
-import STEPS from '../shared/STEPS.js?v=110'
+} from '../shared/build.js?v=111'
+import STEPS from '../shared/STEPS.js?v=111'
 import { 
 	gen_input,
 	b,
 	hal,
 	bered_spinner,
-} from '../lib.js?v=110'
-import { Modal } from '../Modal.js?v=110'
-// import generate_sign from '../generate_sign.js?v=110'
-import preview_modal from '../shared/preview_modal.js?v=110'
-import bundle_map_data from '../shared/bundle_map_data.js?v=110'
+} from '../lib.js?v=111'
+import { Modal } from '../Modal.js?v=111'
+// import generate_sign from '../generate_sign.js?v=111'
+import preview_modal from '../shared/preview_modal.js?v=111'
+import bundle_map_data from '../shared/bundle_map_data.js?v=111'
 
 
 
@@ -620,7 +620,10 @@ const build_form = () => {
 	const label = b('label', false)
 	label.innerText = 'Choose a font for your title'
 	font_drop.prepend( label )
-	const fonts = ['helvetica', 'times']	
+
+	const fonts = ['Berkshire','Galada','Lobster','Oleo','Veracruz']
+
+
 	let c = 0
 	for( const font of fonts ){
 		const option = gen_input('option', {
@@ -631,6 +634,13 @@ const build_form = () => {
 		c++
 		if( c == 1 ) option.selected = true // querySelector('option')
 	}
+	const drop = font_drop.querySelector('select')
+	drop.addEventListener('change', e => {
+		console.log( drop.value )
+		render_display.style['font-family'] = BERED.title_font = drop.value
+	})
+	render_display.style['font-family'] = BERED.title_font = drop.value = ( BERED.title_font || 'Berkshire' )
+
 
 	const kommune = gen_input('number', { label_content: 'kommune', name: 'kommune', max: 9999 }) // placeholder: 'kommune',
 	const ansvarlig = gen_input('text', { placeholder: 'ansvarlig', name: 'ansvarlig' })

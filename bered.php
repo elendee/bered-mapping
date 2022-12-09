@@ -2,7 +2,7 @@
 /**
  * Plugin Name: BeredMapper 
  * Plugin URI: https://bered.no
- * Version: 1.1.0
+ * Version: 1.1.1
  * Description: custom mapping plugin for bered.no
  * Text Domain: bered
  * License:           GPL v2 or later
@@ -37,7 +37,7 @@ require_once( ABSPATH . 'wp-includes/pluggable.php' );
 
 $bered_dir = plugins_url( '', __FILE__ );
 
-$bered_version = '1.1.0';
+$bered_version = '1.1.1';
 
 $bered_settings = [];
 
@@ -138,6 +138,15 @@ if ( !class_exists( 'BeredMapper' ) ) {
 				'https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.js',
 				array()
 			);
+
+    		// fonts // moved to css instead
+			// wp_enqueue_style( 
+			// 	'Poppins', 
+			// 	plugins_url('/resource/fonts/poppins/Poppins-Medium.ttf', __FILE__ ), 
+			// 	array(), '1.0' 
+			// );
+
+
 
 			// <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.js"></script>
 			// <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@main/dist/en/v7.0.0/legacy/ol.css">
