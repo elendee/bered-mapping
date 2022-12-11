@@ -9,6 +9,7 @@ import {
 	b,
 	hal,
 	bered_spinner,
+	formatBeredIcon,
 } from '../lib.js?v=111'
 import { Modal } from '../Modal.js?v=111'
 // import generate_sign from '../generate_sign.js?v=111'
@@ -217,20 +218,9 @@ const build_fabric_picker = ( widget_ele, which ) => {
 					left: fCanvas.getWidth(),
 					hasRotatingPoint: false,
 				})
-				fIcon.bered_icon = true
-				fIcon.scaleToWidth( 35 )
-				fIcon.scaleToHeight( 35 )
-				fIcon.setControlsVisibility({
-					tr: false,
-					tl: false,
-					br: false,
-					bl: false,
-					ml: false,
-					mt: false,
-					mr: false,
-					mb: false,
-					mtr: false
-				})
+
+				formatBeredIcon( fIcon, i === 17 )
+
 				fCanvas.add( fIcon )
 				fIcon.animate('left', dest.x, {
 					onChange: fCanvas.renderAll.bind( fCanvas )
@@ -584,7 +574,7 @@ const build_form = () => {
 	tif
 
 	nodslakt
-	melkentankservice
+	melketankservice
 	avloserlag
 	elektriker
 	rorlegger
@@ -642,16 +632,16 @@ const build_form = () => {
 	render_display.style['font-family'] = BERED.title_font = drop.value = ( BERED.title_font || 'Berkshire' )
 
 
-	const kommune = gen_input('number', { label_content: 'kommune', name: 'kommune', max: 9999 }) // placeholder: 'kommune',
 	const ansvarlig = gen_input('text', { placeholder: 'ansvarlig', name: 'ansvarlig' })
-	const gardsnummer = gen_input('number', { label_content: 'gardsnummer', name: 'gardsnummer', max: 999 })
-	const bruksnr = gen_input('number', { label_content: 'bruksnr', name: 'bruksnr', max: 9999 })
+	const kommune = gen_input('number', { label_content: 'kommunenummer', name: 'kommune', max: 9999 }) // placeholder: 'kommune',
+	const gardsnummer = gen_input('number', { label_content: 'gardsnummer', name: 'gards', max: 9999 })
+	const bruksnr = gen_input('number', { label_content: 'bruksnummer', name: 'bruksnr', max: 999 })
 
 	LEFT.append( gardsnavn )
 	LEFT.append( addresse )
 	LEFT.append( font_drop )
-	LEFT.append( gardsnummer )
 	LEFT.append( kommune ) // 4 dig
+	LEFT.append( gardsnummer )
 	LEFT.append( bruksnr ) // user number 
 	LEFT.append( ansvarlig ) // owner
 
@@ -660,7 +650,7 @@ const build_form = () => {
 
 	const tif = gen_input('text', { placeholder: 'tif', name: 'tif', force_number: true })
 	const nodslakt = gen_input('text', { placeholder: 'nodslakt', name: 'nodslakt', force_number: true })
-	const melkentankservice = gen_input('text', { placeholder: 'melkentankservice', name: 'melkentankservice', force_number: true })
+	const melketankservice = gen_input('text', { placeholder: 'melketankservice', name: 'melketankservice', force_number: true })
 	const avloserlag = gen_input('text', { placeholder: 'avloserlag', name: 'avloserlag', force_number: true })
 	const elektriker = gen_input('text', { placeholder: 'elektriker', name: 'elektriker', force_number: true })
 	const rorlegger = gen_input('text', { placeholder: 'rorlegger', name: 'rorlegger', force_number: true })
@@ -668,7 +658,7 @@ const build_form = () => {
 
 	RIGHT.append( tif )
 	RIGHT.append( nodslakt )
-	RIGHT.append( melkentankservice )
+	RIGHT.append( melketankservice )
 	RIGHT.append( avloserlag )
 	RIGHT.append( elektriker )
 	RIGHT.append( rorlegger )

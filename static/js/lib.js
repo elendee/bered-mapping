@@ -1057,6 +1057,7 @@ const gen_input = ( type, args ) => {
 					for( const match of input.value.match( /[^0-9\-]/g ) ){
 						// if( match !== '-'){
 						// }
+						// console.log('bad matchesss')
 						input.value = input.value.replace(/[^0-9\-]/g, '')
 						hal('error', 'numbers only', 3000 )
 					}
@@ -1108,6 +1109,34 @@ const b = ( type, id, ...classes ) => {
 	}
 	return ele
 }
+
+
+const formatBeredIcon = ( fIcon, is_arrow ) => {
+
+	fIcon.bered_icon = true
+	fIcon.scaleToWidth( 35 )
+	fIcon.scaleToHeight( 35 )
+
+	fIcon.transparentCorners = false
+	fIcon.cornerColor = 'maroon'
+	fIcon.cornerSize = 16 // (13 default)
+	fIcon.padding = 10
+	fIcon.setCoords()
+
+	fIcon.setControlsVisibility({
+		tr: false,
+		tl: false,
+		br: false,
+		bl: false,
+		ml: false,
+		mt: false,
+		mr: false,
+		mb: false,
+		mtr: is_arrow
+	})
+
+}
+
 
 
 
@@ -1178,4 +1207,6 @@ export {
 	PERLIN_SCALE,
 	gen_input,
 	b,
+
+	formatBeredIcon,
 }

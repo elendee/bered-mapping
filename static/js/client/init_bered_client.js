@@ -137,6 +137,11 @@ const set_map_active = ( step_iter ) => {
 		BERED.fCanvas.wrapperEl.style.opacity = 1
 	}
 
+	// for( const obj of BERED.fCanvas.getObjects() ){
+	// 	// console.log('rehydrating set-map-active: ', obj.type, obj.src )
+	// 	lib.formatBeredIcon( obj, !!obj.src.match(/17.svg/) )
+	// }
+
 	BERED.current_step = step_iter
 
 }
@@ -257,7 +262,17 @@ const render_map_state = step => {
 		default: return console.log("missing map state case ", step )
 
 	}
+	// handle fcanvas
 	if( f_data ) BERED.fCanvas.loadFromJSON( f_data ) // loadFromDatalessJSON
+		// console.log('yes we load...')
+	setTimeout(() => {
+		for( const obj of BERED.fCanvas.getObjects() ){
+			console.log('rehydrating icon render-map-state: ', obj.type, obj.src )
+			lib.formatBeredIcon( obj, !!obj.src.match(/18.svg/) )
+		}
+		BERED.fCanvas.requestRenderAll()
+	}, 100)
+	// handle open-layer map
 	if( map_data ) render_map_view( map_data )
 }
 

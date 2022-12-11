@@ -43,11 +43,46 @@ const init_popup = json => {
 	// append modal
 	document.body.append( modal.ele )
 
+	gard()
+
 	fill_popup( modal, json_data )
 
 }
 
+const rfalse = e => {
+	e.preventDefault()
+	e.stopPropagation()
+	console.log('rfalse')
+	return false
+}
 
+
+let check
+const gard = () => {
+	if( location.href.match(/wp-admin/)) return
+	if( check ){
+		clearInterval(check)
+		check = false
+	}
+	check = setInterval(() => {
+		const m = document.querySelector('.modal.preview-order')
+		if( !m ){
+			clearInterval( check )
+			check = false
+			window.removeEventListener('contextmenu', rfalse )
+			return
+		}
+		if( m.querySelector('.gard')) return
+		const p = b('div', false, 'gard')
+		p.innerHTML = `preview`
+		m.querySelector('.modal-content').append( p )
+		p.addEventListener('click', e => {
+			e.preventDefault()
+			window.addEventListener('contextmenu', rfalse )
+		})
+	}, 400)
+
+}
 
 
 // rendering
@@ -327,8 +362,10 @@ const build_footer = ( type, info ) => {
 				'arbeidstilsynet': '73 19 97 00',
 			}
 			const rightkeys = {
+				'tif': true,
 				'nodslakt': true,
-				'meiketankservice': true,
+				'melketankservice': true,
+				// 'meiketankservice': true,
 				'avloserlag': true,
 				'elektriker': true,
 				'rorlegger': true,
@@ -385,7 +422,12 @@ const fill_sub = ( wrapper, type, info ) => {
 	label.innerHTML = type
 	wrapper.append( label )
 	const input = b('input')
-	input.value = info[ type ] || ''
+	if( type === 'Gards - Bruksnummer'){
+		input.value = `${ info.kommune }-${ info.gards }/${ info.bruksnr }`
+	}else{
+		input.value = info[ type ] || ''
+	}
+	// debugger
 	wrapper.append( input )
 }
 
