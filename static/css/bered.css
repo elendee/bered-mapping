@@ -39,16 +39,21 @@ body.bered .map {
 	color: white;
 }
 #bered-sign h1{
-	margin: 35px 0;
-	font-size: 3rem;
+	margin: 45px 0;
+	font-size: 5rem;
+/* 	letter-spacing: 5px; */
 	line-height: 2rem;
+	letter-spacing: 5px;
 }
 #bered-sign h3{
-	margin: 25px 0;
+	margin: 15px 0 5px 0;
 	font-size: 1.3rem;
 	line-height: 1.3rem;
 }
-
+#bered-sign .bered-icon-wrap{
+	margin: 0; 
+/*	5.5px*/
+}
 .bered .row,
 #bered-sign .row{
 	font-size: 0px;
@@ -60,6 +65,7 @@ body.bered .map {
 	width: 100%;
 	font-size: initial;
 	vertical-align: top;
+	height: auto;
 }
 .bered .column-2,
 #bered-sign .column{
@@ -510,20 +516,17 @@ body.bered .woocommerce-product-details__short-description .button{
 }
 /* gards */
 .bered-preview-subheader>div:nth-of-type(1){
-	max-width: 500px;
+	max-width: 550px;
 }
 /* ansvarlig */
 .bered-preview-subheader>div:nth-of-type(2){
-	max-width: 800px;
+	max-width: 750px;
 }
 /* telefon */
 .bered-preview-subheader>div:nth-of-type(3){
 	max-width: 400px;
 }
 
-.bered-preview-subheader>div:nth-of-type(1) label{
-	max-width: 220px;
-}
 .bered-preview-subheader label,
 .bered-preview-subheader input{
 	display: inline-block;
@@ -533,8 +536,13 @@ body.bered .woocommerce-product-details__short-description .button{
 	vertical-align: top;
 	padding: 3px 10px 0 10px;
 }
+.bered-preview-subheader>div:nth-of-type(1) label{
+	max-width: 260px;
+	max-width: calc(100% - 220px);
+}
 .bered-preview-subheader>div:nth-of-type(1) input{
-	max-width: calc(100% - 230px);
+	max-width: 200px; 
+/* 		calc(100% - 310px); */
 }
 .bered-preview-subheader input{
 	max-width: calc(100% - 140px);
@@ -602,6 +610,11 @@ body.bered .woocommerce-product-details__short-description .button{
 	height: 500px;
 	display: inline-block;
 	padding: 5px;
+	
+}
+.bered-preview-icons,
+.bered-preview-icons *{
+	line-height: 1.4rem;
 }
 .bered-icon-wrap img.bered-marker{
 	max-width: 30px;
@@ -642,7 +655,12 @@ body.bered .woocommerce-product-details__short-description .button{
 .bered-preview-footer.footer-left{
 	margin-right: 4px;
 }
-
+.bered-preview-footer.footer-right>.column{
+	max-width: 100% !important;
+	text-align: left;
+	border: 1px solid grey;
+	border-top: 0px;
+}
 .bered-footer-top{
 	background: #d40808;
 	color: white;
@@ -669,12 +687,16 @@ body.bered .woocommerce-product-details__short-description .button{
 }
 .bered-footer-data.footer-standard *{
 	display: inline-block;
-	max-width: 50%;
+/* 	max-width: 50%; */
 }
 .bered-footer-data.footer-standard label{
 /* 	max-width: 20%; */
-	text-align: right;
+/* 	text-align: right; */
 	padding-right: 10px;
+}
+.bered-preview-footer.footer-right .column *{
+	font-size: .9rem;
+	line-height: 1rem;
 }
 /**********************
  END SIGN
@@ -784,7 +806,9 @@ body.bered .woocommerce-product-details__short-description .button{
 }
 
 #font-display{
-	font-size: 3rem;
+	font-size: 5rem;
+	padding: 0;
+/* 	margin: 0; */
 }
 
 .ol-attribution{
@@ -811,3 +835,10 @@ body.bered .woocommerce-product-details__short-description .button{
 	user-select: none;
 }
 
+
+#download-sign{
+	position: fixed;
+	top: 100px;
+	left: 0;
+	z-index: 9999;
+}

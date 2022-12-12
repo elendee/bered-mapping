@@ -1,20 +1,20 @@
-import BROKER from '../EventBroker.js?v=111'
+import BROKER from '../EventBroker.js?v=113'
 import {
 	build_button,
 	build_section,
-} from '../shared/build.js?v=111'
-import STEPS from '../shared/STEPS.js?v=111'
+} from '../shared/build.js?v=113'
+import STEPS from '../shared/STEPS.js?v=113'
 import { 
 	gen_input,
 	b,
 	hal,
 	bered_spinner,
 	formatBeredIcon,
-} from '../lib.js?v=111'
-import { Modal } from '../Modal.js?v=111'
-// import generate_sign from '../generate_sign.js?v=111'
-import preview_modal from '../shared/preview_modal.js?v=111'
-import bundle_map_data from '../shared/bundle_map_data.js?v=111'
+} from '../lib.js?v=113'
+import { Modal } from '../Modal.js?v=113'
+// import generate_sign from '../generate_sign.js?v=113'
+import preview_modal from '../shared/preview_modal.js?v=113'
+import bundle_map_data from '../shared/bundle_map_data.js?v=113'
 
 
 
@@ -62,52 +62,52 @@ const icon_captions = [
 
 
 
-const icons = [
-	{
-		type: 'circle',
-		color: 'yellow',
-	},
-	{
-		type: 'circle',
-		color: 'green',
-	},
-	{
-		type: 'circle',
-		color: 'red',
-	},
-	{
-		type: 'rect',
-		color: 'green',
-	},
-	{
-		type: 'rect',
-		color: 'purple',
-	},
-	{
-		type: 'rect',
-		color: 'yellow',
-	},
-	{
-		type: 'rect',
-		color: 'red',
-	},
-	{
-		type: 'image',
-		color: 'green',
-		src: 'pin-drop.png',
-	},
-	{
-		type: 'image',
-		color: 'yellow',
-		src: 'pin-drop.png',
-	}
-]
+// const icons = [
+// 	{
+// 		type: 'circle',
+// 		color: 'yellow',
+// 	},
+// 	{
+// 		type: 'circle',
+// 		color: 'green',
+// 	},
+// 	{
+// 		type: 'circle',
+// 		color: 'red',
+// 	},
+// 	{
+// 		type: 'rect',
+// 		color: 'green',
+// 	},
+// 	{
+// 		type: 'rect',
+// 		color: 'purple',
+// 	},
+// 	{
+// 		type: 'rect',
+// 		color: 'yellow',
+// 	},
+// 	{
+// 		type: 'rect',
+// 		color: 'red',
+// 	},
+// 	{
+// 		type: 'image',
+// 		color: 'green',
+// 		src: 'pin-drop.png',
+// 	},
+// 	{
+// 		type: 'image',
+// 		color: 'yellow',
+// 		src: 'pin-drop.png',
+// 	}
+// ]
 
-const type_map = {
-	'circle': fabric.Circle,
-	'rect': fabric.Rect,
-	'image': fabric.Image,
-}
+// const type_map = {
+// 	'circle': fabric.Circle,
+// 	'rect': fabric.Rect,
+// 	'image': fabric.Image,
+// }
 
 // const build_fabric_drawer = widget_ele => {
 
@@ -138,7 +138,9 @@ const type_map = {
 // }
 
 let onetime
-const build_fabric_picker = ( widget_ele, which ) => {
+const build_fabric_picker = ( widget_ele, step ) => {
+
+	console.log("picker for: ", step )
 
 	// the GUI part
 	const wrapper = b('div', false, 'icon-wrap')
@@ -433,7 +435,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	expl = b('div')
 	expl.innerHTML = `<h3>step ${s}/${steps}</h3>`
 	step.append( expl )
-	step.append( build_fabric_picker( widget ) )
+	step.append( build_fabric_picker( widget, s ) )
 	add_navs( step )
 	panel.append( step )
 	s++
@@ -633,6 +635,7 @@ const build_form = () => {
 
 
 	const ansvarlig = gen_input('text', { placeholder: 'ansvarlig', name: 'ansvarlig' })
+	const telefon = gen_input('text', { placeholder: 'telefon', name: 'telefon' })
 	const kommune = gen_input('number', { label_content: 'kommunenummer', name: 'kommune', max: 9999 }) // placeholder: 'kommune',
 	const gardsnummer = gen_input('number', { label_content: 'gardsnummer', name: 'gards', max: 9999 })
 	const bruksnr = gen_input('number', { label_content: 'bruksnummer', name: 'bruksnr', max: 999 })
@@ -644,24 +647,25 @@ const build_form = () => {
 	LEFT.append( gardsnummer )
 	LEFT.append( bruksnr ) // user number 
 	LEFT.append( ansvarlig ) // owner
+	LEFT.append( telefon ) // owner
 
 	// -------- RIGHT panel
 	const RIGHT = b('div', false, 'column', 'column-2')
 
-	const tif = gen_input('text', { placeholder: 'tif', name: 'tif', force_number: true })
-	const nodslakt = gen_input('text', { placeholder: 'nodslakt', name: 'nodslakt', force_number: true })
+	// const tif = gen_input('text', { placeholder: 'tif', name: 'tif', force_number: true })
+	const nødslakt = gen_input('text', { placeholder: 'nødslakt', name: 'nødslakt', force_number: true })
 	const melketankservice = gen_input('text', { placeholder: 'melketankservice', name: 'melketankservice', force_number: true })
-	const avloserlag = gen_input('text', { placeholder: 'avloserlag', name: 'avloserlag', force_number: true })
+	const avløserlag = gen_input('text', { placeholder: 'avløserlag', name: 'avløserlag', force_number: true })
 	const elektriker = gen_input('text', { placeholder: 'elektriker', name: 'elektriker', force_number: true })
-	const rorlegger = gen_input('text', { placeholder: 'rorlegger', name: 'rorlegger', force_number: true })
+	const rørlegger = gen_input('text', { placeholder: 'rørlegger', name: 'rørlegger', force_number: true })
 	const nabokontakt = gen_input('text', { placeholder: 'nabokontakt', name: 'nabokontakt', force_number: true })
 
-	RIGHT.append( tif )
-	RIGHT.append( nodslakt )
+	// RIGHT.append( tif )
+	RIGHT.append( nødslakt )
 	RIGHT.append( melketankservice )
-	RIGHT.append( avloserlag )
+	RIGHT.append( avløserlag )
 	RIGHT.append( elektriker )
-	RIGHT.append( rorlegger )
+	RIGHT.append( rørlegger )
 	RIGHT.append( nabokontakt )
 
 	form.append( LEFT )

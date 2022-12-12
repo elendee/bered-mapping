@@ -3,18 +3,18 @@
 
 
 */
-import STEPS from '../shared/STEPS.js?v=111'
-import * as lib from '../lib.js?v=111'
-import BROKER from '../EventBroker.js?v=111'
-import { Modal } from '../Modal.js?v=111'
-import * as map from '../shared/map.js?v=111'
-import * as gui from './bered-panels.js?v=111'
-import admin from '../admin/bered_admin.js?v=111' // no op
-import DEV from '../dev.js?v=111'
-import bundle_json from '../shared/bundle_map_data.js?v=111'
-// import combine_blobs from '../shared/combine_blobs.js?v=111'
+import STEPS from '../shared/STEPS.js?v=113'
+import * as lib from '../lib.js?v=113'
+import BROKER from '../EventBroker.js?v=113'
+import { Modal } from '../Modal.js?v=113'
+import * as map from '../shared/map.js?v=113'
+import * as gui from './bered-panels.js?v=113'
+import admin from '../admin/bered_admin.js?v=113' // no op
+import DEV from '../dev.js?v=113'
+import bundle_json from '../shared/bundle_map_data.js?v=113'
+// import combine_blobs from '../shared/combine_blobs.js?v=113'
 import html2canvas from '../shared/html2canvas.esm.js'
-// import get_blob from './get-blob.js?v=111'
+// import get_blob from './get-blob.js?v=113'
 
 console.log('bered-client js')
 
@@ -92,6 +92,43 @@ const init_popup = () => {
 		const modal_content = widget.parentElement.parentElement
 		modal_content.classList.add('selected-0')
 	}, 500)
+
+}
+
+
+
+const set_icon_visibility = ( i, section ) => {
+
+	/*
+		i == zero indexed
+		2,4 = steps 3,5
+	*/
+
+	const icons = section.querySelectorAll('.bered-icon-wrap')
+
+	const allowed = {
+		2: [1,2,3,4,7,9,10,11,12,15,16,17,18,19],
+		4: [ 6, 8, 9, 10, 13, 14, 15, 16, 18],
+	}
+
+	switch( i ){
+
+	case 2:
+	case 4:
+		for( let x = 0; x < icons.length; x++ ){
+			if( allowed[i].includes( x+1 ) ){ // more zero indexing...
+				icons[x].style.display = 'block'
+			}else{
+				icons[x].style.display = 'none'
+				console.log('hiding: ' + x )
+			}
+		}
+		break;
+
+	default:
+		console.log('no icons to set viz', i )
+		break;
+	}
 
 }
 
@@ -341,6 +378,9 @@ const set_nav = event => {
 					.then( res => {
 						render_map_state( step_iter )
 					})
+					setTimeout(() => {
+						set_icon_visibility( step_iter, steps[step_iter] )
+					}, 200 )
 					break;
 
 				}else{
@@ -363,6 +403,9 @@ const set_nav = event => {
 					.then( res => {
 						render_map_state( step_iter )
 					})
+					setTimeout(() => {
+						set_icon_visibility( step_iter, steps[step_iter] )
+					}, 200 )
 					break;
 
 				}else{
@@ -370,7 +413,7 @@ const set_nav = event => {
 				}
 
 			}
-			
+
 		}
 
 	}

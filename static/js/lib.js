@@ -1,8 +1,8 @@
-// import '../inc/seedrandom.js?v=111'
+// import '../inc/seedrandom.js?v=113'
 // import {
 // 	Box3,
 // 	Vector3,
-// } from '../inc/three.module.js?v=111'
+// } from '../inc/three.module.js?v=113'
 
 
 
@@ -1118,7 +1118,7 @@ const formatBeredIcon = ( fIcon, is_arrow ) => {
 	fIcon.scaleToHeight( 35 )
 
 	fIcon.transparentCorners = false
-	fIcon.cornerColor = 'maroon'
+	fIcon.cornerColor = fIcon.borderColor = 'maroon'
 	fIcon.cornerSize = 16 // (13 default)
 	fIcon.padding = 10
 	fIcon.setCoords()
@@ -1137,6 +1137,12 @@ const formatBeredIcon = ( fIcon, is_arrow ) => {
 
 }
 
+
+const capitalize = value => {
+	if( typeof value !== 'string' ) return value
+	let first = value[0].toUpperCase()
+	return first + value.substring(1)
+}
 
 
 
@@ -1209,4 +1215,5 @@ export {
 	b,
 
 	formatBeredIcon,
+	capitalize,
 }

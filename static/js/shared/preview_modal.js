@@ -1,7 +1,12 @@
-import { Modal } from '../Modal.js?v=111'
-import { init } from './map.js?v=111'
-import { b } from '../lib.js?v=111'
-import BROKER from '../EventBroker.js?v=111'
+import { Modal } from '../Modal.js?v=113'
+import { init } from './map.js?v=113'
+import { 
+	b,
+	capitalize,
+} from '../lib.js?v=113'
+import BROKER from '../EventBroker.js?v=113'
+import html2canvas from './html2canvas.esm.js'
+import { bered_spinner } from '../lib.js?v=113'
 
 /*
 
@@ -47,6 +52,40 @@ const init_popup = json => {
 
 	fill_popup( modal, json_data )
 
+	add_print( modal )
+
+}
+
+const add_print = modal => {
+	if( !location.href.match(/wp-admin/)) return
+
+	const print = b('div', 'download-sign', 'button')
+	print.innerHTML = 'download'
+	print.addEventListener('click', () => {
+		const sign = modal.ele.querySelector('#bered-sign')
+		if( !sign ) return hal('error', 'could not find sign element', 5000)
+		bered_spinner.show()
+		html2canvas( sign, { })
+		.then( canvas => {
+			const dataURL = canvas.toDataURL()
+			const link = document.createElement('a')
+			// link.target ='_blank'
+			link.download = 'Bered-' + ( BERED.json_data.info.gardsnavn || 'sign' ).replace(/ /g, '-') + '-' + Date.now()
+			link.href = dataURL
+			document.body.append( link )
+			link.click()
+			link.remove()
+
+			setTimeout(() => {
+				bered_spinner.hide() 
+			}, 100)
+
+		})
+	})
+	document.body.append( print )
+	modal.ele.querySelector('.modal-close').addEventListener('click', () => {
+		print.remove()
+	})
 }
 
 const rfalse = e => {
@@ -159,28 +198,29 @@ const build_header = info => {
 	header.append( sub )
 
 	// fonts
-	header.style['font-family'] = sub.style['font-family'] = BERED.title_font || 'Berkshire'
+	header.style['font-family'] = BERED.title_font || 'Berkshire' // sub.style['font-family']
 
 	return header
 }
 
 const build_subheader = ( info ) => {
+
 	const subheader = b('div')
 	subheader.classList.add('bered-preview-subheader')
 
 	const gards = b('div')
 	gards.id = 'gards'
-	fill_sub( gards, 'Gards - Bruksnummer', info )
+	fill_sub( gards, 'Kommune- Gårds og Bruksnummer', info )
 	subheader.append( gards )
 
 	const ansvarlig = b('div')
-	ansvarlig.id = 'Ansvarlig'
-	fill_sub( ansvarlig, 'ansvarlig', info )
+	ansvarlig.id = 'ansvarlig'
+	fill_sub( ansvarlig, 'Ansvarlig', info )
 	subheader.append( ansvarlig )
 
 	const telefon = b('div')
-	telefon.id = 'Telefon'
-	fill_sub( telefon, 'telefon', info )
+	telefon.id = 'telefon'
+	fill_sub( telefon, 'Tlf', info )
 	subheader.append( telefon )
 
 	return subheader
@@ -296,25 +336,25 @@ const build_subheader = ( info ) => {
 const build_icons = json_data => {
 
 	const captions = [
-		'drivstofftanker',
-		'gass/propan',
-		'oljefat',
-		'stromkabler',
-		'inntaksilkringer',
-		'silkringsskap',
-		'vannledniger',
-		'stoppekran',
-		'brannslokkingsutstyr',
-		'brannalarm/panel',
-		'plantevernmidler',
-		'handelsgjodsellager',
-		'nodutgang',
-		'sagepunkt evakuering',
-		'personlig verneuststyr',
-		'forstehjelpsutstyr',
-		'moteplass ved brann',
-		'innganger',
-		'skiltets plassering',
+		'Drivstofftanker',
+		'Gass/propan',
+		'Oljefat',
+		'Stromkabler',
+		'Inntaksilkringer',
+		'Silkringsskap',
+		'Vannledniger',
+		'Stoppekran',
+		'Brannslokkingsutstyr',
+		'Brannalarm/panel',
+		'Plantevernmidler',
+		'Handelsgjodsellager',
+		'Nodutgang',
+		'Sagepunkt evakuering',
+		'Personlig verneuststyr',
+		'Forstehjelpsutstyr',
+		'Moteplass ved brann',
+		'Innganger',
+		'Skiltets plassering',
 	]
 
 	const ele = b('div')
@@ -352,7 +392,7 @@ const build_footer = ( type, info ) => {
 	switch( type ){
 
 		case 'left':
-			top.innerHTML = 'viktige telefonnumbre'
+			top.innerHTML = 'Viktige telefonnumbre'
 			const leftkeys = {
 				'brann': 110,
 				'politi': 112,
@@ -362,13 +402,13 @@ const build_footer = ( type, info ) => {
 				'arbeidstilsynet': '73 19 97 00',
 			}
 			const rightkeys = {
-				'tif': true,
-				'nodslakt': true,
+				// 'tif': true,
+				'nødslakt': true,
 				'melketankservice': true,
 				// 'meiketankservice': true,
-				'avloserlag': true,
+				'avløserlag': true,
 				'elektriker': true,
-				'rorlegger': true,
+				'rørlegger': true,
 				'nabokontakt': true,
 			}
 			const left = b('div')
@@ -388,12 +428,12 @@ const build_footer = ( type, info ) => {
 
 		case 'right':
 			const ruti_keys = {
-				brann: 'lorem ipsum',
-				stromstans: 'lorem ipsum',
-				gjodelgass: 'lorem ipsum',
-				silogass: 'lorem ipsum',
+				Brann: 'Kontakt brannvesenet umiddlebart.  Hold vinduer og dører lukket.  Vurder om det er forsvarlig å gå inn og slukke.  Tilkall slakteri og naboer for å evakuere dyra.',
+				Strømstans: 'Sjekk jordfeilbryter.  Ha alltid reservesikringer på lager.  Beskriv muligheten for nødventilasjon.',
+				Gjødselgass: 'Vær oppmerksom ved omrøring eller tømming av gjødselkjeller.  Gå ikke inn i husdyrrom ved mistanke om gjødselgass.',
+				Silogass: 'Bruk alltid silovifte før du går ned i siloen.  Faren for gass er tilstede lenge etter at graset er stabilt.',
 			}
-			top.innerHTML = 'viktige rutiner'
+			top.innerHTML = 'Viktige rutiner'
 			const main = b('div')
 			main.classList.add('column')
 			for( const key in ruti_keys ){
@@ -409,6 +449,18 @@ const build_footer = ( type, info ) => {
 
 }
 
+// Brann
+// Kontakt brannvesenet umiddlebart.  Hold vinduer og dører lukket.  Vurder om det er forsvarlig å gå inn og slukke.  Tilkall slakteri og naboer for å evakuere dyra.  
+
+// Strømstans
+// Sjekk jordfeilbryter.  Ha alltid reservesikringer på lager.  Beskriv muligheten for nødventilasjon.  
+
+// Gjødselgass
+// Vær oppmerksom ved omrøring eller tømming av gjødselkjeller.  Gå ikke inn i husdyrrom ved mistanke om gjødselgass.
+
+// Silogass
+// Bruk alltid silovifte før du går ned i siloen.  Faren for gass er tilstede lenge etter at graset er stabilt.  
+
 
 
 
@@ -422,10 +474,12 @@ const fill_sub = ( wrapper, type, info ) => {
 	label.innerHTML = type
 	wrapper.append( label )
 	const input = b('input')
-	if( type === 'Gards - Bruksnummer'){
+	if( type === 'Kommune- Gårds og Bruksnummer'){
 		input.value = `${ info.kommune }-${ info.gards }/${ info.bruksnr }`
+	}else if( type == 'Tlf' ){
+		input.value = info.telefon
 	}else{
-		input.value = info[ type ] || ''
+		input.value = info[ type ] || info[ type.toLowerCase() ] || ''
 	}
 	// debugger
 	wrapper.append( input )
@@ -435,7 +489,7 @@ const footer_data = ( column_type, key, value ) => {
 	const wrap = b('div')
 	wrap.classList.add('bered-footer-data', column_type )
 	const label = b('label')
-	label.innerHTML = key + ': '
+	label.innerHTML = capitalize( key ) + ': '
 	const data = b('div')
 	data.innerHTML = value || '(none)'
 	wrap.append( label )

@@ -1,4 +1,4 @@
-import * as lib from '../lib.js?v=111'
+import * as lib from '../lib.js?v=113'
 
 
 const loader = lib.b('div')
