@@ -14,6 +14,7 @@ import DEV from '../dev.js?v=113'
 import bundle_json from '../shared/bundle_map_data.js?v=113'
 // import combine_blobs from '../shared/combine_blobs.js?v=113'
 import html2canvas from '../shared/html2canvas.esm.js'
+import html2pdf from '../../../lib/html2pdf.min.js'
 // import get_blob from './get-blob.js?v=113'
 
 console.log('bered-client js')
