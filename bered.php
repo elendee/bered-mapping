@@ -377,6 +377,6 @@ if ( !class_exists( 'BeredMapper' ) ) {
 
 
 
-include_once __DIR__ . '/append_image.php';
+// include_once __DIR__ . '/append_image.php';
 
 

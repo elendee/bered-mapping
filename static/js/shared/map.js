@@ -246,23 +246,6 @@ const rotate_map = event => {
 BROKER.subscribe('MAP_CLEAR', clear )
 BROKER.subscribe('MAP_ADD_LAYER', add_layer )
 BROKER.subscribe('MAP_ROTATE', rotate_map )
-// BROKER.subscribe('MAP_RESIZE', size_  map )
-
-
-// window.addEventListener('resize', () => {
-// 	let container
-// 	if( location.href.match(/wp-admin/) ){
-// 		// container = document.querySelector("#bered-preview-map")
-// 		// for( const )
-// 	}else{
-// 		container = widget
-// 		size_map({ 
-// 			passed_widget: container,
-// 		})
-// 	}
-
-// })
-
 
 
 export { init }

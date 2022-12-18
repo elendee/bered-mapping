@@ -542,7 +542,6 @@ body.bered .woocommerce-product-details__short-description .button{
 }
 .bered-preview-subheader>div:nth-of-type(1) input{
 	max-width: 200px; 
-/* 		calc(100% - 310px); */
 }
 .bered-preview-subheader input{
 	max-width: calc(100% - 140px);
@@ -550,13 +549,14 @@ body.bered .woocommerce-product-details__short-description .button{
 .bered-preview-subheader label{
 	background: black;
 	color: white;
-/* 	max-width: 35%; */
 	max-width: 120px;
 }
 
 
-
-
+.bered-hidden{
+	overflow: hidden;
+	height: 0px;
+}
 
 
 
@@ -835,10 +835,17 @@ body.bered .woocommerce-product-details__short-description .button{
 	user-select: none;
 }
 
-
 #download-sign{
 	position: fixed;
 	top: 100px;
 	left: 0;
 	z-index: 9999;
+}
+
+.product_meta .posted_in{
+	display: none
+}
+
+.bered .woocommerce-tabs{
+	display: none;
 }

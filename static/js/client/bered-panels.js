@@ -11,7 +11,9 @@ import {
 	bered_spinner,
 	formatBeredIcon,
 } from '../lib.js?v=113'
-import { Modal } from '../Modal.js?v=113'
+import { 
+	Modal 
+} from '../Modal.js?v=113'
 // import generate_sign from '../generate_sign.js?v=113'
 import preview_modal from '../shared/preview_modal.js?v=113'
 import bundle_map_data from '../shared/bundle_map_data.js?v=113'
@@ -60,83 +62,6 @@ const icon_captions = [
 
 
 
-
-
-// const icons = [
-// 	{
-// 		type: 'circle',
-// 		color: 'yellow',
-// 	},
-// 	{
-// 		type: 'circle',
-// 		color: 'green',
-// 	},
-// 	{
-// 		type: 'circle',
-// 		color: 'red',
-// 	},
-// 	{
-// 		type: 'rect',
-// 		color: 'green',
-// 	},
-// 	{
-// 		type: 'rect',
-// 		color: 'purple',
-// 	},
-// 	{
-// 		type: 'rect',
-// 		color: 'yellow',
-// 	},
-// 	{
-// 		type: 'rect',
-// 		color: 'red',
-// 	},
-// 	{
-// 		type: 'image',
-// 		color: 'green',
-// 		src: 'pin-drop.png',
-// 	},
-// 	{
-// 		type: 'image',
-// 		color: 'yellow',
-// 		src: 'pin-drop.png',
-// 	}
-// ]
-
-// const type_map = {
-// 	'circle': fabric.Circle,
-// 	'rect': fabric.Rect,
-// 	'image': fabric.Image,
-// }
-
-// const build_fabric_drawer = widget_ele => {
-
-// 	const wrapper = b('div')
-// 	wrapper.classList.add('draw-wrap')
-
-// 	const expl = b('p')
-// 	expl.innerText = `Click the pencil to draw your building.  
-// Connect the dots to complete a shape.
-// You can click and drag the shape to fit.
-// `
-// 	wrapper.append( expl )
-
-// 	const pencil = b('div')
-// 	pencil.classList.add('button')
-// 	pencil.innerText = 'pencil'
-// 	pencil.addEventListener('click', () => {
-// 		BROKER.publish('SET_DRAW_STATE', { 
-// 			// state: !BERED.fCanvas.isDrawingMode, 
-// 			state: !BERED.is_polygon_mode,
-// 			button: pencil,
-// 		})
-// 	})
-// 	wrapper.append( pencil )
-
-// 	return wrapper
-
-// }
-
 let onetime
 const build_fabric_picker = ( widget_ele, step ) => {
 
@@ -168,11 +93,15 @@ const build_fabric_picker = ( widget_ele, step ) => {
 		fCanvas.setHeight( w )
 		window.addEventListener('resize', () => {
 			// console.log('w', canvas.width )
+			const m = document.querySelector('.modal.bered-map')
+			if( !m ) return console.log('no map to resize')
+
 			canvas.width = widget_ele.getBoundingClientRect().width
 			canvas.height = widget_ele.getBoundingClientRect().height
 			
 			fCanvas.setWidth( canvas.width )
 			fCanvas.setHeight( canvas.width )
+			fCanvas.requestRenderAll()
 		})
 
 	// }
@@ -237,85 +166,6 @@ const build_fabric_picker = ( widget_ele, step ) => {
 		})
 
 	}
-
-	// for( const entry of icons ){
-	// 	let icon
-	// 	if( entry.type == 'image'){
-	// 		icon = new Image()
-	// 		icon.src = BERED.plugin_url + '/resource/' + entry.src
-	// 	}else{
-	// 		icon = b('div')
-	// 		icon.style.background = entry.color
-	// 	}
-	// 	icon.classList.add('icon', entry.type )
-	// 	icon.addEventListener('click', () => {
-	// 		const TYPE = type_map[ entry.type ]
-	// 		let fIcon
-	// 		if( entry.type === 'image' ){
-	// 			const img = new Image()
-	// 			img.src = BERED.plugin_url + '/resource/' + entry.src
-	// 			img_loader.append( img )
-	// 			img.onload = e => {
-	// 				fIcon = new TYPE( img, {
-	// 					// should work for different types:
-	// 					// should be same for all types:
-	// 					width: img.width,
-	// 					height: img.height,
-	// 					top: 50,
-	// 					left: 50,
-	// 					hasRotatingPoint: false,
-	// 				})
-	// 				fIcon.bered_icon = true
-	// 				fIcon.scaleToWidth( 35 )
-	// 				fIcon.scaleToHeight( 35 )
-	// 				fIcon.setControlsVisibility({
-	// 					tr: false,
-	// 					tl: false,
-	// 					br: false,
-	// 					bl: false,
-	// 					ml: false,
-	// 					mt: false,
-	// 					mr: false,
-	// 					mb: false,
-	// 					mtr: false
-	// 				})
-	// 				fCanvas.add( fIcon )
-	// 				fCanvas.requestRenderAll()
-	// 				img.remove()
-	// 			}
-
-	// 		}else{
-	// 			fIcon = new TYPE({
-	// 				// should work for different types:
-	// 				radius: 15,
-	// 				width: 30,
-	// 				height: 30,
-	// 				// should be same for all types:
-	// 				fill: entry.color,
-	// 				top: 50,
-	// 				left: 50,
-	// 				hasRotatingPoint: false,
-	// 			})
-
-	// 			fIcon.setControlsVisibility({
-	// 				tr: false,
-	// 				tl: false,
-	// 				br: false,
-	// 				bl: false,
-	// 				ml: false,
-	// 				mt: false,
-	// 				mr: false,
-	// 				mb: false,
-	// 				mtr: false
-	// 			})
-	// 			fCanvas.add( fIcon )
-	// 			fCanvas.requestRenderAll()
-
-	// 		}
-
-	// 	})
-	// 	icon_options.append( icon )
-	// }
 
 	wrapper.append( icon_options )
 

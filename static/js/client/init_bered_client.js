@@ -440,16 +440,29 @@ const set_nav = event => {
 		if( !details ) return console.log('halting bered - invalid woo field')
 		if( !bered_hidden?.length ) return console.log('halting bered - no hidden field')
 
+		document.body.classList.add('bered')
+
+		checkout.parentElement.classList.add('bered-hidden')
+		// classList.add('disabled')
+
 		const begin = lib.b('div')
 		begin.classList.add('button')
 		begin.innerText= 'Make your map'
 		begin.style['text-shadow'] = 'none'
+		begin.style['margin-top'] = '20px'
 		begin.addEventListener('click', init_popup )
 		details.append( begin )
 
-		document.body.classList.add('bered')
-
-		checkout.classList.add('disabled')
+		let order_data
+		for( const outer of document.querySelectorAll('.wcpa_form_outer') ){
+			if( outer.querySelector('textarea.bered-order-data') ){
+				order_data = outer
+				break
+			}
+		}
+		if( order_data ){
+			order_data.classList.add('bered-hidden')
+		}
 
 	}else if( document.querySelector('.variation-BeredOrderData') ){ // checkout page
 

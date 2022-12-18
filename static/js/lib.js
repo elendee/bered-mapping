@@ -1114,8 +1114,9 @@ const b = ( type, id, ...classes ) => {
 const formatBeredIcon = ( fIcon, is_arrow ) => {
 
 	fIcon.bered_icon = true
-	fIcon.scaleToWidth( 35 )
-	fIcon.scaleToHeight( 35 )
+	fIcon.scaleToWidth( is_arrow ? 15 : 35 )
+	fIcon.scaleToHeight( is_arrow ? 15 : 35 )
+	// fIcon.set('scaleX', 2)
 
 	fIcon.transparentCorners = false
 	fIcon.cornerColor = fIcon.borderColor = 'maroon'
