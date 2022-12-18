@@ -11,9 +11,9 @@ import {
 	bered_spinner,
 	formatBeredIcon,
 } from '../lib.js?v=113'
-import { 
-	Modal 
-} from '../Modal.js?v=113'
+// import { 
+// 	Modal 
+// } from '../Modal.js?v=113'
 // import generate_sign from '../generate_sign.js?v=113'
 import preview_modal from '../shared/preview_modal.js?v=113'
 import bundle_map_data from '../shared/bundle_map_data.js?v=113'
@@ -39,7 +39,7 @@ const icon_captions = [
 	'oljefat',
 	'stromkabler',
 	'inntaksilkringer',
-	'silkringsskap',
+	'sikringsskap',
 	'vannledniger',
 	'stoppekran',
 	'brannslokkingsutstyr',
@@ -503,12 +503,12 @@ const build_form = () => {
 	const RIGHT = b('div', false, 'column', 'column-2')
 
 	// const tif = gen_input('text', { placeholder: 'tif', name: 'tif', force_number: true })
-	const nødslakt = gen_input('text', { placeholder: 'nødslakt', name: 'nødslakt', force_number: true })
-	const melketankservice = gen_input('text', { placeholder: 'melketankservice', name: 'melketankservice', force_number: true })
-	const avløserlag = gen_input('text', { placeholder: 'avløserlag', name: 'avløserlag', force_number: true })
-	const elektriker = gen_input('text', { placeholder: 'elektriker', name: 'elektriker', force_number: true })
-	const rørlegger = gen_input('text', { placeholder: 'rørlegger', name: 'rørlegger', force_number: true })
-	const nabokontakt = gen_input('text', { placeholder: 'nabokontakt', name: 'nabokontakt', force_number: true })
+	const nødslakt = gen_input('text', { placeholder: 'nødslakt', name: 'nødslakt', force_number: false })
+	const melketankservice = gen_input('text', { placeholder: 'melketankservice', name: 'melketankservice', force_number: false })
+	const avløserlag = gen_input('text', { placeholder: 'avløserlag', name: 'avløserlag', force_number: false })
+	const elektriker = gen_input('text', { placeholder: 'elektriker', name: 'elektriker', force_number: false })
+	const rørlegger = gen_input('text', { placeholder: 'rørlegger', name: 'rørlegger', force_number: false })
+	const nabokontakt = gen_input('text', { placeholder: 'nabokontakt', name: 'nabokontakt', force_number: false })
 
 	// RIGHT.append( tif )
 	RIGHT.append( nødslakt )

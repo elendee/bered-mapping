@@ -60,7 +60,7 @@ const add_print = modal => {
 	if( !location.href.match(/wp-admin/)) return
 
 	const print = b('div', 'download-sign', 'button')
-	print.innerHTML = 'download'
+	print.innerHTML = 'download raster'
 	print.addEventListener('click', () => {
 		const sign = modal.ele.querySelector('#bered-sign')
 		if( !sign ) return hal('error', 'could not find sign element', 5000)
@@ -341,7 +341,7 @@ const build_icons = json_data => {
 		'Oljefat',
 		'Stromkabler',
 		'Inntaksilkringer',
-		'Silkringsskap',
+		'Sikringsskap',
 		'Vannledniger',
 		'Stoppekran',
 		'Brannslokkingsutstyr',

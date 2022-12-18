@@ -51,7 +51,7 @@ body.bered .map {
 	line-height: 1.3rem;
 }
 #bered-sign .bered-icon-wrap{
-	margin: 0; 
+	margin: 5px 0; 
 /*	5.5px*/
 }
 .bered .row,
@@ -632,9 +632,9 @@ body.bered .woocommerce-product-details__short-description .button{
 .right-panel .bered-icon-wrap{
 /* 	padding: 0 10px; */
 	cursor: pointer;
+	margin: 5px; 0;
 }
 .right-panel .bered-icon-wrap label{
-	vertical-align: 45%;
 /* 	display: inline-block; */
 }
 .right-panel  .bered-icon-wrap:hover img{
@@ -847,5 +847,9 @@ body.bered .woocommerce-product-details__short-description .button{
 }
 
 .bered .woocommerce-tabs{
+	display: none !important;
+}
+
+.bered .related.products{
 	display: none;
 }
