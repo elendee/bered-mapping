@@ -81,6 +81,7 @@ body.bered .map {
     z-index: 99;
 	height: calc(65vw - 70px) !important;
 /* 	border: 2px solid red; */
+	min-width: 1200px;
 }
 .modal-content #bered-widget{
 /* 	border: 3px so */
@@ -99,12 +100,6 @@ body.bered .entry-summary{
 body.bered .disabled{
 	pointer-events: none;
 	opacity: .5;
-}
-
-#bered-widget *{
-/*     border: 3px solid pink; */
-/*     padding: 10px; */
-/*     min-height: 500px; */
 }
 
 #bered-dev-gui{
@@ -159,9 +154,6 @@ body.bered .button:active{
 	display: inline-block;
 }
 .bered-instructions{
-/* 	max-width: 900px; */
-/* 	display: inline-block; */
-/* 	width: 100%; */
 }
 .bered-instructions .nav.button{
 	position: absolute;
@@ -315,14 +307,16 @@ body.bered .woocommerce-product-details__short-description .button{
 	margin: 10px 0;
 }
 .modal-content .left-panel{
-	height: calc(65vw - 10px);
+	height: calc(70vw - 10px);
 	padding: 0px !important;
-	max-width: calc(65vw - 70px);
+	max-width: calc(70vw - 70px);
 /* 	border: 2px solid red; */
 }
 .modal-content .right-panel{
-	max-width: calc(35vw - 70px);
+	max-width: calc(30vw - 70px);
 	padding-top: 0px !important;
+	position: relative;
+	z-index: 9999;
 }
 
 .modal.bered-map form{
@@ -852,4 +846,13 @@ body.bered .woocommerce-product-details__short-description .button{
 
 .bered .related.products{
 	display: none;
+}
+
+@media screen and (max-width: 1650px){
+	.bered .right-panel{
+		opacity: .5;
+	}
+	.bered .right-panel:hover{
+		opacity: 1;
+	}
 }
