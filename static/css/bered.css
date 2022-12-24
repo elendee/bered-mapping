@@ -309,15 +309,17 @@ body.bered .woocommerce-product-details__short-description .button{
 .modal-content .left-panel{
 	height: calc(70vw - 10px);
 	padding: 0px !important;
-	max-width: calc(70vw - 70px);
+	max-width: calc(70vw - 40px);
 /* 	border: 2px solid red; */
 }
 .modal-content .right-panel{
 	max-width: calc(30vw - 70px);
+	width: 100%;
 	padding-top: 0px !important;
 	position: relative;
 	z-index: 9999;
 }
+
 
 .modal.bered-map form{
 	font-size: .8rem;
@@ -848,7 +850,7 @@ body.bered .woocommerce-product-details__short-description .button{
 	display: none;
 }
 
-@media screen and (max-width: 1650px){
+@media screen and (max-width: 1500px){
 	.bered .right-panel{
 		opacity: .5;
 	}
