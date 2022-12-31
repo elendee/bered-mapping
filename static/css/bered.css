@@ -152,6 +152,8 @@ body.bered .button:active{
 	box-shadow: 2px 2px 10px;	
 	border-radius: 5px;
 	display: inline-block;
+	position: relative;
+	z-index: 9;
 }
 .bered-instructions{
 }
@@ -189,6 +191,10 @@ body.bered .button:active{
 	position: relative;
 	padding: 5px;
 	background: white;
+}
+.bered-instructions .section{
+/* 	min-height: 90vh; */
+/* 	height: 100%; */
 }
 .bered-instructions .section.selected{
 	display: inline-block;
@@ -310,10 +316,9 @@ body.bered .woocommerce-product-details__short-description .button{
 	height: calc(70vw - 10px);
 	padding: 0px !important;
 	max-width: calc(70vw - 40px);
-/* 	border: 2px solid red; */
 }
 .modal-content .right-panel{
-	max-width: calc(30vw - 70px);
+	max-width: calc(30vw - 100px);
 	width: 100%;
 	padding-top: 0px !important;
 	position: relative;
@@ -850,11 +855,54 @@ body.bered .woocommerce-product-details__short-description .button{
 	display: none;
 }
 
+.bered-input-inline{
+	position: relative;
+	width: 100%;
+}
+.bered-input-inline label, 
+.bered-input-inline input,
+.modal-content .input-wrapper.bered-input-inline input[type=number]{
+	display: inline-block;
+	width: auto;
+	max-width: 48%;
+	margin: 10px 1% 10px 0%;
+	
+/* 	border: 2px solid; */
+}
+
+.step-bottom{
+/* 	position: absolute; */
+/* 	bottom: 10px; */
+}
+
+img.bered-standard-icon{
+	width: 80px;
+}
+
+.bered-center{
+	text-align: center;
+}
+
 @media screen and (max-width: 1500px){
 	.bered .right-panel{
 		opacity: .5;
 	}
 	.bered .right-panel:hover{
 		opacity: 1;
+	}
+	.modal-content .right-panel{
+		max-width: 35%;
+	}
+	.modal-content .left-panel{
+		max-width: 65%
+	}
+}
+
+@media screen and (max-width: 1200px){
+	.modal-content .right-panel{
+		max-width: 35%;
+	}
+	.modal-content .left-panel{
+		max-width: 65%
 	}
 }

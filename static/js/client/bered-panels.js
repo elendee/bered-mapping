@@ -70,9 +70,9 @@ const build_fabric_picker = ( widget_ele, step ) => {
 	// the GUI part
 	const wrapper = b('div', false, 'icon-wrap')
 
-	const expl = b('p')
-	expl.innerText = 'Click an icon to add it to map.'
-	wrapper.append( expl )
+	// const expl = b('p')
+	// expl.innerText = 'Click an icon to add it to map.'
+	// wrapper.append( expl )
 
 	// the map overlay part
 	const canvas = b('canvas')
@@ -231,27 +231,29 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	step = build_section()
 	step.classList.add('selected')
 	expl = b('div')
-	expl.innerHTML = `<h3>step ${s}/${steps}</h3>`
+	expl.innerHTML = `<h3>steg ${s} av ${steps}</h3>`
 	step.append( expl )
 	step.append( build_form() )
 	add_navs( step )
+
+	// const footer1 = b('div', false, 'bered-step-bottom')
+	// footer1.innerText = `Når du er fornøyd med kartutsnittet så går du til neste vindu ved å trykke på neste.`
+	// step.append( footer1 )
+
 	panel.append( step )
 	s++
-
-	// debugger
 
 	// step 2 - move & rotate map
 	step = build_section()
 	expl = b('div')
 	expl.innerHTML = `
-	<h3>step ${s}/${steps}</h3>
-	<p>Position the map to fit.</p>
-	<p>Scroll your mouse for greater precision.</p>
-	<!--p>
-		<i>
-			If you do not see a map, it is likely the window was resized.  Try closing this popup and re-opening.  Your data will be saved.
-		</i>
-	</p-->
+	<h3>steg ${s} av ${steps}</h3>
+	<p>
+		Zoom inn på kartet og finn din gård ved å bruke rulleknapp på mus eller pluss og minus knappene under. Bruk pilen på skjermen for å flytte kartet til riktig posisjon.  Roter deretter kartet med rotasjonsknappene slik at tunet med alle bygg er korrekt i forhold til hvor skiltet skal plasseres.  Trenger du forklaring trykker du på hjelpesymbolet under.
+	</p>
+	<div class='bered-center'>
+		<img class='bered-standard-icon' src='${ BERED.plugin_url }/resource/icons/QUESTION.png'>
+	</div>
 	`
 	step.append( expl )
 	const r1 = build_button('<img src="' + BERED.plugin_url + '/resource/icons/rotateright.png">')
@@ -277,16 +279,33 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	rwrapper.append( r1 )
 	step.append( rwrapper)
 	add_navs( step )
+
+	const footer2 = b('div', false, 'bered-step-bottom')
+	footer2.innerText = `Når du er fornøyd med kartutsnittet så går du til neste vindu ved å trykke på neste.`
+	step.append( footer2 )
+
 	panel.append( step )
 	s++
 
 	// step 3 - first icons
 	step = build_section()
 	expl = b('div')
-	expl.innerHTML = `<h3>step ${s}/${steps}</h3>`
+	expl.innerHTML = `<h3>steg ${s} av ${steps}</h3>`
 	step.append( expl )
+	const expl2 = b('div')
+	expl2.innerHTML = `
+	<p>
+		Trykk på de symbolene du ønsker å benytte, de vil komme frem på  kartbildet. Flytt deretter symbolet hvor det skal være. Du kan trykke flere ganger på et symbol for å få flere symboler av samme type. For å slette symbol drar du det  bare ut av skjermen. Pilsymbolet kan roteres ved å ta tak i ankeret til symbolet.
+	</p>
+	`
+	step.append( expl2 )
 	step.append( build_fabric_picker( widget, s ) )
 	add_navs( step )
+
+	const footer3 = b('div', false, 'bered-step-bottom')
+	footer3.innerText = `Når du er ferdig med kart over tunet trykker du på neste.`
+	step.append( footer3 )
+
 	panel.append( step )
 	s++
 
@@ -294,8 +313,10 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	step = build_section()
 	expl = b('div')
 	expl.innerHTML = `
-	<h3>step ${s}/${steps}</h3>
-	<p>Now position the map to fit your main building...</p>`
+	<h3>steg ${s} av ${steps}</h3>
+	<p>
+		Nå skal du zoome inn på driftsbygningen og få den til å fylle skjermen så godt som  mulig. Du kan holde inne shifttasten på  tastaturet samtidig som du bruker pilen på  skjermen for å rotere og skalére.
+	</p>`
 	step.append( expl )
 	const r1b = build_button('<img src="' + BERED.plugin_url + '/resource/icons/rotateright.png">')
 	r1b.classList.add('rotate')
@@ -319,6 +340,11 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	rwrapper2.append( r2b )
 	rwrapper2.append( r1b )
 	step.append( rwrapper2)
+
+	const footer4 = b('div', false, 'bered-step-bottom')
+	footer4.innerText = `Når du er ferdig med kart over driftsbygningentrykker du på neste.`
+	step.append( footer4 )
+
 	// step.append( r1b )
 	// step.append( r2b )
 	add_navs( step )
@@ -329,11 +355,14 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	step = build_section()
 	expl = b('div')
 	expl.innerHTML = `
-	<h3>step ${s}/${steps}</h3>
-	Now place icons specifically on your main building`
+	<h3>steg ${s} av ${steps}</h3>
+	<p>
+		Trykk på de symbolene du ønsker å benytte for driftsbygget,  Her ser du en del nye symboler, og det er viktig at du plasserer dem så nøyaktig som mulig, spesielt nødutganger og evt trygge sagepunkter som kan lette evakuering.
+	</p>
+	<p class='step-bottom'>
+		Når du er ferdig med kart over driftsbygget trykker du på neste.
+	</p>`
 	step.append( expl )
-	// appends self later:
-	// step.append( build_fabric_picker( widget ) )
 	add_navs( step )
 	panel.append( step )
 	s++
@@ -342,8 +371,10 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	step = build_section()
 	expl = b('div')
 	expl.innerHTML = `
-	<h3>step ${s}/${steps}</h3>
-	<p>checkout...</p>`
+	<h3>steg ${s} av ${steps}</h3>
+	<p class='step-bottom'>
+		Nå er du ferdig med å designe planen og du kan legge planen i handlekurven for å fullføre kjøpet. Før du gjør dette kan du se en forhåndsvisning av beredskapsplanen - se nøye gjennom denne før du  fullfører kjøpet.
+	</p>`
 	step.append( expl )
 	step.append( build_checkout_button() )
 	add_navs( step )
@@ -453,8 +484,7 @@ const build_form = () => {
 			render_display.innerText = 'Gårdsnavn'
 		}
 	})
-	const addresse = gen_input('text', { placeholder: 'addresse', name: 'addresse' })
-	// font <select>
+
 	const font_drop = gen_input('select', {
 		name: 'font_drop',
 	})
@@ -462,10 +492,7 @@ const build_form = () => {
 	const label = b('label', false)
 	label.innerText = 'Choose a font for your title'
 	font_drop.prepend( label )
-
 	const fonts = ['Berkshire','Galada','Lobster','Oleo','Veracruz']
-
-
 	let c = 0
 	for( const font of fonts ){
 		const option = gen_input('option', {
@@ -483,16 +510,21 @@ const build_form = () => {
 	})
 	render_display.style['font-family'] = BERED.title_font = drop.value = ( BERED.title_font || 'Berkshire' )
 
+	const addresse = gen_input('text', { placeholder: 'addresse', name: 'addresse' })
+
 
 	const ansvarlig = gen_input('text', { placeholder: 'ansvarlig', name: 'ansvarlig' })
 	const telefon = gen_input('text', { placeholder: 'telefon', name: 'telefon' })
 	const kommune = gen_input('number', { label_content: 'kommunenummer', name: 'kommune', max: 9999 }) // placeholder: 'kommune',
+	kommune.classList.add('bered-input-inline')
 	const gardsnummer = gen_input('number', { label_content: 'gardsnummer', name: 'gards', max: 9999 })
+	gardsnummer.classList.add('bered-input-inline')
 	const bruksnr = gen_input('number', { label_content: 'bruksnummer', name: 'bruksnr', max: 999 })
+	bruksnr.classList.add('bered-input-inline')
 
 	LEFT.append( gardsnavn )
-	LEFT.append( addresse )
 	LEFT.append( font_drop )
+	LEFT.append( addresse )
 	LEFT.append( kommune ) // 4 dig
 	LEFT.append( gardsnummer )
 	LEFT.append( bruksnr ) // user number 
