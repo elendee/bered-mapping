@@ -850,6 +850,25 @@ body.bered .woocommerce-product-details__short-description .button{
 	display: none;
 }
 
+.bered-bump-hover{
+	cursor: pointer;
+}
+.bered-bump-hover:hover{
+	transform: scale(1.08);
+}
+.bered-bump-hover:active{
+	transform: scale(1);
+}
+
+#kart-logo{
+	max-width: 160px;
+	float: right;
+}
+
+#bered-begin{
+	max-width: 150px;
+}
+
 @media screen and (max-width: 1500px){
 	.bered .right-panel{
 		opacity: .5;

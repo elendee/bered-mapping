@@ -445,9 +445,11 @@ const set_nav = event => {
 		checkout.parentElement.classList.add('bered-hidden')
 		// classList.add('disabled')
 
-		const begin = lib.b('div')
-		begin.classList.add('button')
-		begin.innerText= 'Make your map'
+		const begin = lib.b('div', 'bered-begin', 'bered-bump-hover')
+		// begin.innerText= 'Make your map'
+		const start = lib.b('img')
+		start.src = BERED.plugin_url + '/resource/icons/START.png'
+		begin.append( start )
 		begin.style['text-shadow'] = 'none'
 		begin.style['margin-top'] = '20px'
 		begin.addEventListener('click', init_popup )
@@ -463,6 +465,12 @@ const set_nav = event => {
 		if( order_data ){
 			order_data.classList.add('bered-hidden')
 		}
+
+		const sponsor = lib.b('div', 'kart-logo')
+		const sponimg = lib.b('img')
+		sponimg.src = BERED.plugin_url + '/resource/icons/kartverket.png'
+		sponsor.append( sponimg )
+		details.append( sponsor )
 
 	}else if( document.querySelector('.variation-BeredOrderData') ){ // checkout page
 
