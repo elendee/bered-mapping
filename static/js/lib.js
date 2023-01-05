@@ -1,8 +1,8 @@
-// import '../inc/seedrandom.js?v=115'
+// import '../inc/seedrandom.js?v=116'
 // import {
 // 	Box3,
 // 	Vector3,
-// } from '../inc/three.module.js?v=115'
+// } from '../inc/three.module.js?v=116'
 
 
 
@@ -24,7 +24,7 @@ tstack('lib.js')
 
 
 const alert_contain = document.createElement('div')
-alert_contain.id = 'alert-contain-3p'
+alert_contain.id = 'alert-contain'
 document.body.append( alert_contain )
 
 
@@ -43,13 +43,13 @@ const hal = window.hal = ( type, msg, time ) => {
 	if( !type ) type = 'standard'
 
 	close.innerHTML = '&times;'
-	close.classList.add('alert-close-3p')
+	close.classList.add('alert-close')
 
 	icon = '<div></div>'
 
-	alert_msg.innerHTML = `<div class='alert-icon-3p type-${ type }'>${ icon }</div>${ msg }`
+	alert_msg.innerHTML = `<div class='alert-icon type-${ type }'>${ icon }</div>${ msg }`
 	alert_wrapper.classList.add('ui-fader')
-	alert_msg.classList.add('alert-msg-3p' ) // , 'hal-' + type
+	alert_msg.classList.add('alert-msg' ) // , 'hal-' + type
 	alert_msg.append( close )
 	alert_wrapper.append( alert_msg )
 

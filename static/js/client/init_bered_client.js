@@ -3,18 +3,18 @@
 
 
 */
-import STEPS from '../shared/STEPS.js?v=115'
-import * as lib from '../lib.js?v=115'
-import BROKER from '../EventBroker.js?v=115'
-import { Modal } from '../Modal.js?v=115'
-import * as map from '../shared/map.js?v=115'
-import * as gui from './bered-panels.js?v=115'
-import admin from '../admin/bered_admin.js?v=115' // no op
-import DEV from '../dev.js?v=115'
-import bundle_json from '../shared/bundle_map_data.js?v=115'
-// import combine_blobs from '../shared/combine_blobs.js?v=115'
+import STEPS from '../shared/STEPS.js?v=116'
+import * as lib from '../lib.js?v=116'
+import BROKER from '../EventBroker.js?v=116'
+import { Modal } from '../Modal.js?v=116'
+import * as map from '../shared/map.js?v=116'
+import * as gui from './bered-panels.js?v=116'
+import admin from '../admin/bered_admin.js?v=116' // no op
+import DEV from '../dev.js?v=116'
+import bundle_json from '../shared/bundle_map_data.js?v=116'
+// import combine_blobs from '../shared/combine_blobs.js?v=116'
 import html2canvas from '../shared/html2canvas.esm.js'
-// import get_blob from './get-blob.js?v=115'
+// import get_blob from './get-blob.js?v=116'
 
 console.log('bered-client js')
 
@@ -74,9 +74,8 @@ const init_popup = () => {
 
 	const map_obj = map.init( widget, 'bered-map' )
 
-
 	// instruction / steps / fabric widget
-	gui.build_instruction_panel( m.right_panel, widget, map_obj ) // ( container )
+	gui.build_instruction_panel( m.right_panel, widget, map_obj )
 	gui.add_zoom( widget, map_obj )
 
 	// dev panel
@@ -120,7 +119,7 @@ const set_icon_visibility = ( i, section ) => {
 				icons[x].style.display = 'block'
 			}else{
 				icons[x].style.display = 'none'
-				console.log('hiding: ' + x )
+				// console.log('hiding: ' + x )
 			}
 		}
 		break;
@@ -412,13 +411,49 @@ const set_nav = event => {
 					console.log('at beginning...')
 				}
 
-			}
+			} // is forward / back
 
+		} // if this loop is selected
+
+	} // for each step
+
+	// add zoom if needed
+	const s = next || prev
+	const zoom_holder = s?.querySelector('.zoom-holder')
+	if( zoom_holder ){
+		const controls = document.querySelector('.ol-zoom.ol-control')
+		if( !controls ) return console.log('no controls for zoomer...')
+		zoom_holder.append( controls )
+
+		const zooms = modal.querySelectorAll('.bered-zoom')
+		for( const z of zooms ){
+			zoom_holder.append( z )
+		}
+
+		// const zoomin = modal.querySelector('.bered-zoom.zoomin')
+		// const zoomout = modal.querySelector('.bered-zoom.zoomout')
+		// const zs = [ zoomin, zoomout ]
+		for( const z of zoom_holder.querySelectorAll('button') ){
+			if( !z.bound_hover ){
+				z.bound_hover = true
+				let selector 
+				let bered_zoom
+				z.addEventListener('mouseover', e => {
+					selector = z.classList.contains('ol-zoom-in') ? 'zoomin' : 'zoomout'
+					bered_zoom = z.parentElement.parentElement.querySelector('.bered-zoom.' + selector )
+					bered_zoom.style.transform = 'scale(1.05)'
+				})
+				z.addEventListener('mouseout', e => {
+					selector = z.classList.contains('ol-zoom-in') ? 'zoomin' : 'zoomout'
+					bered_zoom = z.parentElement.parentElement.querySelector('.bered-zoom.' + selector )
+					bered_zoom.style.transform = 'scale(1)'
+				})
+			}
 		}
 
 	}
 
-}
+} // set nav
 
 
 
@@ -434,6 +469,35 @@ const set_nav = event => {
 
 ;(async() => {
 
+	// check if this page load just placed an order; click cart link if so
+	const redirect = localStorage.getItem('bered-order-redirect')
+	const redirect_window = 1000 * 15
+	if( redirect ){
+		let c = 0
+		let checking_redirect = setInterval(() => {
+			if( c > 30 ) return clearInterval( checking_redirect )
+			c++
+			const cart_link = document.querySelector('.woocommerce-message .button')
+
+			if( Number( redirect) > Date.now() - redirect_window ){
+				if( cart_link ){
+					if( location.href.match(/localhost/)){
+						hal('dev', '(dev) found cart link, halting', 5000 )
+					}else{
+						cart_link.click()
+					}
+					clearInterval( checking_redirect )
+				}else{
+					console.log('no cart link')
+				}
+			}else{
+				delete localStorage['bered-order-redirect']
+				clearInterval( checking_redirect )
+			}
+
+		}, 300 )
+	}
+
 	const checkout = document.querySelector('form.cart button[name="add-to-cart"]')
 	if( checkout ){ // valid product page
 
@@ -445,15 +509,29 @@ const set_nav = event => {
 		checkout.parentElement.classList.add('bered-hidden')
 		// classList.add('disabled')
 
-		const begin = lib.b('div', 'bered-begin', 'bered-bump-hover')
+		const begin = lib.b('div', 'bered-begin', 'bered-font-medium')
+		const intro = lib.b('div' )
+		intro.innerText = `Her starter du med å lage din egen beredskaplan.
+Du vil få god hjelp underveis og du kan også se 
+på forklaringsvideoen under hvordan du går frem.`
+		begin.append( intro )
 		// begin.innerText= 'Make your map'
-		const start = lib.b('img')
+		const start = lib.b('img', false, 'bered-bump-hover')
 		start.src = BERED.plugin_url + '/resource/icons/START.png'
 		begin.append( start )
 		begin.style['text-shadow'] = 'none'
 		begin.style['margin-top'] = '20px'
-		begin.addEventListener('click', init_popup )
+		start.addEventListener('click', init_popup )
 		details.append( begin )
+
+		const vid = lib.b('div', 'bered-video')
+		const vidheader = lib.b('h3')
+		vidheader.innerText = 'Se forklaringsvideo'
+		vid.append( vidheader )
+		const vidimg = lib.b('img', false, 'bered-bump-hover')
+		vidimg.src = BERED.plugin_url + '/resource/icons/VIDEO.png'
+		vid.append( vidimg )
+		details.append( vid )
 
 		let order_data
 		for( const outer of document.querySelectorAll('.wcpa_form_outer') ){

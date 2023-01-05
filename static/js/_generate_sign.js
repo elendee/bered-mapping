@@ -1,4 +1,4 @@
-import * as lib from './lib.js?v=115'
+import * as lib from './lib.js?v=116'
 
 const generate = () => {
 

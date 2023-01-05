@@ -1,16 +1,30 @@
 
+window.bered_enable_dev = state => {
+	if( state ){
+		localStorage.setItem('bered-dev', true)
+	}else{
+		delete localStorage['bered-dev']
+	}
+}
+
+
 const client_dev = async() => {
 
 	// pop map widget 
 	// ( its js rendered )
 	setTimeout(() => {
 
-		document.querySelectorAll('.entry-summary .button').forEach(ele => {
-			if( ele.innerText.match(/make/i)){
-				console.log('running dev init')
-				ele.click()
-			}
-		})
+		// document.querySelectorAll('.entry-summary .button').forEach(ele => {
+		// 	if( ele.innerText.match(/make/i)){
+		// 		console.log('running dev init')
+		// 		ele.click()
+		// 	}
+		// })
+
+		const begin = document.querySelector('#bered-begin img')
+		if( begin ){
+			begin.click()
+		}
 
 
 		// const checkout = document.querySelector('.woocommerce-product-details__short-description .button')

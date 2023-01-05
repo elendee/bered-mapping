@@ -1,22 +1,22 @@
-import BROKER from '../EventBroker.js?v=115'
+import BROKER from '../EventBroker.js?v=116'
 import {
 	build_button,
 	build_section,
-} from '../shared/build.js?v=115'
-import STEPS from '../shared/STEPS.js?v=115'
+} from '../shared/build.js?v=116'
+import STEPS from '../shared/STEPS.js?v=116'
 import { 
 	gen_input,
 	b,
 	hal,
 	bered_spinner,
 	formatBeredIcon,
-} from '../lib.js?v=115'
+} from '../lib.js?v=116'
 // import { 
 // 	Modal 
-// } from '../Modal.js?v=115'
-// import generate_sign from '../generate_sign.js?v=115'
-import preview_modal from '../shared/preview_modal.js?v=115'
-import bundle_map_data from '../shared/bundle_map_data.js?v=115'
+// } from '../Modal.js?v=116'
+// import generate_sign from '../generate_sign.js?v=116'
+import preview_modal from '../shared/preview_modal.js?v=116'
+import bundle_map_data from '../shared/bundle_map_data.js?v=116'
 
 
 
@@ -34,25 +34,25 @@ BERED.icon_count = 19
 
 
 const icon_captions = [
-	'drivstofftanker',
-	'gass/propan',
-	'oljefat',
-	'stromkabler',
-	'inntaksilkringer',
-	'sikringsskap',
-	'vannledniger',
-	'stoppekran',
-	'brannslokkingsutstyr',
-	'brannalarm/panel',
-	'plantevernmidler',
-	'handelsgjodsellager',
-	'nodutgang',
-	'sagepunkt evakuering',
-	'personlig verneuststyr',
-	'forstehjelpsutstyr',
-	'moteplass ved brann',
-	'innganger',
-	'skiltets plassering',
+	'Drivstofftanker',
+	'Gass/propan',
+	'Oljefat',
+	'Stromkabler',
+	'Inntaksilkringer',
+	'Sikringsskap',
+	'Vannledniger',
+	'Stoppekran',
+	'Brannslokkingsutstyr',
+	'Brannalarm/panel',
+	'Plantevernmidler',
+	'Handelsgjodsellager',
+	'Nodutgang',
+	'Sagepunkt evakuering',
+	'Personlig verneuststyr',
+	'Forstehjelpsutstyr',
+	'Moteplass ved brann',
+	'Innganger',
+	'Skiltets plassering',
 ]
 
 
@@ -70,9 +70,9 @@ const build_fabric_picker = ( widget_ele, step ) => {
 	// the GUI part
 	const wrapper = b('div', false, 'icon-wrap')
 
-	const expl = b('p')
-	expl.innerText = 'Click an icon to add it to map.'
-	wrapper.append( expl )
+	// const expl = b('p')
+	// expl.innerText = 'Click an icon to add it to map.'
+	// wrapper.append( expl )
 
 	// the map overlay part
 	const canvas = b('canvas')
@@ -108,8 +108,6 @@ const build_fabric_picker = ( widget_ele, step ) => {
 
 	const icon_options = b('div')
 
-	// const ele = b('div')
-	// ele.classList.add('bered-preview-icons')
 	for( let i = 0; i < BERED.icon_count; i++ ){
 
 		const wrap = b('div', false, 'bered-icon-wrap')
@@ -184,7 +182,7 @@ const add_navs = section => {
 
 	const wrap = b('div', 'bered-nav')
 
-	const back = b('div', false, 'nav', 'button', 'back')
+	const back = b('div', false, 'nav', 'button', 'back', 'bered-bump-hover')
 	back.setAttribute('data-dir', 'back')
 	back.innerHTML = '<img src="' + BERED.plugin_url + '/resource/icons/BACK.png">'
 	back.addEventListener('click', () => {
@@ -193,17 +191,13 @@ const add_navs = section => {
 		})
 	})
 
-	const forward = b('div', false, 'nav', 'button', 'forward')
+	const forward = b('div', false, 'nav', 'button', 'forward', 'bered-bump-hover')
 	forward.setAttribute('data-dir', 'forward')
 	forward.innerHTML = '<img src="' + BERED.plugin_url + '/resource/icons/NEXT.png">'
 	forward.addEventListener('click', () => {
 		BROKER.publish('SET_NAV_STEP', {
 			dir: 'forward',
 		})
-		// BROKER.publish('SET_DRAW_STATE', { 
-		// 	state: false, 
-		// 	button: section.parentElement.querySelector('.draw-wrap .button'),
-		// })
 	})
 
 	wrap.append( back )
@@ -211,6 +205,15 @@ const add_navs = section => {
 
 	section.append( wrap )
 
+}
+
+
+const step_logo = () => {
+	const wrap = b('div', false, 'step-logo')
+	const img = b('img')
+	img.src = `${ BERED.plugin_url }/resource/icons/kartverket.png`
+	wrap.append( img )
+	return wrap
 }
 
 
@@ -227,35 +230,35 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	let s = 1
 	const steps = STEPS.length
 
-	// step 1
+	// --- step 1
 	step = build_section()
 	step.classList.add('selected')
 	expl = b('div')
-	expl.innerHTML = `<h3>step ${s}/${steps}</h3>`
+	expl.innerHTML = `<h3>steg ${s} av ${steps}</h3>`
 	step.append( expl )
+	const gards_expl = b('div')
+	gards_expl.innerHTML = ``
 	step.append( build_form() )
 	add_navs( step )
+
 	panel.append( step )
 	s++
 
-	// debugger
-
-	// step 2 - move & rotate map
+	// --- step 2 - move & rotate map
 	step = build_section()
 	expl = b('div')
 	expl.innerHTML = `
-	<h3>step ${s}/${steps}</h3>
-	<p>Position the map to fit.</p>
-	<p>Scroll your mouse for greater precision.</p>
-	<!--p>
-		<i>
-			If you do not see a map, it is likely the window was resized.  Try closing this popup and re-opening.  Your data will be saved.
-		</i>
-	</p-->
+	<h3>steg ${s} av ${steps}</h3>
+	<p>
+		Zoom inn på kartet og finn din gård ved å bruke rulleknapp på mus eller pluss og minus knappene under. Bruk pilen på skjermen for å flytte kartet til riktig posisjon.  Roter deretter kartet med rotasjonsknappene slik at tunet med alle bygg er korrekt i forhold til hvor skiltet skal plasseres.  Trenger du forklaring trykker du på hjelpesymbolet under.
+	</p>
+	<div class='bered-center bered-bump-hover'>
+		<img class='bered-standard-icon' src='${ BERED.plugin_url }/resource/icons/QUESTION.png'>
+	</div>
 	`
 	step.append( expl )
 	const r1 = build_button('<img src="' + BERED.plugin_url + '/resource/icons/rotateright.png">')
-	r1.classList.add('rotate')
+	r1.classList.add('rotate', 'bered-bump-hover')
 	r1.addEventListener('mousedown', () => {
 		BROKER.publish('MAP_ROTATE', {
 			state: true,
@@ -264,7 +267,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 		})
 	})
 	const r2 = build_button('<img src="' + BERED.plugin_url + '/resource/icons/rotateleft.png">')
-	r2.classList.add('rotate')
+	r2.classList.add('rotate', 'bered-bump-hover')
 	r2.addEventListener('mousedown', () => {
 		BROKER.publish('MAP_ROTATE', {
 			state: true,
@@ -277,28 +280,54 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	rwrapper.append( r1 )
 	step.append( rwrapper)
 	add_navs( step )
+
+	const zoom_holder1 = b('div', false, 'zoom-holder') // placeholder because zooms are appended /detached dynamically
+	step.append( zoom_holder1 )
+
+	const footer2 = b('div', false, 'bered-step-bottom')
+	footer2.innerText = `Når du er fornøyd med kartutsnittet så går du til neste vindu ved å trykke på neste.`
+	step.append( footer2 )
+
+	step.append( step_logo() )
 	panel.append( step )
 	s++
 
-	// step 3 - first icons
+
+	// --- step 3 - first icons
 	step = build_section()
 	expl = b('div')
-	expl.innerHTML = `<h3>step ${s}/${steps}</h3>`
+	expl.innerHTML = `<h3>steg ${s} av ${steps}</h3>`
 	step.append( expl )
+	const expl2 = b('div')
+	expl2.innerHTML = `
+	<p>
+		Trykk på de symbolene du ønsker å benytte, de vil komme frem på  kartbildet. Flytt deretter symbolet hvor det skal være. Du kan trykke flere ganger på et symbol for å få flere symboler av samme type. For å slette symbol drar du det  bare ut av skjermen. Pilsymbolet kan roteres ved å ta tak i ankeret til symbolet.
+	</p>
+	`
+	step.append( expl2 )
 	step.append( build_fabric_picker( widget, s ) )
 	add_navs( step )
+
+	const footer3 = b('div', false, 'bered-step-bottom')
+	footer3.innerText = `Når du er ferdig med kart over tunet trykker du på neste.`
+	step.append( footer3 )
+
+	step.append( b('br') )
+	step.append( step_logo() )
 	panel.append( step )
 	s++
 
-	// step 4 - rezoom map
+	// --- step 4 - rezoom map
 	step = build_section()
 	expl = b('div')
 	expl.innerHTML = `
-	<h3>step ${s}/${steps}</h3>
-	<p>Now position the map to fit your main building...</p>`
+	<h3>steg ${s} av ${steps}</h3>
+	<p>
+		Nå skal du zoome inn på driftsbygningen og få den til å fylle skjermen så godt som  mulig. Du kan holde inne shifttasten på  tastaturet samtidig som du bruker pilen på  skjermen for å rotere og skalére.
+	</p>`
 	step.append( expl )
 	const r1b = build_button('<img src="' + BERED.plugin_url + '/resource/icons/rotateright.png">')
-	r1b.classList.add('rotate')
+	r1b.classList.add('rotate', 'bered-bump-hover')
 	r1b.addEventListener('mousedown', () => {
 		BROKER.publish('MAP_ROTATE', {
 			state: true,
@@ -307,7 +336,7 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 		})
 	})
 	const r2b = build_button('<img src="' + BERED.plugin_url + '/resource/icons/rotateleft.png">')
-	r2b.classList.add('rotate')
+	r2b.classList.add('rotate', 'bered-bump-hover')
 	r2b.addEventListener('mousedown', () => {
 		BROKER.publish('MAP_ROTATE', {
 			state: true,
@@ -319,31 +348,45 @@ const build_instruction_panel = ( wrapper, widget, map ) => {
 	rwrapper2.append( r2b )
 	rwrapper2.append( r1b )
 	step.append( rwrapper2)
-	// step.append( r1b )
-	// step.append( r2b )
+
+	const zoom_holder2 = b('div', false, 'zoom-holder') // placeholder because zooms are appended /detached dynamically
+	step.append( zoom_holder2 )
+
+	const footer4 = b('div', false, 'bered-step-bottom')
+	footer4.innerText = `Når du er ferdig med kart over driftsbygningentrykker du på neste.`
+	step.append( footer4 )
+
 	add_navs( step )
+	step.append( step_logo() )
 	panel.append( step )
 	s++
 
-	// step 5 - second icons
+	// --- step 5 - second icons
 	step = build_section()
 	expl = b('div')
 	expl.innerHTML = `
-	<h3>step ${s}/${steps}</h3>
-	Now place icons specifically on your main building`
+	<h3>steg ${s} av ${steps}</h3>
+	<p>
+		Trykk på de symbolene du ønsker å benytte for driftsbygget,  Her ser du en del nye symboler, og det er viktig at du plasserer dem så nøyaktig som mulig, spesielt nødutganger og evt trygge sagepunkter som kan lette evakuering.
+	</p>
+	<p class='step-bottom'>
+		Når du er ferdig med kart over driftsbygget trykker du på neste.
+	</p>`
 	step.append( expl )
-	// appends self later:
-	// step.append( build_fabric_picker( widget ) )
 	add_navs( step )
+	step.append( b('br') )
+	step.append( step_logo() )
 	panel.append( step )
 	s++
 
-	// step 6 - checkout
+	// --- step 6 - checkout
 	step = build_section()
 	expl = b('div')
 	expl.innerHTML = `
-	<h3>step ${s}/${steps}</h3>
-	<p>checkout...</p>`
+	<h3>steg ${s} av ${steps}</h3>
+	<p class='step-bottom'>
+		Nå er du ferdig med å designe planen og du kan legge planen i handlekurven for å fullføre kjøpet. Før du gjør dette kan du se en forhåndsvisning av beredskapsplanen - se nøye gjennom denne før du  fullfører kjøpet.
+	</p>`
 	step.append( expl )
 	step.append( build_checkout_button() )
 	add_navs( step )
@@ -362,33 +405,41 @@ const build_checkout_button = () => {
 	const wrapper = b('div', 'bered-checkout-wrap')
 
 	// preview
-	const preview = b('div', false, 'button')
-	preview.innerText = 'preview'
+	const preview = b('div', 'bered-preview', 'bered-icon-button')
+	preview.innerHTML = `<img src='${ BERED.plugin_url }/resource/icons/PREVIEW.png' class='bered-bump-hover'>`
 	preview.addEventListener('click', () => {
 		preview_modal( JSON.stringify( BERED.json_data ) )
 	})
 	wrapper.append( preview )
 
+	wrapper.append( b('br') )
+	wrapper.append( b('br') )
+
 	// checkout
-	const checkout = b('div', false, 'button')
-	checkout.innerText = 'add to cart'
+	const checkout = b('div', false, 'bered-icon-button')
+	checkout.innerHTML = `<img src='${ BERED.plugin_url }/resource/icons/kjop.png' class='bered-bump-hover'>`
 	checkout.addEventListener('click', () => {
 
 		bered_spinner.show()
-		hal('standard', 'This can take up to a full minute to process', 5000)
+		hal('standard', 'Thanks!  This can take a minute to add to cart, please be patient...', 5000)
 
 		setTimeout(() => { // time to show spinner
 
+			let msg
 			const data_area = document.querySelector('textarea.bered-order-data')
-			if( !data_area ) return console.error('Unable to find "order data" field to append map data')
-			// const data_bundle = bundle_map_data()
-			// data_area.value = JSON.stringify( data_bundle )
+			if( !data_area ) msg = 'Unable to find "order data" field to append map data'
 			const bounded = [ BERED.json_data ]
 			data_area.value = JSON.stringify( bounded )
 			const real_checkout = document.querySelector('form.cart button[name="add-to-cart"]')
-			if( !real_checkout ) return hal('error', 'unable to process order; invalid checkout button', 5000 )
+			if( !real_checkout ) msg = 'Unable to process order; invalid checkout button'
+			if( msg ){
+				console.error( msg )
+				bered_spinner.hide()
+				return hal('error', 'error attempting checkout; see console', 3000 )
+			}
 			console.log('checkout button for dev: ', real_checkout )
 			if( 1 ){
+				localStorage.setItem('bered-order-redirect', Date.now() )
 				real_checkout.click()
 			}
 
@@ -453,8 +504,7 @@ const build_form = () => {
 			render_display.innerText = 'Gårdsnavn'
 		}
 	})
-	const addresse = gen_input('text', { placeholder: 'addresse', name: 'addresse' })
-	// font <select>
+
 	const font_drop = gen_input('select', {
 		name: 'font_drop',
 	})
@@ -462,10 +512,7 @@ const build_form = () => {
 	const label = b('label', false)
 	label.innerText = 'Choose a font for your title'
 	font_drop.prepend( label )
-
 	const fonts = ['Berkshire','Galada','Lobster','Oleo','Veracruz']
-
-
 	let c = 0
 	for( const font of fonts ){
 		const option = gen_input('option', {
@@ -483,16 +530,21 @@ const build_form = () => {
 	})
 	render_display.style['font-family'] = BERED.title_font = drop.value = ( BERED.title_font || 'Berkshire' )
 
+	const addresse = gen_input('text', { placeholder: 'addresse', name: 'addresse' })
+
 
 	const ansvarlig = gen_input('text', { placeholder: 'ansvarlig', name: 'ansvarlig' })
 	const telefon = gen_input('text', { placeholder: 'telefon', name: 'telefon' })
 	const kommune = gen_input('number', { label_content: 'kommunenummer', name: 'kommune', max: 9999 }) // placeholder: 'kommune',
+	kommune.classList.add('bered-input-inline')
 	const gardsnummer = gen_input('number', { label_content: 'gardsnummer', name: 'gards', max: 9999 })
+	gardsnummer.classList.add('bered-input-inline')
 	const bruksnr = gen_input('number', { label_content: 'bruksnummer', name: 'bruksnr', max: 999 })
+	bruksnr.classList.add('bered-input-inline')
 
 	LEFT.append( gardsnavn )
-	LEFT.append( addresse )
 	LEFT.append( font_drop )
+	LEFT.append( addresse )
 	LEFT.append( kommune ) // 4 dig
 	LEFT.append( gardsnummer )
 	LEFT.append( bruksnr ) // user number 
@@ -599,26 +651,28 @@ const add_zoom = ( widget, map_obj ) => {
 		in: BERED.plugin_url + '/resource/icons/pluss.png',
 		out: BERED.plugin_url + '/resource/icons/minus.png',
 	}
+	
 	let c = 0
 	const zoomin = b('div')
 	zoomin.classList.add('bered-zoom', 'zoomin')
 	zoomin.innerHTML = `<img src="${ url.in }">`
-	widget.append( zoomin )
 	zoomin.querySelector('img').onerr = err => {
 		if( c > 10 ) return
 		zoomin.src = url.in
 		c++
 	}
+	widget.append( zoomin )
+
 	let c2 = 0
 	const zoomout = b('div')
 	zoomout.classList.add('bered-zoom', 'zoomout')
 	zoomout.innerHTML = `<img src="${ url.out }">`
-	widget.append( zoomout )
 	zoomout.querySelector('img').onerr = err => {
 		if( c2 > 10 ) return 
 		zoomout.src = url.out
 		c2++
 	}
+	widget.append( zoomout )
 }
 
 

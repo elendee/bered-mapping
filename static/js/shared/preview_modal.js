@@ -1,12 +1,12 @@
-import { Modal } from '../Modal.js?v=115'
-import { init } from './map.js?v=115'
+import { Modal } from '../Modal.js?v=116'
+import { init } from './map.js?v=116'
 import { 
 	b,
 	capitalize,
-} from '../lib.js?v=115'
-import BROKER from '../EventBroker.js?v=115'
+} from '../lib.js?v=116'
+import BROKER from '../EventBroker.js?v=116'
 import html2canvas from './html2canvas.esm.js'
-import { bered_spinner } from '../lib.js?v=115'
+import { bered_spinner } from '../lib.js?v=116'
 
 /*
 

@@ -1,7 +1,21 @@
+/*@font-face{
+	font-family: 'P-oppins';
+	src: url('../../resource/fonts/poppins/P-oppins-Regular.ttf');
+}*/
+
 @font-face{
-	font-family: 'Poppins';
-	src: url('../../resource/fonts/poppins/Poppins-Regular.ttf');
+	font-family: 'ubuntu-light';
+	src: url('../../resource/fonts/ubuntu/Ubuntu-Light.ttf');
 }
+@font-face{
+	font-family: 'ubuntu';
+	src: url('../../resource/fonts/ubuntu/Ubuntu-Medium.ttf');
+}
+@font-face{
+	font-family: 'ubuntu-bold';
+	src: url('../../resource/fonts/ubuntu/Ubuntu-Bold.ttf');
+}
+
 @font-face{
 	font-family: 'Berkshire';
 	src: url('../../resource/fonts/farmnames/BerkshireSwash-Regular.ttf');
@@ -21,6 +35,16 @@
 @font-face{
 	font-family: 'Veracruz';
 	src: url('../../resource/fonts/farmnames/Veracruz-Bold.ttf');
+}
+
+.bered-font-light{
+	font-family: ubuntu-light
+}
+.bered-font-medium{
+	font-family: ubuntu
+}
+.bered-font-bold{
+	font-family: ubuntu-bold
 }
 
 body.bered .map {
@@ -122,7 +146,7 @@ body.bered .button{
     user-select: none;
 	margin-right: 10px;
 	border-radius: 3px;
-	font-family: Poppins;
+	font-family: ubuntu;
 	box-shadow: 0px 0px 3px black;
 	background: lightgrey;
 }
@@ -133,11 +157,17 @@ body.bered .button:active{
     background: #e6e5e5;
 }
 
+.bered-icon-button{
+	display: inline-block;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
 #bered-nav{
-	position: fixed;
+	position: absolute;
 	z-index: 99;
-	top: -20px;
-	right: 50px;
+	bottom: 10px;
+	right: 10px;
 	background: #34343b;
 	border: 3px solid #747486;
 	box-shadow: 2px 2px 10px;
@@ -152,6 +182,8 @@ body.bered .button:active{
 	box-shadow: 2px 2px 10px;	
 	border-radius: 5px;
 	display: inline-block;
+	position: relative;
+	z-index: 9;
 }
 .bered-instructions{
 }
@@ -195,8 +227,12 @@ body.bered .button:active{
 	width: 100%;
 	padding: 0px 15px 10px 15px;
 }
+.bered-instructions .section.selected,
+.bered-instructions .section{
+	padding-bottom: 120px;
+}
 .bered-instructions .section.selected>div{
-	margin-top: 50px;
+	margin-top: 20px;
 }
 .bered-instructions .button.rotate{
 	margin: 5px;
@@ -211,16 +247,13 @@ body.bered .button:active{
 
 .woocommerce-product-details__short-description .section{
     padding: 10px;
-/*     font-weight: bold; */
 }
 
 /*make your map*/
 body.bered .woocommerce-product-details__short-description .button{
 	margin:  20px 0;
-/* 	border: 5px solid #3ca04d; */
-/* 	color: #0a8423; */
 	text-transform: uppercase;
-	font-family: Poppins;
+	font-family: ubuntu;
 	letter-spacing: 2px;
 	font-weight: bold;
 	font-size: .8rem;
@@ -271,7 +304,7 @@ body.bered .woocommerce-product-details__short-description .button{
 }
 
 .icon-wrap>div{
-	margin-bottom: 50px;
+	margin-bottom: 10px;
 }
 
 .bered-map .button.selected{
@@ -310,10 +343,16 @@ body.bered .woocommerce-product-details__short-description .button{
 	height: calc(70vw - 10px);
 	padding: 0px !important;
 	max-width: calc(70vw - 40px);
-/* 	border: 2px solid red; */
 }
+/* .modal.bered-map .modal-content .right-panel{
+	max-width: calc(30vw - 100px);
+	width: 100%;
+	padding-top: 0px !important;
+	position: relative;
+	z-index: 9999;
+} */
 .modal-content .right-panel{
-	max-width: calc(30vw - 70px);
+	max-width: calc(30vw - 100px);
 	width: 100%;
 	padding-top: 0px !important;
 	position: relative;
@@ -367,16 +406,28 @@ body.bered .woocommerce-product-details__short-description .button{
 
 .bered-map .ol-zoom-in, 
 .bered-map .ol-zoom-out{
-	width: 50px;
-	height: 51px;
+/* 	the native / hidden buttons */
+	width: 60px;
+	height: 60px;
 	opacity: 0;
+	position: absolute;
+	z-index: 9999;
+	cursor: pointer;
 }
+.bered-map .ol-zoom-in{
+	left: 90px
+}
+.bered-map .ol-zoom-out{
+	left: 10px
+}
+
 
 .bered-zoom{
 	position: absolute;
 	left: 10px;
+	top: 10px;
 	z-index: 999;
-	pointer-events: none;
+/* 	pointer-events: none; */
 	display: none;
 }
 .selected-1 .bered-zoom,
@@ -384,26 +435,32 @@ body.bered .woocommerce-product-details__short-description .button{
 	display: inline-block;
 }
 .bered-zoom img{
-	max-width: 50px !important;
+	max-width: 65px !important;
 }
 .bered-zoom.zoomin{
-	top: 12px;
+	left: 92px;
 }
 .bered-zoom.zoomout{
-	top: 64px;
+	left: 10px;
 }
 .ol-zoom.ol-control{
-	background: transparent;
-}
-.selected-1 .ol-zoom.ol-control,
-.selected-3 .ol-zoom.ol-control{
 	background: #34343b;
+	position: relative;
+	width: 167px;
+	height: 78px;
 	border: 3px solid #69697a;
 	box-shadow: 2px 2px 10px;	
 	border-radius: 5px;
-	padding: 0 !important;
 	box-sizing: border-box !important;
-	width: 55px;
+	left: 0;
+}
+.selected-1 .ol-zoom.ol-control,
+.selected-3 .ol-zoom.ol-control{
+}
+
+.zoom-holder{
+	position: relative;
+	margin-top: 0px !important;
 }
 
 
@@ -480,7 +537,7 @@ body.bered .woocommerce-product-details__short-description .button{
 	padding: 30px;
 	text-align: left;
 	display: inline-block;
-	font-family: Poppins;
+	font-family: ubuntu-light;
 }
 
 /***********************
@@ -625,6 +682,9 @@ body.bered .woocommerce-product-details__short-description .button{
 .bered-icon-wrap{
 	line-height: 1.3rem;
 }
+.modal.bered-map .bered-icon-wrap label{
+	width: calc(100% - 50px);
+}
 .right-panel .bered-icon-wrap{
 /* 	padding: 0 10px; */
 	cursor: pointer;
@@ -703,7 +763,7 @@ body.bered .woocommerce-product-details__short-description .button{
 
 
 
-#alert-contain-3p{
+#alert-contain{
     position:fixed;
     z-index: 999999999;
     bottom: 100px;
@@ -713,28 +773,32 @@ body.bered .woocommerce-product-details__short-description .button{
     pointer-events: none;
     padding-top: 10px;
 }
-.alert-wrap-3p{
+.alert-wrap{
     transition: .5s;
 }
-.alert-msg-3p{
+.alert-msg{
     position: relative;
     background: rgba(0, 0, 0, .9);
     color: lightgrey;
     font-size: 16px;
     display: inline-block;
     margin: 1px 0;
-    padding: 3px 50px 3px 20px;
+    padding: 6px 50px 6px 30px;
     pointer-events: initial;
+	font-family: ubuntu;
+	border-radius: 5px;
+	border: 3px solid;
+	box-shadow: 0px 0px 10px black, 0px 0px 20px black;
 }
-.alert-msg-3p pre{
+.alert-msg pre{
     max-height: 80vh;
     overflow-y: auto;
 }
-.alert-msg-3p span{
+.alert-msg span{
     color: orange
 }
-.alert-icon-3p,
-.alert-close-3p{
+.alert-icon,
+.alert-close{
     height: 100%;
     width: 30px;
 
@@ -743,7 +807,7 @@ body.bered .woocommerce-product-details__short-description .button{
     align-items: center;
 }
 
-.alert-icon-3p{
+.alert-icon{
     position: absolute;
     top: 0px;
     left: 0px;
@@ -753,7 +817,7 @@ body.bered .woocommerce-product-details__short-description .button{
 
 
 
-.alert-close-3p{
+.alert-close{
     position: absolute;
     right: 0px;
     top: 0px;
@@ -766,26 +830,26 @@ body.bered .woocommerce-product-details__short-description .button{
     align-items: center;
     user-select: none;
 }
-.alert-close-3p:hover{
+.alert-close:hover{
     background: rgba(250, 50, 55, .4);
 }
-.alert-icon-3p{
+.alert-icon{
     background: lightgrey;
 }
-.alert-icon-3p.type-success{
+.alert-icon.type-success{
     background: rgba(100, 245, 100, .7);
 }
-.alert-icon-3p.type-error,
-.alert-icon-3p.type-warning{
+.alert-icon.type-error,
+.alert-icon.type-warning{
     background: red;
 }
-.hal .alert-icon-3p{
+.hal .alert-icon{
     background: rgb(255 235 0)
 }
-.combat .alert-icon-3p{
+.combat .alert-icon{
     background: #ff8304;
 }
-.alert-icon-3p.type-system{
+.alert-icon.type-system{
     background: #673AB7;
 }
 
@@ -815,7 +879,8 @@ body.bered .woocommerce-product-details__short-description .button{
 }
 
 .modal.bered-map{
-	font-family: Poppins, Helvetica;
+/* 	font-family: ubuntu, Helvetica; */
+	font-family: ubuntu-light, Helvetica;
 }
 
 .gard{
@@ -854,7 +919,7 @@ body.bered .woocommerce-product-details__short-description .button{
 	cursor: pointer;
 }
 .bered-bump-hover:hover{
-	transform: scale(1.08);
+	transform: scale(1.05);
 }
 .bered-bump-hover:active{
 	transform: scale(1);
@@ -865,8 +930,62 @@ body.bered .woocommerce-product-details__short-description .button{
 	float: right;
 }
 
-#bered-begin{
+#bered-begin  img{
 	max-width: 150px;
+	margin-top: 10px;
+}
+
+.bered-input-inline{
+	position: relative;
+	width: 100%;
+}
+.bered-input-inline label, 
+.bered-input-inline input,
+.modal-content .input-wrapper.bered-input-inline input[type=number]{
+	display: inline-block;
+	width: auto;
+	max-width: 48%;
+	margin: 10px 1% 10px 0%;
+	
+/* 	border: 2px solid; */
+}
+
+.step-bottom{
+/* 	position: absolute; */
+/* 	bottom: 10px; */
+}
+
+img.bered-standard-icon{
+	width: 80px;
+}
+
+.bered-center{
+	text-align: center;
+}
+
+#bered-video{
+/* 	border: 2px solid; */
+	width: 170px;
+	text-align: center;
+	margin-top: 60px;
+}
+#bered-video img{
+	max-width: 100px;
+	
+}
+
+.step-logo{
+	max-width: 90px;
+	position: absolute;
+	left: 20px;
+	bottom: 0px;
+}
+
+#bered-checkout-wrap .bered-icon-button{
+	max-width: 120px;
+}
+#bered-preview{
+	margin-right: 40px;
 }
 
 @media screen and (max-width: 1500px){
@@ -875,5 +994,20 @@ body.bered .woocommerce-product-details__short-description .button{
 	}
 	.bered .right-panel:hover{
 		opacity: 1;
+	}
+	.modal-content .right-panel{
+		max-width: 35%;
+	}
+	.modal-content .left-panel{
+		max-width: 65%
+	}
+}
+
+@media screen and (max-width: 1200px){
+	.modal-content .right-panel{
+		max-width: 35%;
+	}
+	.modal-content .left-panel{
+		max-width: 65%
 	}
 }
